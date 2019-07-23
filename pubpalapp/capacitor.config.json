@@ -1,0 +1,7 @@
+{
+  "appId": "com.pubpal.app",
+  "appName": "pubpal",
+  "bundledWebRuntime": false,
+  "npmClient": "npm",
+  "webDir": "www"
+}
