@@ -16,6 +16,12 @@ namespace pubpalapi.Repositories
             userDA = new UserDA(dbName, storeName);
         }
 
+        public UserModel GetScrubbedUser(UserModel user)
+        {
+            user.password = string.Empty;
+            return user;
+        }
+
         public IEnumerable<UserModel> GetUsers()
         {
             var users = userDA.GetUsers();
@@ -36,7 +42,13 @@ namespace pubpalapi.Repositories
 
         public UserModel GetUserByName(string name)
         {
-            var user = userDA.GetUserByName(name);
+            var nameParts = name.Split(' ');
+            if (string.IsNullOrWhiteSpace(name))
+            {
+                return null;
+            }
+
+            var user = userDA.GetUserByName(nameParts[0], nameParts.Length > 1 ? nameParts[1] : string.Empty);
             return user;
         }
 

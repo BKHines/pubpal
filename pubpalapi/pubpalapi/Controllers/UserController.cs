@@ -40,7 +40,12 @@ namespace pubpalapi.Controllers
             {
                 var repo = new UserRepository(dbName, storeName);
                 var users = repo.GetUsers();
-                return users == null ? NotFound() : (IActionResult)Ok(users);
+                if (users == null)
+                {
+                    return NotFound();
+                }
+                var _users = users.Select(a => repo.GetScrubbedUser(a));
+                return Ok(_users);
             }
             catch (Exception ex)
             {
@@ -55,7 +60,12 @@ namespace pubpalapi.Controllers
             {
                 var repo = new UserRepository(dbName, storeName);
                 var user = repo.GetUserById(id);
-                return user == null ? NotFound() : (IActionResult)Ok(user);
+                if (user == null)
+                {
+                    return NotFound();
+                }
+                var _user = repo.GetScrubbedUser(user);
+                return Ok(_user);
             }
             catch (Exception ex)
             {
@@ -70,7 +80,12 @@ namespace pubpalapi.Controllers
             {
                 var repo = new UserRepository(dbName, storeName);
                 var user = repo.GetUserByEmail(email);
-                return user == null ? NotFound() : (IActionResult)Ok(user);
+                if (user == null)
+                {
+                    return NotFound();
+                }
+                var _user = repo.GetScrubbedUser(user);
+                return Ok(_user);
             }
             catch (Exception ex)
             {
@@ -85,7 +100,12 @@ namespace pubpalapi.Controllers
             {
                 var repo = new UserRepository(dbName, storeName);
                 var user = repo.GetUserByName(name);
-                return user == null ? NotFound() : (IActionResult)Ok(user);
+                if (user == null)
+                {
+                    return NotFound();
+                }
+                var _user = repo.GetScrubbedUser(user);
+                return Ok(_user);
             }
             catch (Exception ex)
             {

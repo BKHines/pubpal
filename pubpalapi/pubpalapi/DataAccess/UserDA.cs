@@ -49,9 +49,17 @@ namespace pubpalapi.DataAccess
             return user.SingleOrDefault();
         }
 
-        public UserModel GetUserByName(string name)
+        public UserModel GetUserByName(string fname, string lname)
         {
-            var queryText = $"{{'name':'{name}'}}";
+            var queryText = string.Empty;
+            if (!string.IsNullOrWhiteSpace(fname) && string.IsNullOrWhiteSpace(lname))
+            {
+                queryText = $"{{ $or: [ {{ 'firstname':/^{fname}$/i }}, {{ 'lastname':/^{fname}$/i }} ] }}";
+            }
+            else
+            {
+                queryText = $"{{ 'firstname':/^{fname}$/i, 'lastname':/^{lname}$/i }}";
+            }
             var user = GetFromUserStore(queryText);
             return user.SingleOrDefault();
         }
