@@ -1,0 +1,7 @@
+﻿################################################################################
+# This .gitignore file was automatically created by Microsoft(R) Visual Studio.
+################################################################################
+
+/pubpalapi/pubpalapi/bin/Debug/netcoreapp2.2
+/pubpalapi/pubpalapi/obj
+/pubpalapi/.vs/pubpalapi/v16
