@@ -133,7 +133,7 @@ namespace pubpalapi.Controllers
             }
         }
 
-        [HttpPut("DeleteUser/{delid}", Name = "DeleteUser")]
+        [HttpPut("DeleteUser/{id}", Name = "DeleteUser")]
         public IActionResult DeleteUser([FromRoute] string id)
         {
             try
@@ -148,7 +148,7 @@ namespace pubpalapi.Controllers
             }
         }
 
-        [HttpPut("DisableUser/{disid}", Name = "DisableUser")]
+        [HttpPut("DisableUser/{id}", Name = "DisableUser")]
         public IActionResult DisableUser([FromRoute] string id)
         {
             try
