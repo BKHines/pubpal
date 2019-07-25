@@ -114,9 +114,10 @@ namespace pubpalapi.Controllers
         }
 
         [HttpPost]
-        public IActionResult Post([FromBody] UserModel req)
+        public IActionResult Post([FromBody] UserModel user)
         {
-            if (!ModelState.IsValid || string.IsNullOrEmpty(req.password))
+            // TODO: check token from header
+            if (!ModelState.IsValid || string.IsNullOrEmpty(user.email))
             {
                 return BadRequest();
             }
@@ -124,7 +125,8 @@ namespace pubpalapi.Controllers
             try
             {
                 var repo = new UserRepository(dbName, storeName);
-                var userId = repo.CreatUser(req);
+                // TODO: get password from token and set it on user object
+                var userId = repo.CreateUser(user);
                 return Ok(userId);
             }
             catch (Exception ex)
@@ -134,9 +136,9 @@ namespace pubpalapi.Controllers
         }
 
         [HttpPut]
-        public IActionResult Put([FromBody] UserModel req)
+        public IActionResult Put([FromBody] UserModel user)
         {
-            if (!ModelState.IsValid || string.IsNullOrEmpty(req._id))
+            if (!ModelState.IsValid || string.IsNullOrEmpty(user._id))
             {
                 return BadRequest();
             }
@@ -144,7 +146,7 @@ namespace pubpalapi.Controllers
             try
             {
                 var repo = new UserRepository(dbName, storeName);
-                var userupdated = repo.UpdateUser(req);
+                var userupdated = repo.UpdateUser(user);
                 return Ok(userupdated);
             }
             catch (Exception ex)

@@ -22,7 +22,8 @@ namespace pubpalapi
         {
             services.AddCors(options =>
             {
-                options.AddPolicy("PubPalCORS", builder => builder.AllowAnyOrigin()
+                options.AddPolicy("PubPalCORS", builder => builder.WithOrigins("http://localhost:4200",
+                                                                                "https://localhost:4200")
                                                             .AllowAnyHeader()
                                                             .AllowAnyMethod());
             });
@@ -57,7 +58,7 @@ namespace pubpalapi
             // Register the Swagger generator and the Swagger UI middlewares
             app.UseOpenApi();
             app.UseSwaggerUi3();
-
+            app.UseMiddleware<PubPalAPIResponseWrapper>();
             app.UseMvc();
         }
     }

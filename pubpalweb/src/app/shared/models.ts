@@ -5,9 +5,9 @@ export interface APIResponse {
 }
 
 export interface UserModel {
-    _id: string;
+    _id?: string;
     email: string;
-    enabled: boolean;
+    enabled?: boolean;
     firstname: string;
     lastname: string;
 }

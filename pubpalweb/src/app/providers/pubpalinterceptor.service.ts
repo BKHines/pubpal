@@ -9,12 +9,12 @@ export class PubpalinterceptorService implements HttpInterceptor {
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     const token = 'InsertTokenHere';
     const fullurl = this.getFullUrl(req.url);
-    req = req.clone({url: fullurl, headers: req.headers.set('Authorization', `Bearer ${token}`), params: req.params });
+    req = req.clone({url: fullurl, headers: req.headers.set('Authorization', `Bearer ${token}`), params: req.params, body: req.body });
 
     return next.handle(req).pipe(
         map((evt: HttpEvent<any>) => {
             if (evt instanceof HttpResponse) {
-                console.log(evt);
+                // console.log(evt);
             }
             return evt;
         }), catchError((error: HttpErrorResponse) => {
@@ -24,7 +24,7 @@ export class PubpalinterceptorService implements HttpInterceptor {
 }
 
 private getFullUrl(reqUrl: string): string {
-    return environment.baseApiUrl + reqUrl;
+    return `${environment.baseApiUrl}/${reqUrl}`;
 }
 
 private handleError(error: HttpErrorResponse): Observable<any> {

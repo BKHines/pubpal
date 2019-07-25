@@ -14,18 +14,31 @@ export class UserComponent implements OnInit {
   constructor(public userSvc: UserService) { }
 
   ngOnInit() {
-    this.localUser = Object.assign({}, this.userSvc.user);
+    if (this.userSvc.user) {
+      this.localUser = Object.assign({}, this.userSvc.user);
+    } else {
+      this.localUser = {
+        email: '',
+        firstname: '',
+        lastname: ''
+      };
+    }
   }
 
   addUser() {
+    this.localUser.enabled = true;
+    // TODO: use password to set token on user service
     this.userSvc.addUser(this.localUser).subscribe((res) => {
-
+      // TODO: show modal that user was successfully added
+      this.localUser._id = res.result;
+      this.userSvc.user = Object.assign({}, this.localUser);
     });
   }
 
   updateUser() {
     this.userSvc.updateUser(this.localUser).subscribe((res) => {
-
+      // TODO: show modal that user was successfully updated
+      this.userSvc.user = Object.assign({}, this.localUser);
     });
   }
 

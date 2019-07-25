@@ -52,7 +52,7 @@ namespace pubpalapi.Repositories
             return user;
         }
 
-        public string CreatUser(UserModel user)
+        public string CreateUser(UserModel user)
         {
             var userid = userDA.CreateUser(user);
             return userid;
