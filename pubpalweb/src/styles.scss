@@ -1,1 +1,24 @@
 /* You can add global styles to this file, and also import other style files */
+
+body {
+    overflow-x: hidden;
+}
+
+.fullscreen-card > .card-body {
+    height: 80vh;
+}
+
+.field-error {
+    border-bottom: 3px solid red;
+}
+
+.field-error-message {
+    font-style: italic;
+    padding-top: 3px;
+    padding-bottom: 3px;
+    margin-bottom: 0px;
+}
+
+input.form-control {
+    border-radius: 0px !important;
+}

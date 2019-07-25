@@ -7,6 +7,7 @@ import { APIResponse, UserModel } from '../shared/models';
   providedIn: 'root'
 })
 export class UserService {
+  user: UserModel;
 
   constructor(private http: HttpClient) { }
 
