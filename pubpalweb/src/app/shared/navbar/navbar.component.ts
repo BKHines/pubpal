@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { faBeer } from '@fortawesome/free-solid-svg-icons';
+import { UserService } from 'src/app/providers/user.service';
 
 @Component({
   selector: 'app-navbar',
@@ -9,7 +10,7 @@ import { faBeer } from '@fortawesome/free-solid-svg-icons';
 export class NavbarComponent implements OnInit {
   faBeer = faBeer;
 
-  constructor() { }
+  constructor(public userSvc: UserService) { }
 
   ngOnInit() {
   }
