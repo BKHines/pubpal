@@ -10,13 +10,15 @@ import { PubpalinterceptorService } from './providers/pubpalinterceptor.service'
 import { UserComponent } from './features/user/user.component';
 import { NavbarComponent } from './shared/navbar/navbar.component';
 import { HomeComponent } from './features/home/home.component';
+import { LoginComponent } from './features/login/login.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     UserComponent,
     NavbarComponent,
-    HomeComponent
+    HomeComponent,
+    LoginComponent
   ],
   imports: [
     BrowserModule,
@@ -29,6 +31,6 @@ import { HomeComponent } from './features/home/home.component';
     { provide: HTTP_INTERCEPTORS, useClass: PubpalinterceptorService, multi: true }
   ],
   bootstrap: [AppComponent],
-  entryComponents: [UserComponent, HomeComponent]
+  entryComponents: [UserComponent, HomeComponent, LoginComponent]
 })
 export class AppModule { }

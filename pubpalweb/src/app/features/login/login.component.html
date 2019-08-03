@@ -1,0 +1,57 @@
+<div class="flex-container">
+    <div>
+        <form #loginForm="ngForm">
+            <div class="card fullscreen-card">
+                <div class="card-header bg-primary text-white text-uppercase">
+                    <h3>
+                        Login to PubPal
+                    </h3>
+                </div>
+                <div class="card-body">
+                    <div class="row form-group">
+                        <label for="inputEmail" class="col-lg-2 col-form-label font-weight-bold">Email</label>
+                        <div class="col-lg-10">
+                            <input type="email" class="form-control" id="inputEmail" name="email"
+                                placeholder="address@email.com" [(ngModel)]="email" #entryemail="ngModel" required
+                                [class.field-error]="entryemail.touched && entryemail.invalid">
+                            <div [hidden]="!entryemail.touched || entryemail.valid"
+                                class="field-error-message alert alert-danger text-muted">Email is required</div>
+                        </div>
+                    </div>
+                    <div class="row form-group">
+                        <label for="inputPassword" class="col-lg-2 col-form-label font-weight-bold">Password</label>
+                        <div class="col-lg-10">
+                            <input type="password" class="form-control" id="inputPassword" name="password"
+                                placeholder="Password" [(ngModel)]="password" #entrypass="ngModel" required
+                                [class.field-error]="entrypass.touched && entrypass.invalid">
+                            <div [hidden]="!entrypass.touched || entrypass.valid"
+                                class="field-error-message alert alert-danger text-muted">Password is required</div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <a disabled>Forgot My Password</a>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <a [routerLink]="['/user']">
+                                Register
+                                <span class="sr-only"></span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-footer bg-white">
+                    <button type="reset" class="btn btn-success ml-2 float-right" (click)="resetForm()">
+                        Cancel
+                    </button>
+                    <button type="submit" class="btn btn-success ml-2 float-right" (click)="login()"
+                        [disabled]="!loginForm.touched || loginForm.invalid">
+                        Login
+                    </button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
