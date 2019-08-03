@@ -11,10 +11,6 @@ export class UserService {
 
   constructor(private http: HttpClient) { }
 
-  getUsers(): Observable<APIResponse> {
-    return this.http.get<APIResponse>('api/user');
-  }
-
   getUserById(id: string): Observable<APIResponse> {
     const params: HttpParams = new HttpParams()
       .set('id', id);
