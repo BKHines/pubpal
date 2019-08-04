@@ -77,14 +77,17 @@ namespace pubpalapi.DataAccess
             return String.Empty;
         }
 
-        public bool UpdateUser(UserModel updatedUser)
+        public bool UpdateUser(UserModel updatedUser, bool updatePassword)
         {
             if (_mongoDatabase != null)
             {
                 var coll = _mongoDatabase.GetCollection<UserModel>(storeName);
                 var _user = GetUserById(updatedUser._id);
                 _user.email = updatedUser.email;
-                _user.password = updatedUser.password;
+                if (updatePassword)
+                {
+                    _user.password = updatedUser.password;
+                }
                 _user.enabled = updatedUser.enabled;
                 _user.firstname = updatedUser.firstname;
                 _user.lastname = updatedUser.lastname;

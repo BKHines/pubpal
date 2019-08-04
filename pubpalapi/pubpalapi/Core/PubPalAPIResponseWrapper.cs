@@ -55,16 +55,28 @@ namespace pubpalapi.Core
                             objResult = PubPalAPIResponse.Create(HttpStatusCode.OK, data, string.Empty);
                             break;
                         case (int)HttpStatusCode.Forbidden:
-                            var forbiddenError = "You are not authorized to request this content.";
-                            objResult = PubPalAPIResponse.Create(HttpStatusCode.Forbidden, null, forbiddenError);
+                            {
+                                var errorMessage = "You are not authorized to request this content.";
+                                objResult = PubPalAPIResponse.Create(HttpStatusCode.Forbidden, null, errorMessage);
+                            }
                             break;
                         case (int)HttpStatusCode.BadRequest:
-                            var badReqError = "Your request was not structured correctly and the error has been logged.";
-                            objResult = PubPalAPIResponse.Create(HttpStatusCode.BadRequest, null, badReqError);
+                            {
+                                var errorMessage = "Your request was not structured correctly and the error has been logged.";
+                                objResult = PubPalAPIResponse.Create(HttpStatusCode.BadRequest, null, errorMessage);
+                            }
+                            break;
+                        case (int)HttpStatusCode.Unauthorized:
+                            {
+                                var errorMessage = "Your request was not authorized and the error has been logged.";
+                                objResult = PubPalAPIResponse.Create(HttpStatusCode.BadRequest, null, errorMessage);
+                            }
                             break;
                         default:
-                            var standardError = "An error occurred and has been logged.";
-                            objResult = PubPalAPIResponse.Create(HttpStatusCode.InternalServerError, null, standardError);
+                            {
+                                var errorMessage = "An error occurred and has been logged.";
+                                objResult = PubPalAPIResponse.Create(HttpStatusCode.InternalServerError, null, errorMessage);
+                            }
                             break;
                     }
 
@@ -74,6 +86,11 @@ namespace pubpalapi.Core
                         await output.CopyToAsync(originalBody);
                     }//dispose of output stream
                 }
+                // Exceptions handled elsewhere but if something is failing to reach requests, turn this on to troubleshoot
+                //catch (Exception ex)
+                //{
+                //    var msg = ex.Message;
+                //}
                 finally
                 {
                     //and finally, reset the stream for downstream calls

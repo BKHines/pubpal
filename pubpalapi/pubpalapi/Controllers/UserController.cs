@@ -11,6 +11,7 @@ using Microsoft.Extensions.Options;
 using pubpalapi.Core;
 using pubpalapi.Models;
 using pubpalapi.Repositories;
+using Microsoft.AspNetCore.Authorization;
 
 namespace pubpalapi.Controllers
 {
@@ -18,6 +19,7 @@ namespace pubpalapi.Controllers
     [Route("api/User")]
     [EnableCors("PubPalCORS")]
     [ServiceFilter(typeof(PubPalInterceptor))]
+    [Authorize(AuthenticationSchemes = Constants.SchemesNamesConst)]
     public class UserController : ControllerBase
     {
         private readonly SettingsModel _settings;
@@ -53,8 +55,8 @@ namespace pubpalapi.Controllers
             }
         }
 
-        [HttpGet("GetUserById/{id}", Name = "GetUserById")]
-        public IActionResult GetById([FromRoute] string id)
+        [HttpGet("GetUserById", Name = "GetUserById")]
+        public IActionResult GetById(string id)
         {
             try
             {
@@ -73,8 +75,8 @@ namespace pubpalapi.Controllers
             }
         }
 
-        [HttpGet("GetUserByEmail/{email}", Name = "GetUserByEmail")]
-        public IActionResult GetByEmail([FromRoute] string email)
+        [HttpGet("GetUserByEmail", Name = "GetUserByEmail")]
+        public IActionResult GetByEmail(string email)
         {
             try
             {
@@ -93,8 +95,8 @@ namespace pubpalapi.Controllers
             }
         }
 
-        [HttpGet("GetUserByName/{name}", Name = "GetUserByName")]
-        public IActionResult GetByName([FromRoute] string name)
+        [HttpGet("GetUserByName", Name = "GetUserByName")]
+        public IActionResult GetByName(string name)
         {
             try
             {
@@ -116,7 +118,6 @@ namespace pubpalapi.Controllers
         [HttpPost]
         public IActionResult Post([FromBody] UserModel user)
         {
-            // TODO: check token from header
             if (!ModelState.IsValid || string.IsNullOrEmpty(user.email))
             {
                 return BadRequest();
@@ -155,13 +156,13 @@ namespace pubpalapi.Controllers
             }
         }
 
-        [HttpPut("DeleteUser/{id}", Name = "DeleteUser")]
-        public IActionResult DeleteUser([FromRoute] string id)
+        [HttpPut("DeleteUser", Name = "DeleteUser")]
+        public IActionResult DeleteUser(string deleteid)
         {
             try
             {
                 var repo = new UserRepository(dbName, storeName);
-                var userdeleted = repo.DeleteUser(id);
+                var userdeleted = repo.DeleteUser(deleteid);
                 return Ok(userdeleted);
             }
             catch (Exception ex)
@@ -171,12 +172,12 @@ namespace pubpalapi.Controllers
         }
 
         [HttpPut("DisableUser/{id}", Name = "DisableUser")]
-        public IActionResult DisableUser([FromRoute] string id)
+        public IActionResult DisableUser(string disableid)
         {
             try
             {
                 var repo = new UserRepository(dbName, storeName);
-                var userdisabled = repo.DisableUser(id);
+                var userdisabled = repo.DisableUser(disableid);
                 return Ok(userdisabled);
             }
             catch (Exception ex)

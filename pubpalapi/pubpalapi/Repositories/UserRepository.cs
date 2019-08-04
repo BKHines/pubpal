@@ -60,7 +60,13 @@ namespace pubpalapi.Repositories
 
         public bool UpdateUser(UserModel user)
         {
-            var userupdated = userDA.UpdateUser(user);
+            var userupdated = userDA.UpdateUser(user, false);
+            return userupdated;
+        }
+
+        public bool ChangePassword(UserModel user)
+        {
+            var userupdated = userDA.UpdateUser(user, true);
             return userupdated;
         }
 
@@ -74,7 +80,7 @@ namespace pubpalapi.Repositories
         {
             var user = userDA.GetUserById(id);
             user.enabled = false;
-            var userupdated = userDA.UpdateUser(user);
+            var userupdated = userDA.UpdateUser(user, false);
             return userupdated;
         }
     }

@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Builder;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
@@ -20,6 +21,12 @@ namespace pubpalapi
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddHttpContextAccessor();
+            services.AddAuthentication(o =>
+            {
+                o.DefaultScheme = Constants.SchemesNamesConst;
+            }).AddScheme<TokenAuthenticationOptions, PubPalAuthenticationHandler>(Constants.SchemesNamesConst, o => { });
+            services.AddAuthorization();
             services.AddCors(options =>
             {
                 options.AddPolicy("PubPalCORS", builder => builder.WithOrigins("http://localhost:4200",
@@ -31,9 +38,9 @@ namespace pubpalapi
             services.AddScoped<PubPalInterceptor>();
             services.AddOptions();
 
-            //services.Configure<Settings>(Configuration.GetSection("Settings"));
             services.Configure<SettingsModel>(options =>
             {
+                options.IsDev = Configuration.GetSection("Settings").GetValue<bool>("IsDev");
                 options.ConnectionString = Configuration.GetSection("Settings").GetValue<string>("ConnectionString");
                 options.Database = Configuration.GetSection("Settings").GetValue<string>("Database");
                 options.UsersStoreName = Configuration.GetSection("Settings").GetValue<string>("UsersStoreName");
@@ -54,11 +61,11 @@ namespace pubpalapi
             app.UseCors("PubPalCORS");
 
             app.UseStaticFiles();
+            app.UseMiddleware<PubPalAPIResponseWrapper>();
 
             // Register the Swagger generator and the Swagger UI middlewares
             app.UseOpenApi();
             app.UseSwaggerUi3();
-            app.UseMiddleware<PubPalAPIResponseWrapper>();
             app.UseMvc();
         }
     }

@@ -63,6 +63,5 @@ namespace pubpalapi.Core
 
             base.OnResultExecuted(context);
         }
-
     }
 }
