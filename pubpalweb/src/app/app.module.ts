@@ -11,6 +11,7 @@ import { UserComponent } from './features/user/user.component';
 import { NavbarComponent } from './shared/navbar/navbar.component';
 import { HomeComponent } from './features/home/home.component';
 import { LoginComponent } from './features/login/login.component';
+import { RegistrationComponent } from './features/registration/registration.component';
 
 @NgModule({
   declarations: [
@@ -18,7 +19,8 @@ import { LoginComponent } from './features/login/login.component';
     UserComponent,
     NavbarComponent,
     HomeComponent,
-    LoginComponent
+    LoginComponent,
+    RegistrationComponent
   ],
   imports: [
     BrowserModule,
@@ -31,6 +33,6 @@ import { LoginComponent } from './features/login/login.component';
     { provide: HTTP_INTERCEPTORS, useClass: PubpalinterceptorService, multi: true }
   ],
   bootstrap: [AppComponent],
-  entryComponents: [UserComponent, HomeComponent, LoginComponent]
+  entryComponents: [UserComponent, HomeComponent, LoginComponent, RegistrationComponent]
 })
 export class AppModule { }

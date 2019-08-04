@@ -55,9 +55,9 @@
                         Cancel
                     </button>
                     <button type="submit" class="btn btn-success ml-2 float-right"
-                        (click)="localUser._id ? updateUser() : addUser()"
+                        (click)="updateUser()"
                         [disabled]="!userForm.touched || userForm.invalid">
-                        {{ localUser._id ? 'Update' : 'Register' }}
+                        Update
                     </button>
                 </div>
             </div>

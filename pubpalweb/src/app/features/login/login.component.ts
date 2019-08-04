@@ -28,6 +28,7 @@ export class LoginComponent implements OnInit {
   resetForm() {
     this.email = '';
     this.password = '';
+    this.router.navigate(['']);
   }
 
   login() {
