@@ -41,6 +41,11 @@
                             </a>
                         </div>
                     </div>
+                    <div class="row" *ngIf="loginFailed">
+                        <div class="col-md-12">
+                            <div class="field-error-message alert alert-danger text-muted">Login Failed! Please check username and password and try again.</div>
+                        </div>
+                    </div>
                 </div>
                 <div class="card-footer bg-white">
                     <button type="reset" class="btn btn-success ml-2 float-right" (click)="resetForm()">

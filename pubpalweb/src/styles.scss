@@ -8,6 +8,10 @@ body {
     height: 80vh;
 }
 
+.fullscreen-card {
+    max-height: 90vh;
+}
+
 .field-error {
     border-bottom: 3px solid red;
 }
@@ -21,4 +25,8 @@ body {
 
 input.form-control {
     border-radius: 0px !important;
+}
+
+.handCursor {
+    cursor: pointer;
 }

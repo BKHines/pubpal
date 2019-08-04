@@ -8,6 +8,7 @@ import { APIResponse, UserModel } from '../shared/models';
 })
 export class UserService {
   user: UserModel;
+  authToken: string;
 
   constructor(private http: HttpClient) { }
 
@@ -52,5 +53,10 @@ export class UserService {
       .set('id', id);
 
     return this.http.put<APIResponse>(`api/user/disableuser`, null, { params });
+  }
+
+  logout() {
+    this.user = null;
+    this.authToken = '';
   }
 }
