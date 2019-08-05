@@ -12,6 +12,8 @@ import { NavbarComponent } from './shared/navbar/navbar.component';
 import { HomeComponent } from './features/home/home.component';
 import { LoginComponent } from './features/login/login.component';
 import { RegistrationComponent } from './features/registration/registration.component';
+import { ModalcontainerComponent } from './shared/modalcontainer/modalcontainer.component';
+import { ModalModule } from 'ngx-bootstrap/modal';
 
 @NgModule({
   declarations: [
@@ -20,19 +22,26 @@ import { RegistrationComponent } from './features/registration/registration.comp
     NavbarComponent,
     HomeComponent,
     LoginComponent,
-    RegistrationComponent
+    RegistrationComponent,
+    ModalcontainerComponent
   ],
   imports: [
     BrowserModule,
     FormsModule,
     HttpClientModule,
     AppRoutingModule,
-    FontAwesomeModule // free font awesome icons: https://fontawesome.com/icons?d=gallery
+    FontAwesomeModule, // free font awesome icons: https://fontawesome.com/icons?d=gallery
+    ModalModule.forRoot()
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: PubpalinterceptorService, multi: true }
   ],
   bootstrap: [AppComponent],
-  entryComponents: [UserComponent, HomeComponent, LoginComponent, RegistrationComponent]
+  entryComponents: [
+    UserComponent,
+    HomeComponent,
+    LoginComponent,
+    RegistrationComponent
+  ]
 })
 export class AppModule { }
