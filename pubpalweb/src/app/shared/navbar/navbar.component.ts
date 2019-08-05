@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { faBeer } from '@fortawesome/free-solid-svg-icons';
 import { UserService } from 'src/app/providers/user.service';
 import { LocalstoreService } from 'src/app/providers/localstore.service';
@@ -14,12 +14,18 @@ export class NavbarComponent implements OnInit {
   faBeer = faBeer;
   @Input() showuserlinks: boolean;
 
+  @Output() loginClicked: EventEmitter<void> = new EventEmitter<void>();
+
   constructor(
     public userSvc: UserService,
     private localStoreSvc: LocalstoreService,
     private router: Router) { }
 
   ngOnInit() {
+  }
+
+  loginClick() {
+    this.loginClicked.emit();
   }
 
   logout() {

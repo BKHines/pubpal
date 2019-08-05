@@ -67,7 +67,7 @@ export class ModalService {
 
     let _modalOptions: ModalOptions = {
       initialState: _initState,
-      class: `modal-${_modalBody.modalSize ? _modalBody.modalSize : 'md'}`,
+      class: `pubpal-modal modal-${_modalBody.modalSize ? _modalBody.modalSize : 'md'}`,
       animated: true
     };
 
