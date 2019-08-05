@@ -9,7 +9,7 @@ using Microsoft.Extensions.Logging;
 
 namespace pubpalapi.Core
 {
-    public class SecurityManager
+    public class PubPalSecurityManager
     {
         private const string _alg = "HmacSHA256";
         private const string _salt = "vr3iGn597VqGC55VNgmb";

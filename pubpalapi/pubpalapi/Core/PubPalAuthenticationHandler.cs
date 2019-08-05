@@ -72,7 +72,7 @@ namespace pubpalapi.Core
                     string dbName = _settings.Database;
                     string userStore = _settings.UsersStoreName;
 
-                    return SecurityManager.IsTokenValid(tokenTrim, ip, dbName, userStore, _logger);
+                    return PubPalSecurityManager.IsTokenValid(tokenTrim, ip, dbName, userStore, _logger);
                 }
                 catch
                 {

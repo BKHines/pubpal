@@ -19,7 +19,6 @@ namespace pubpalapi.Controllers
     [Route("api/User")]
     [EnableCors("PubPalCORS")]
     [ServiceFilter(typeof(PubPalInterceptor))]
-    [Authorize(AuthenticationSchemes = Constants.SchemesNamesConst)]
     public class UserController : ControllerBase
     {
         private readonly SettingsModel _settings;
@@ -36,6 +35,7 @@ namespace pubpalapi.Controllers
         }
 
         [HttpGet]
+        [Authorize(AuthenticationSchemes = Constants.SchemesNamesConst)]
         public IActionResult Get()
         {
             try
@@ -56,6 +56,7 @@ namespace pubpalapi.Controllers
         }
 
         [HttpGet("GetUserById", Name = "GetUserById")]
+        [Authorize(AuthenticationSchemes = Constants.SchemesNamesConst)]
         public IActionResult GetById(string id)
         {
             try
@@ -76,6 +77,7 @@ namespace pubpalapi.Controllers
         }
 
         [HttpGet("GetUserByEmail", Name = "GetUserByEmail")]
+        [Authorize(AuthenticationSchemes = Constants.SchemesNamesConst)]
         public IActionResult GetByEmail(string email)
         {
             try
@@ -96,6 +98,7 @@ namespace pubpalapi.Controllers
         }
 
         [HttpGet("GetUserByName", Name = "GetUserByName")]
+        [Authorize(AuthenticationSchemes = Constants.SchemesNamesConst)]
         public IActionResult GetByName(string name)
         {
             try
@@ -126,7 +129,6 @@ namespace pubpalapi.Controllers
             try
             {
                 var repo = new UserRepository(dbName, storeName);
-                // TODO: get password from token and set it on user object
                 var userId = repo.CreateUser(user);
                 return Ok(userId);
             }
@@ -137,6 +139,7 @@ namespace pubpalapi.Controllers
         }
 
         [HttpPut]
+        [Authorize(AuthenticationSchemes = Constants.SchemesNamesConst)]
         public IActionResult Put([FromBody] UserModel user)
         {
             if (!ModelState.IsValid || string.IsNullOrEmpty(user._id))
@@ -157,6 +160,7 @@ namespace pubpalapi.Controllers
         }
 
         [HttpPut("DeleteUser", Name = "DeleteUser")]
+        [Authorize(AuthenticationSchemes = Constants.SchemesNamesConst)]
         public IActionResult DeleteUser(string deleteid)
         {
             try
@@ -172,6 +176,7 @@ namespace pubpalapi.Controllers
         }
 
         [HttpPut("DisableUser/{id}", Name = "DisableUser")]
+        [Authorize(AuthenticationSchemes = Constants.SchemesNamesConst)]
         public IActionResult DisableUser(string disableid)
         {
             try
