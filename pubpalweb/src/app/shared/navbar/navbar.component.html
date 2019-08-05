@@ -9,7 +9,7 @@
                 <div class="btn-group">
                     <button type="button" class="btn bg-primary text-white dropdown-toggle" data-toggle="dropdown"
                         aria-haspopup="true" aria-expanded="false">
-                        Account
+                        Welcome {{ userSvc.user.firstname }}!
                     </button>
                     <div class="dropdown-menu dropdown-menu-right bg-primary">
                         <a class="dropdown-item bg-primary text-white" [routerLink]="['/user']">Account Info</a>
@@ -18,7 +18,7 @@
                 </div>
             </li>
             <li class="nav-item" *ngIf="!userSvc.user && showuserlinks">
-                <a class="nav-link" [routerLink]="['/user']">
+                <a class="nav-link" [routerLink]="['/register']">
                     Register
                     <span class="sr-only"></span>
                 </a>

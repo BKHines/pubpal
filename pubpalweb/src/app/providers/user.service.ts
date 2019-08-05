@@ -1,7 +1,10 @@
-import { Injectable } from '@angular/core';
+import { Injectable, EventEmitter } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { APIResponse, UserModel } from '../shared/models';
+import { PubpalcryptoService } from './pubpalcrypto.service';
+import { LocalstoreService } from './localstore.service';
+import { CONSTANTS } from '../shared/constants';
 
 @Injectable({
   providedIn: 'root'
@@ -10,7 +13,32 @@ export class UserService {
   user: UserModel;
   authToken: string;
 
-  constructor(private http: HttpClient) { }
+  loginComplete: EventEmitter<boolean> = new EventEmitter<boolean>();
+
+  constructor(
+    private http: HttpClient,
+    private pubpalCryptoSvc: PubpalcryptoService,
+    private localStoreSvc: LocalstoreService) { }
+
+  login(email: string, password: string) {
+    this.pubpalCryptoSvc.getIp().subscribe((ipres: APIResponse) => {
+      const IP = ipres.result;
+      const KEY = this.pubpalCryptoSvc.getKey(password);
+
+      this.authToken = this.pubpalCryptoSvc.generateToken(email, KEY, IP);
+
+      this.getUserByEmail(email).subscribe((userres) => {
+        this.user = userres.result;
+        this.localStoreSvc.set(CONSTANTS.KEY_STORE_USEREMAIL, this.user.email);
+        this.localStoreSvc.set(CONSTANTS.KEY_STORE_KEY, KEY);
+        this.loginComplete.emit(true);
+      }, (err) => {
+        this.loginComplete.emit(false);
+      });
+    }, (err) => {
+      this.loginComplete.emit(false);
+    });
+  }
 
   getUserById(id: string): Observable<APIResponse> {
     const params: HttpParams = new HttpParams()

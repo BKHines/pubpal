@@ -26,17 +26,6 @@ export class UserComponent implements OnInit {
     }
   }
 
-  addUser() {
-    this.localUser.enabled = true;
-    // TODO: use password to set token on user service
-    this.userSvc.addUser(this.localUser).subscribe((res) => {
-      // TODO: show modal that user was successfully added
-      this.localUser._id = res.result;
-      this.userSvc.user = Object.assign({}, this.localUser);
-      this.router.navigate(['']);
-    });
-  }
-
   updateUser() {
     this.userSvc.updateUser(this.localUser).subscribe((res) => {
       // TODO: show modal that user was successfully updated
@@ -47,11 +36,6 @@ export class UserComponent implements OnInit {
 
   restoreUser() {
     this.localUser = Object.assign({}, this.userSvc.user);
-    this.router.navigate(['']);
-  }
-
-  resetUser() {
-    this.localUser = null;
     this.router.navigate(['']);
   }
 }

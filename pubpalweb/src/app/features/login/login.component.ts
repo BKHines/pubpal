@@ -17,9 +17,7 @@ export class LoginComponent implements OnInit {
   loginFailed: boolean;
 
   constructor(
-    private pubpalCryptoSvc: PubpalcryptoService,
     private userSvc: UserService,
-    private localSvc: LocalstoreService,
     private router: Router) { }
 
   ngOnInit() {
@@ -33,20 +31,13 @@ export class LoginComponent implements OnInit {
 
   login() {
     this.loginFailed = false;
-    this.pubpalCryptoSvc.getIp().subscribe((ipres: APIResponse) => {
-      const IP = ipres.result;
-      const KEY = this.pubpalCryptoSvc.getKey(this.password);
-
-      this.userSvc.authToken = this.pubpalCryptoSvc.generateToken(this.email, KEY, IP);
-
-      this.userSvc.getUserByEmail(this.email).subscribe((userres) => {
-        this.userSvc.user = userres.result;
-        this.localSvc.set(CONSTANTS.KEY_STORE_USEREMAIL, this.userSvc.user.email);
-        this.localSvc.set(CONSTANTS.KEY_STORE_KEY, KEY);
+    this.userSvc.login(this.email, this.password);
+    this.userSvc.loginComplete.subscribe((status) => {
+      if (status) {
         this.router.navigate(['']);
-      }, (err) => {
+      } else {
         this.loginFailed = true;
-      });
+      }
     });
   }
 }

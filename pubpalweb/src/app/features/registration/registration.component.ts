@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { UserModel } from 'src/app/shared/models';
 import { UserService } from 'src/app/providers/user.service';
 import { Router } from '@angular/router';
+import { PubpalcryptoService } from 'src/app/providers/pubpalcrypto.service';
 
 @Component({
   selector: 'app-registration',
@@ -11,8 +12,11 @@ import { Router } from '@angular/router';
 export class RegistrationComponent implements OnInit {
   localUser: UserModel;
   password: string;
+  registrationFailed: boolean;
 
-  constructor(public userSvc: UserService, private router: Router) { }
+  constructor(
+    public userSvc: UserService,
+    private router: Router) { }
 
   ngOnInit() {
     if (this.userSvc.user) {
@@ -27,14 +31,26 @@ export class RegistrationComponent implements OnInit {
   }
 
   addUser() {
+    this.registrationFailed = false;
     this.localUser.enabled = true;
-    // TODO: use password to set token on user service
+    this.localUser['password'] = this.password;
+
     this.userSvc.addUser(this.localUser).subscribe((res) => {
-      // TODO: show modal that user was successfully added
       this.localUser._id = res.result;
-      this.userSvc.user = Object.assign({}, this.localUser);
-      this.router.navigate(['']);
-    });
+      this.localUser['password'] = '';
+      this.userSvc.login(this.localUser.email, this.password);
+      this.userSvc.loginComplete.subscribe((status) => {
+        if (status) {
+          this.router.navigate(['']);
+        } else {
+          this.registrationFailed = true;
+        }
+      });
+
+      // TODO: show modal that user was successfully added
+     }, (err) => {
+       this.registrationFailed = true;
+     });
   }
 
   resetUser() {
