@@ -48,11 +48,8 @@ export class AppComponent implements OnInit {
   }
 
   showLogin() {
-    const _modHeader = this.modalSvc.createHeader('Login', () => { alert('You Closed'); });
+    const _modHeader = this.modalSvc.createHeader('Login', () => { this.modalSvc.hideModal('login'); });
     const _modBody = this.modalSvc.createBody(LoginComponent, null, 'lg');
-    // const _modFooter = this.modalSvc.createFooter([
-    //   { buttonText: 'Add Procedure', buttonOperation: () => { alert('You Added'); } }
-    // ]);
-    this.bsModalRef = this.modalSvc.showModal(_modBody, _modHeader);
+    this.bsModalRef = this.modalSvc.showModal('login', _modBody, _modHeader);
   }
 }

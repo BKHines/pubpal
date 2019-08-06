@@ -9,14 +9,14 @@ import { LoadingService } from './loading.service';
   providedIn: 'root'
 })
 export class ModalService {
-  bsModalRef: BsModalRef;
+  bsModalRefs: { key: string, modal: BsModalRef }[];
 
   constructor(
     private bsModalSvc: BsModalService,
     private loadingSvc: LoadingService
   ) {
+    this.bsModalRefs = [];
     this.loadingSvc.messagesUpdated.subscribe(() => {
-      console.log(`${this.loadingSvc.messages.length}`);
       if (this.loadingSvc.messages.length === 0) {
         this.hideLoadingModal();
       } else {
@@ -53,6 +53,7 @@ export class ModalService {
   }
 
   showModal(
+    key: string,
     _modalBody: IModalBody,
     _modalHeader?: IModalHeader,
     _modalFooter?: IModalFooter,
@@ -96,19 +97,39 @@ export class ModalService {
       keyboard: enableKeyboard
     };
 
-    const _modalRef = this.bsModalSvc.show(ModalcontainerComponent, _modalOptions);
+    const _bsModalRef = this.bsModalSvc.show(ModalcontainerComponent, _modalOptions);
+    this.bsModalRefs.push({ key, modal: _bsModalRef });
+    // console.log(this.bsModalRefs, key);
 
-    return _modalRef;
+    return _bsModalRef;
+  }
+
+  hideModal(key: string) {
+    // console.log(`${this.bsModalRefs.length}`, key, 'hideModal');
+    const _modalIndex = this.bsModalRefs.findIndex(a => a.key === key);
+    const _modalRef = this.bsModalRefs.find(a => a.key === key);
+    if (_modalRef) {
+      _modalRef.modal.hide();
+    }
+    this.bsModalRefs.splice(_modalIndex, 1);
+    // console.log(`${this.bsModalRefs.length}`, key, 'hideModal');
   }
 
   showLoadingModal() {
     const _modBody = this.createBody(LoadingComponent, null, 'md');
-    this.bsModalRef = this.showModal(_modBody, null, null, true, false, 'bg-primary modal-no-padding loading-modal');
+    this.showModal('loading', _modBody, null, null, true, false, 'bg-primary modal-no-padding loading-modal');
   }
 
   hideLoadingModal() {
     setTimeout(() => {
-      this.bsModalRef.hide();
+      // console.log(`${this.bsModalRefs.length}`, 'hideLoadingModal');
+      const _modalIndex = this.bsModalRefs.findIndex(a => a.key === 'loading');
+      const _modalRef = this.bsModalRefs.find(a => a.key === 'loading');
+      if (_modalRef) {
+        _modalRef.modal.hide();
+      }
+      this.bsModalRefs.splice(_modalIndex, 1);
+      // console.log(`${this.bsModalRefs.length}`, 'hideLoadingModal');
     }, 200);
   }
 }

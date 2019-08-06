@@ -23,18 +23,18 @@
                     <span class="sr-only"></span>
                 </a>
             </li>
-            <li class="nav-item" *ngIf="!userSvc.user && showuserlinks">
+            <!-- <li class="nav-item" *ngIf="!userSvc.user && showuserlinks">
                 <a class="nav-link" [routerLink]="['/login']">
                     Login
                     <span class="sr-only"></span>
                 </a>
-            </li>
-            <!-- <li class="nav-item" *ngIf="!userSvc.user && showuserlinks">
+            </li> -->
+            <li class="nav-item" *ngIf="!userSvc.user && showuserlinks">
                 <a class="nav-link handCursor" (click)="loginClick();">
                     Login
                     <span class="sr-only"></span>
                 </a>
-            </li> -->
+            </li>
         </ul>
     </div>
 </nav>

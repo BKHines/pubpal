@@ -28,6 +28,12 @@
                                 class="field-error-message alert alert-danger text-muted">Password is required</div>
                         </div>
                     </div>
+                    <div class="row" *ngIf="loginFailed">
+                        <div class="col-md-12">
+                            <div class="field-error-message alert alert-danger text-muted">Login Failed! Please check
+                                username and password and try again.</div>
+                        </div>
+                    </div>
                     <div class="row">
                         <div class="col-md-12">
                             <a disabled>Forgot My Password</a>
@@ -39,11 +45,6 @@
                                 Register
                                 <span class="sr-only"></span>
                             </a>
-                        </div>
-                    </div>
-                    <div class="row" *ngIf="loginFailed">
-                        <div class="col-md-12">
-                            <div class="field-error-message alert alert-danger text-muted">Login Failed! Please check username and password and try again.</div>
                         </div>
                     </div>
                 </div>

@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { UserService } from 'src/app/providers/user.service';
-import { Router } from '@angular/router';
+// import { Router } from '@angular/router';
 import { ModalService } from 'src/app/providers/modal.service';
 import { LoadingService } from 'src/app/providers/loading.service';
 
@@ -16,8 +16,9 @@ export class LoginComponent implements OnInit {
 
   constructor(
     private userSvc: UserService,
-    private router: Router,
-    private loadingSvc: LoadingService
+    // private router: Router,
+    private loadingSvc: LoadingService,
+    private modalSvc: ModalService
     ) { }
 
   ngOnInit() {
@@ -26,7 +27,8 @@ export class LoginComponent implements OnInit {
   resetForm() {
     this.email = '';
     this.password = '';
-    this.router.navigate(['']);
+    // this.router.navigate(['']);
+    this.modalSvc.hideModal('login');
   }
 
   login() {
@@ -34,12 +36,13 @@ export class LoginComponent implements OnInit {
     this.loadingSvc.addMessage('StartLogin', 'Logging in...');
     this.userSvc.login(this.email, this.password);
     this.userSvc.loginComplete.subscribe((status) => {
+      this.loadingSvc.removeMessage('StartLogin');
       if (status) {
-        this.router.navigate(['']);
+        // this.router.navigate(['']);
+        this.modalSvc.hideModal('login');
       } else {
         this.loginFailed = true;
       }
-      this.loadingSvc.removeMessage('StartLogin');
     }, (err) => {
       this.loadingSvc.removeMessage('StartLogin');
     });
