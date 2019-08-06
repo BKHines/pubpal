@@ -1,0 +1,12 @@
+<div class="d-flex justify-content-center bg-primary text-white messages-container">
+    <div class="messages">
+        <div class="message" *ngFor="let msg of loadingSvc.messages" >
+            {{ msg.message }}
+        </div>
+        <div class="spinner-wrapper">
+            <div class="spinner-border" role="status">
+                <span class="sr-only">Loading...</span>
+            </div>
+        </div>
+    </div>
+</div>

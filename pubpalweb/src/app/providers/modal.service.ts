@@ -2,12 +2,28 @@ import { Injectable, TemplateRef } from '@angular/core';
 import { BsModalRef, BsModalService, ModalOptions } from 'ngx-bootstrap/modal';
 import { ModalcontainerComponent } from '../shared/modalcontainer/modalcontainer.component';
 import { IModalHeader, IModalBody, IModalFooterButton, IModalFooter } from '../shared/models';
+import { LoadingComponent } from '../shared/loading/loading.component';
+import { LoadingService } from './loading.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ModalService {
-  constructor(private bsModalSvc: BsModalService) { }
+  bsModalRef: BsModalRef;
+
+  constructor(
+    private bsModalSvc: BsModalService,
+    private loadingSvc: LoadingService
+  ) {
+    this.loadingSvc.messagesUpdated.subscribe(() => {
+      console.log(`${this.loadingSvc.messages.length}`);
+      if (this.loadingSvc.messages.length === 0) {
+        this.hideLoadingModal();
+      } else {
+        this.showLoadingModal();
+      }
+    });
+  }
 
   createHeader(modalTitle?: string, closeOperation?: any): IModalHeader {
     const _modalHeader: IModalHeader = {
@@ -36,7 +52,14 @@ export class ModalService {
     return _modalFooter;
   }
 
-  showModal(_modalBody: IModalBody, _modalHeader?: IModalHeader, _modalFooter?: IModalFooter): BsModalRef {
+  showModal(
+    _modalBody: IModalBody,
+    _modalHeader?: IModalHeader,
+    _modalFooter?: IModalFooter,
+    ignoreBackdropClick?: boolean,
+    enableKeyboard?: boolean,
+    cssClass?: string
+  ): BsModalRef {
     let _initState = {};
 
     if (_modalBody.bodyContent) {
@@ -67,12 +90,25 @@ export class ModalService {
 
     let _modalOptions: ModalOptions = {
       initialState: _initState,
-      class: `pubpal-modal modal-${_modalBody.modalSize ? _modalBody.modalSize : 'md'}`,
-      animated: true
+      class: `pubpal-modal modal-${_modalBody.modalSize ? _modalBody.modalSize : 'md'}${cssClass ? ' ' + cssClass : ''}`,
+      animated: true,
+      ignoreBackdropClick,
+      keyboard: enableKeyboard
     };
 
     const _modalRef = this.bsModalSvc.show(ModalcontainerComponent, _modalOptions);
 
     return _modalRef;
+  }
+
+  showLoadingModal() {
+    const _modBody = this.createBody(LoadingComponent, null, 'md');
+    this.bsModalRef = this.showModal(_modBody, null, null, true, false, 'bg-primary modal-no-padding loading-modal');
+  }
+
+  hideLoadingModal() {
+    setTimeout(() => {
+      this.bsModalRef.hide();
+    }, 200);
   }
 }

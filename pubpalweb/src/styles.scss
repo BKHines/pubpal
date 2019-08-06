@@ -30,3 +30,11 @@ input.form-control {
 .handCursor {
     cursor: pointer;
 }
+
+.modal-no-padding .modal-body {
+    padding: 0px;
+}
+
+.pubpal-modal.loading-modal {
+    top: 25%;
+}

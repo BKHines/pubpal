@@ -14,6 +14,7 @@ import { HomeComponent } from './features/home/home.component';
 import { LoginComponent } from './features/login/login.component';
 import { RegistrationComponent } from './features/registration/registration.component';
 import { ModalcontainerComponent } from './shared/modalcontainer/modalcontainer.component';
+import { LoadingComponent } from './shared/loading/loading.component';
 
 @NgModule({
   declarations: [
@@ -23,7 +24,8 @@ import { ModalcontainerComponent } from './shared/modalcontainer/modalcontainer.
     HomeComponent,
     LoginComponent,
     RegistrationComponent,
-    ModalcontainerComponent
+    ModalcontainerComponent,
+    LoadingComponent
   ],
   imports: [
     BrowserModule,
@@ -42,7 +44,8 @@ import { ModalcontainerComponent } from './shared/modalcontainer/modalcontainer.
     HomeComponent,
     LoginComponent,
     RegistrationComponent,
-    ModalcontainerComponent
+    ModalcontainerComponent,
+    LoadingComponent
   ]
 })
 export class AppModule { }

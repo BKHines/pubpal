@@ -1,10 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { PubpalcryptoService } from 'src/app/providers/pubpalcrypto.service';
-import { APIResponse } from 'src/app/shared/models';
 import { UserService } from 'src/app/providers/user.service';
-import { LocalstoreService } from 'src/app/providers/localstore.service';
-import { CONSTANTS } from 'src/app/shared/constants';
 import { Router } from '@angular/router';
+import { ModalService } from 'src/app/providers/modal.service';
+import { LoadingService } from 'src/app/providers/loading.service';
 
 @Component({
   selector: 'app-login',
@@ -18,7 +16,9 @@ export class LoginComponent implements OnInit {
 
   constructor(
     private userSvc: UserService,
-    private router: Router) { }
+    private router: Router,
+    private loadingSvc: LoadingService
+    ) { }
 
   ngOnInit() {
   }
@@ -31,6 +31,7 @@ export class LoginComponent implements OnInit {
 
   login() {
     this.loginFailed = false;
+    this.loadingSvc.addMessage('StartLogin', 'Logging in...');
     this.userSvc.login(this.email, this.password);
     this.userSvc.loginComplete.subscribe((status) => {
       if (status) {
@@ -38,6 +39,9 @@ export class LoginComponent implements OnInit {
       } else {
         this.loginFailed = true;
       }
+      this.loadingSvc.removeMessage('StartLogin');
+    }, (err) => {
+      this.loadingSvc.removeMessage('StartLogin');
     });
   }
 }

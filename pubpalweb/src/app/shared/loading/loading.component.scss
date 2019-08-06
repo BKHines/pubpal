@@ -1,0 +1,27 @@
+.messages-container {
+    min-height: 25vh;
+    padding: 16px;
+}
+
+.messages {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
+.messages > .spinner-wrapper {
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    width: 100%;
+}
+
+.messages > .message {
+    font-size: 2rem;
+}
+
+.spinner-border {
+    width: 3rem;
+    height: 3rem;
+}
