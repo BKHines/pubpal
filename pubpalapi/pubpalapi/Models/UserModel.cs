@@ -15,11 +15,12 @@ namespace pubpalapi.Models
         public string _id { get; set; }
         [Required]
         public string email { get; set; }
-        public string password { get; set; }
-        public bool enabled { get; set; }
         [Required]
         public string firstname { get; set; }
         [Required]
         public string lastname { get; set; }
+
+        public string password { get; set; }
+        public bool enabled { get; set; }
     }
 }
