@@ -30,7 +30,7 @@ namespace pubpalapi.Controllers
         {
             _settings = options.Value;
             dbName = _settings.Database;
-            storeName = _settings.UsersStoreName;
+            storeName = _settings.UserStoreName;
             _logger = new PubPalLogger(logger);
         }
 

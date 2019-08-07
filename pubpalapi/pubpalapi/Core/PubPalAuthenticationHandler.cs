@@ -70,7 +70,8 @@ namespace pubpalapi.Core
                         ip = _httpContextAccessor.HttpContext.Features.Get<IHttpConnectionFeature>()?.RemoteIpAddress.ToString();
                     }
                     string dbName = _settings.Database;
-                    string userStore = _settings.UsersStoreName;
+                    string userStore = _settings.UserStoreName;
+                    string sellerStore = _settings.SellerStoreName;
 
                     return PubPalSecurityManager.IsTokenValid(tokenTrim, ip, dbName, userStore, _logger);
                 }
