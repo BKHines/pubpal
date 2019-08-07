@@ -9,7 +9,8 @@ namespace PubPalAPI.Models
     {
         public string ConnectionString;
         public string Database;
-        public string UsersStoreName;
+        public string UserStoreName;
+        public string SellerStoreName;
         public bool IsDev;
     }
 }

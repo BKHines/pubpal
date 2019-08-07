@@ -43,7 +43,8 @@ namespace pubpalapi
                 options.IsDev = Configuration.GetSection("Settings").GetValue<bool>("IsDev");
                 options.ConnectionString = Configuration.GetSection("Settings").GetValue<string>("ConnectionString");
                 options.Database = Configuration.GetSection("Settings").GetValue<string>("Database");
-                options.UsersStoreName = Configuration.GetSection("Settings").GetValue<string>("UsersStoreName");
+                options.UserStoreName = Configuration.GetSection("Settings").GetValue<string>("UserStoreName");
+                options.SellerStoreName = Configuration.GetSection("Settings").GetValue<string>("SellerStoreName");
             });
 
             // Register the Swagger services
