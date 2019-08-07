@@ -64,6 +64,14 @@ namespace pubpalapi.DataAccess
             return seller.SingleOrDefault();
         }
 
+        public SellerModel[] GetSellersByLocation(float lat, float lng, int miles)
+        {
+            // TODO: find a way to query geo properties within miles or pull them back and do it in LINQ (probably too slow)
+            var queryText = $"{{ }}";
+            var sellers = GetFromSellerStore(queryText);
+            return sellers != null ? sellers.ToArray() : null;
+        }
+
         public string CreateSeller(SellerModel newSeller)
         {
             if (_mongoDatabase != null)

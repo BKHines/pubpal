@@ -52,6 +52,12 @@ namespace pubpalapi.Repositories
             return seller;
         }
 
+        public SellerModel[] GetSellersByLocation(float lat, float lng, int miles)
+        {
+            var sellers = sellerDA.GetSellersByLocation(lat, lng, miles);
+            return sellers;
+        }
+
         public string CreateSeller(SellerModel seller)
         {
             if (seller.items != null)
