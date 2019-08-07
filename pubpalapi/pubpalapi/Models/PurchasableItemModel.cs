@@ -8,6 +8,7 @@ namespace pubpalapi.Models
 {
     public class PurchasableItemModel
     {
+        public string id { get; set; }
         [Required]
         public string name { get; set; }
         [Required]

@@ -1,4 +1,7 @@
-﻿using MongoDB.Driver;
+﻿using MongoDB.Bson;
+using MongoDB.Bson.Serialization;
+using MongoDB.Driver;
+using pubpalapi.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -20,108 +23,110 @@ namespace pubpalapi.DataAccess
             _mongoDatabase = _client.GetDatabase(mongoDBName);
         }
 
-        //public IEnumerable<SellerModel> GetUsers()
-        //{
-        //    if (_mongoDatabase != null)
-        //    {
-        //        var users = _mongoDatabase.GetCollection<UserModel>(storeName);
-        //        var result = users.Find(a => true).ToEnumerable();
-        //        return result;
-        //    }
+        public IEnumerable<SellerModel> GetSellers()
+        {
+            if (_mongoDatabase != null)
+            {
+                var users = _mongoDatabase.GetCollection<SellerModel>(storeName);
+                var result = users.Find(a => true).ToEnumerable();
+                return result;
+            }
 
-        //    return null;
-        //}
+            return null;
+        }
 
-        //public UserModel GetUserById(string id)
-        //{
-        //    var queryText = $"{{'_id': {{'$oid':'{id}'}} }}";
-        //    var user = GetFromUserStore(queryText);
-        //    return user.SingleOrDefault();
-        //}
+        public SellerModel GetSellerById(string id)
+        {
+            var queryText = $"{{'_id': {{'$oid':'{id}'}} }}";
+            var seller = GetFromSellerStore(queryText);
+            return seller.SingleOrDefault();
+        }
 
-        //public UserModel GetUserByEmail(string email)
-        //{
-        //    var queryText = $"{{'email': '{email}' }}";
-        //    var user = GetFromUserStore(queryText);
-        //    return user.SingleOrDefault();
-        //}
+        public SellerModel GetSellerByEmail(string email)
+        {
+            var queryText = $"{{'email': '{email}' }}";
+            var seller = GetFromSellerStore(queryText);
+            return seller.SingleOrDefault();
+        }
 
-        //public UserModel GetUserByName(string fname, string lname)
-        //{
-        //    var queryText = string.Empty;
-        //    if (!string.IsNullOrWhiteSpace(fname) && string.IsNullOrWhiteSpace(lname))
-        //    {
-        //        queryText = $"{{ $or: [ {{ 'firstname':/^{fname}$/i }}, {{ 'lastname':/^{fname}$/i }} ] }}";
-        //    }
-        //    else
-        //    {
-        //        queryText = $"{{ 'firstname':/^{fname}$/i, 'lastname':/^{lname}$/i }}";
-        //    }
-        //    var user = GetFromUserStore(queryText);
-        //    return user.SingleOrDefault();
-        //}
+        public SellerModel GetSellerByName(string fname, string lname)
+        {
+            var queryText = string.Empty;
+            if (!string.IsNullOrWhiteSpace(fname) && string.IsNullOrWhiteSpace(lname))
+            {
+                queryText = $"{{ $or: [ {{ 'firstname':/^{fname}$/i }}, {{ 'lastname':/^{fname}$/i }} ] }}";
+            }
+            else
+            {
+                queryText = $"{{ 'firstname':/^{fname}$/i, 'lastname':/^{lname}$/i }}";
+            }
+            var seller = GetFromSellerStore(queryText);
+            return seller.SingleOrDefault();
+        }
 
-        //public string CreateUser(UserModel newUser)
-        //{
-        //    if (_mongoDatabase != null)
-        //    {
-        //        var coll = _mongoDatabase.GetCollection<UserModel>(storeName);
-        //        coll.InsertOne(newUser);
+        public string CreateSeller(SellerModel newSeller)
+        {
+            if (_mongoDatabase != null)
+            {
+                var coll = _mongoDatabase.GetCollection<SellerModel>(storeName);
+                coll.InsertOne(newSeller);
 
-        //        return newUser._id;
-        //    }
+                return newSeller._id;
+            }
 
-        //    return String.Empty;
-        //}
+            return String.Empty;
+        }
 
-        //public bool UpdateUser(UserModel updatedUser, bool updatePassword)
-        //{
-        //    if (_mongoDatabase != null)
-        //    {
-        //        var coll = _mongoDatabase.GetCollection<UserModel>(storeName);
-        //        var _user = GetUserById(updatedUser._id);
-        //        _user.email = updatedUser.email;
-        //        if (updatePassword)
-        //        {
-        //            _user.password = updatedUser.password;
-        //        }
-        //        _user.enabled = updatedUser.enabled;
-        //        _user.firstname = updatedUser.firstname;
-        //        _user.lastname = updatedUser.lastname;
+        public bool UpdateSeller(SellerModel updatedSeller, bool updatePassword)
+        {
+            if (_mongoDatabase != null)
+            {
+                var coll = _mongoDatabase.GetCollection<SellerModel>(storeName);
+                var _seller = GetSellerById(updatedSeller._id);
+                _seller.email = updatedSeller.email;
+                if (updatePassword)
+                {
+                    _seller.password = updatedSeller.password;
+                }
+                _seller.enabled = updatedSeller.enabled;
+                _seller.firstname = updatedSeller.firstname;
+                _seller.lastname = updatedSeller.lastname;
+                _seller.place = updatedSeller.place;
+                _seller.items = updatedSeller.items;
 
-        //        coll.ReplaceOne(a => a._id == updatedUser._id, _user);
-        //        return true;
-        //    }
+                coll.ReplaceOne(a => a._id == updatedSeller._id, _seller);
+                return true;
+            }
 
-        //    return false;
-        //}
+            return false;
+        }
 
-        //public bool DeleteUser(string id)
-        //{
-        //    if (_mongoDatabase != null)
-        //    {
-        //        var coll = _mongoDatabase.GetCollection<UserModel>(storeName);
-        //        coll.DeleteOne(a => a._id == id);
+        public bool DeleteSeller(string id)
+        {
+            if (_mongoDatabase != null)
+            {
+                var coll = _mongoDatabase.GetCollection<SellerModel>(storeName);
+                coll.DeleteOne(a => a._id == id);
 
-        //        return true;
-        //    }
+                return true;
+            }
 
-        //    return false;
-        //}
+            return false;
+        }
 
-        //private IEnumerable<UserModel> GetFromUserStore(string jsonQuery)
-        //{
-        //    if (_mongoDatabase != null)
-        //    {
-        //        var coll = _mongoDatabase.GetCollection<UserModel>(storeName);
-        //        var filter = BsonSerializer.Deserialize<BsonDocument>(jsonQuery);
-        //        var result = coll.Find(filter).ToEnumerable();
+        private IEnumerable<SellerModel> GetFromSellerStore(string jsonQuery)
+        {
+            if (_mongoDatabase != null)
+            {
+                var coll = _mongoDatabase.GetCollection<SellerModel>(storeName);
+                var filter = BsonSerializer.Deserialize<BsonDocument>(jsonQuery);
+                var result = coll.Find(filter).ToEnumerable();
 
-        //        return result;
-        //    }
+                return result;
+            }
 
-        //    return null;
-        //}
+            return null;
+        }
 
     }
 }

@@ -10,7 +10,6 @@ namespace pubpalapi.Models
     {
         [Required]
         public PlaceModel place { get; set; }
-        [Required]
         public PurchasableItemModel[] items { get; set; }
     }
 }
