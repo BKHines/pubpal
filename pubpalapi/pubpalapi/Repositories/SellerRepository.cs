@@ -16,7 +16,7 @@ namespace pubpalapi.Repositories
             sellerDA = new SellerDA(dbName, storeName);
         }
 
-        public SellerModel GetScrubbedUser(SellerModel seller)
+        public SellerModel GetScrubbedSeller(SellerModel seller)
         {
             seller.password = string.Empty;
             return seller;

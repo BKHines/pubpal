@@ -1,0 +1,233 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Cors;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
+using pubpalapi.Core;
+using pubpalapi.Models;
+using pubpalapi.Repositories;
+using PubPalAPI.Models;
+
+namespace pubpalapi.Controllers
+{
+    [Produces("application/json")]
+    [Route("api/Seller")]
+    [EnableCors("PubPalCORS")]
+    [ServiceFilter(typeof(PubPalInterceptor))]
+    //[ApiController]
+    public class SellerController : ControllerBase
+    {
+        private readonly SettingsModel _settings;
+        private readonly string dbName;
+        private readonly string storeName;
+        private readonly PubPalLogger _logger;
+
+        public SellerController(IOptions<SettingsModel> options, ILogger<SellerController> logger)
+        {
+            _settings = options.Value;
+            dbName = _settings.Database;
+            storeName = _settings.SellerStoreName;
+            _logger = new PubPalLogger(logger);
+        }
+
+        [HttpGet]
+        [Authorize(AuthenticationSchemes = Constants.SchemesNamesConst)]
+        public IActionResult Get()
+        {
+            try
+            {
+                var repo = new SellerRepository(dbName, storeName);
+                var Sellers = repo.GetSellers();
+                if (Sellers == null)
+                {
+                    return NotFound();
+                }
+                var _Sellers = Sellers.Select(a => repo.GetScrubbedSeller(a));
+                return Ok(_Sellers);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex);
+            }
+        }
+
+        [HttpGet("GetSellerById", Name = "GetSellerById")]
+        [Authorize(AuthenticationSchemes = Constants.SchemesNamesConst)]
+        public IActionResult GetById(string id)
+        {
+            try
+            {
+                var repo = new SellerRepository(dbName, storeName);
+                var Seller = repo.GetSellerById(id);
+                if (Seller == null)
+                {
+                    return NotFound();
+                }
+                var _Seller = repo.GetScrubbedSeller(Seller);
+                return Ok(_Seller);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex);
+            }
+        }
+
+        [HttpGet("GetSellerByEmail", Name = "GetSellerByEmail")]
+        [Authorize(AuthenticationSchemes = Constants.SchemesNamesConst)]
+        public IActionResult GetByEmail(string email)
+        {
+            try
+            {
+                var repo = new SellerRepository(dbName, storeName);
+                var Seller = repo.GetSellerByEmail(email);
+                if (Seller == null)
+                {
+                    return NotFound();
+                }
+                var _Seller = repo.GetScrubbedSeller(Seller);
+                return Ok(_Seller);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex);
+            }
+        }
+
+        [HttpGet("GetSellerByName", Name = "GetSellerByName")]
+        [Authorize(AuthenticationSchemes = Constants.SchemesNamesConst)]
+        public IActionResult GetByName(string name)
+        {
+            try
+            {
+                var repo = new SellerRepository(dbName, storeName);
+                var Seller = repo.GetSellerByName(name);
+                if (Seller == null)
+                {
+                    return NotFound();
+                }
+                var _Seller = repo.GetScrubbedSeller(Seller);
+                return Ok(_Seller);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex);
+            }
+        }
+
+        [HttpPost]
+        public IActionResult Post([FromBody] SellerModel Seller)
+        {
+            if (!ModelState.IsValid || string.IsNullOrEmpty(Seller.email))
+            {
+                return BadRequest();
+            }
+
+            try
+            {
+                var repo = new SellerRepository(dbName, storeName);
+                var SellerId = repo.CreateSeller(Seller);
+                return Ok(SellerId);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex);
+            }
+        }
+
+        [HttpPost("AddItem", Name = "AddItem")]
+        [Authorize(AuthenticationSchemes = Constants.SchemesNamesConst)]
+        public IActionResult v([FromRoute] string id, [FromBody] PurchasableItemModel item)
+        {
+            if (!ModelState.IsValid || string.IsNullOrEmpty(id))
+            {
+                return BadRequest();
+            }
+
+            try
+            {
+                var repo = new SellerRepository(dbName, storeName);
+                var SellerId = repo.AddPurchasableItem(id, item);
+                return Ok(SellerId);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex);
+            }
+        }
+
+        [HttpPut]
+        [Authorize(AuthenticationSchemes = Constants.SchemesNamesConst)]
+        public IActionResult Put([FromBody] SellerModel Seller)
+        {
+            if (!ModelState.IsValid || string.IsNullOrEmpty(Seller._id))
+            {
+                return BadRequest();
+            }
+
+            try
+            {
+                var repo = new SellerRepository(dbName, storeName);
+                var Sellerupdated = repo.UpdateSeller(Seller);
+                return Ok(Sellerupdated);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex);
+            }
+        }
+
+        [HttpPut("DeleteItem", Name = "DeleteItem")]
+        [Authorize(AuthenticationSchemes = Constants.SchemesNamesConst)]
+        public IActionResult DeleteItem(string id, string itemid)
+        {
+            try
+            {
+                var repo = new SellerRepository(dbName, storeName);
+                var Sellerdeleted = repo.DeletePurchasableItem(id, itemid);
+                return Ok(Sellerdeleted);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex);
+            }
+        }
+
+        [HttpPut("DeleteSeller", Name = "DeleteSeller")]
+        [Authorize(AuthenticationSchemes = Constants.SchemesNamesConst)]
+        public IActionResult DeleteSeller(string deleteid)
+        {
+            try
+            {
+                var repo = new SellerRepository(dbName, storeName);
+                var Sellerdeleted = repo.DeleteSeller(deleteid);
+                return Ok(Sellerdeleted);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex);
+            }
+        }
+
+        [HttpPut("DisableSeller/{id}", Name = "DisableSeller")]
+        [Authorize(AuthenticationSchemes = Constants.SchemesNamesConst)]
+        public IActionResult DisableSeller(string disableid)
+        {
+            try
+            {
+                var repo = new SellerRepository(dbName, storeName);
+                var Sellerdisabled = repo.DisableSeller(disableid);
+                return Ok(Sellerdisabled);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex);
+            }
+        }
+
+    }
+}
