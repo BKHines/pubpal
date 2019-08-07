@@ -38,3 +38,12 @@ input.form-control {
 .pubpal-modal.loading-modal {
     top: 25%;
 }
+
+.radio-group {
+    display: flex;
+    flex-direction: row;
+}
+
+.radio-group > span {
+    flex: 1 0 0px;
+}

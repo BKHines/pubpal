@@ -11,8 +11,8 @@ namespace pubpalapi.Models
         [Required]
         public string name { get; set; }
         [Required]
-        public string description { get; set; }
-        [Required]
         public AddressModel address { get; set; }
+
+        public string description { get; set; }
     }
 }
