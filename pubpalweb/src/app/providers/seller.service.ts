@@ -1,5 +1,5 @@
 import { Injectable, EventEmitter } from '@angular/core';
-import { SellerModel, APIResponse, PurchasableItemModel } from '../shared/models';
+import { SellerModel, APIResponse, PurchasableItemModel, ChangePasswordRequest } from '../shared/models';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { PubpalcryptoService } from './pubpalcrypto.service';
 import { LocalstoreService } from './localstore.service';
@@ -32,6 +32,7 @@ export class SellerService {
         this.seller = sellerres.result;
         this.localStoreSvc.set(CONSTANTS.KEY_STORE_USEREMAIL, this.seller.email);
         this.localStoreSvc.set(CONSTANTS.KEY_STORE_KEY, KEY);
+        this.localStoreSvc.set(CONSTANTS.KEY_STORE_USERTYPE, 'seller');
         this.loginComplete.emit(true);
       }, (err) => {
         this.loginComplete.emit(false);
@@ -68,6 +69,10 @@ export class SellerService {
 
   updateSeller(seller: SellerModel): Observable<APIResponse> {
     return this.http.put<APIResponse>(`api/seller`, seller);
+  }
+
+  changePassword(cpr: ChangePasswordRequest): Observable<APIResponse> {
+    return this.http.put<APIResponse>(`api/seller/updatepassword`, cpr);
   }
 
   addPurchasableItem(id: string, item: PurchasableItemModel): Observable<APIResponse> {

@@ -64,10 +64,15 @@ namespace pubpalapi.Repositories
             return userupdated;
         }
 
-        public bool ChangePassword(UserModel user)
+        public bool ChangePassword(ChangePasswordRequest changePassword)
         {
-            var userupdated = userDA.UpdatePerson(user, true);
-            return userupdated;
+            var user = userDA.GetPersonById(changePassword.id);
+            if (changePassword.newpassword == changePassword.confirmpassword)
+            {
+                user.password = changePassword.newpassword;
+            }
+            var sellerupdated = userDA.UpdatePerson(user, true);
+            return sellerupdated;
         }
 
         public bool DeleteUser(string id)

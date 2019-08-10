@@ -16,6 +16,8 @@
                             [routerLink]="['/user']">Account Info</a>
                         <a *ngIf="sellerSvc.seller" class="dropdown-item bg-primary text-white"
                             [routerLink]="['/seller']">Account Info</a>
+                        <a class="dropdown-item bg-primary text-white" [routerLink]="['/changepassword']">Change
+                            Password</a>
                         <a class="dropdown-item bg-primary text-white handCursor" (click)="logout()">Logout</a>
                     </div>
                 </div>
@@ -26,12 +28,6 @@
                     <span class="sr-only"></span>
                 </a>
             </li>
-            <!-- <li class="nav-item" *ngIf="!userSvc.user && showuserlinks">
-                <a class="nav-link" [routerLink]="['/login']">
-                    Login
-                    <span class="sr-only"></span>
-                </a>
-            </li> -->
             <li class="nav-item" *ngIf="!userSvc.user && !sellerSvc.seller && showuserlinks">
                 <a class="nav-link handCursor" (click)="loginClick();">
                     Login

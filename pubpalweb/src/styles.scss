@@ -4,7 +4,7 @@ body {
     overflow-x: hidden;
 }
 
-.fullscreen-card > .card-body {
+.fullscreen-card>.card-body {
     height: 80vh;
     overflow-y: auto;
 }
@@ -45,14 +45,30 @@ input.form-control {
     flex-direction: row;
 }
 
-.radio-group > span {
+.radio-group>span {
     flex: 1 0 0px;
 }
 
-.userselection .checkbox-container > fa-icon {
+.userselection .checkbox-container>fa-icon {
     font-size: 1.5em;
 }
 
-.user-selection .checkbox-container > .checkbox-content {
+.user-selection .checkbox-container>.checkbox-content {
     padding-left: 10px;
+}
+
+.center-form {
+    .col-form-label {
+        font-size: 1.2rem;
+    }
+
+    .flex-container {
+        display: flex;
+        justify-content: center;
+    }
+
+    .flex-container>div {
+        max-width: 1000px;
+        width: 100vh;
+    }
 }

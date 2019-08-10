@@ -19,7 +19,7 @@ namespace pubpalapi.Controllers
     [Route("api/Seller")]
     [EnableCors("PubPalCORS")]
     [ServiceFilter(typeof(PubPalInterceptor))]
-    //[ApiController]
+    [ApiController]
     public class SellerController : ControllerBase
     {
         private readonly SettingsModel _settings;
@@ -173,6 +173,27 @@ namespace pubpalapi.Controllers
             {
                 var repo = new SellerRepository(dbName, storeName);
                 var Sellerupdated = repo.UpdateSeller(Seller);
+                return Ok(Sellerupdated);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex);
+            }
+        }
+
+        [HttpPut("UpdatePassword", Name = "UpdateSellerPassword")]
+        [Authorize(AuthenticationSchemes = Constants.SchemesNamesConst)]
+        public IActionResult UpdatePassword([FromBody] ChangePasswordRequest changePassword)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest();
+            }
+
+            try
+            {
+                var repo = new SellerRepository(dbName, storeName);
+                var Sellerupdated = repo.ChangePassword(changePassword);
                 return Ok(Sellerupdated);
             }
             catch (Exception ex)

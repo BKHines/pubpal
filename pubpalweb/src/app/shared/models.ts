@@ -71,3 +71,9 @@ export interface IModalFooterButton {
 export interface IModalFooter {
     modalButtons?: IModalFooterButton[];
 }
+
+export interface ChangePasswordRequest {
+    id: string;
+    newpassword: string;
+    confirmpassword: string;
+}

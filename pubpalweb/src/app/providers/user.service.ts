@@ -1,7 +1,7 @@
 import { Injectable, EventEmitter } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
-import { APIResponse, UserModel } from '../shared/models';
+import { APIResponse, UserModel, ChangePasswordRequest } from '../shared/models';
 import { PubpalcryptoService } from './pubpalcrypto.service';
 import { LocalstoreService } from './localstore.service';
 import { CONSTANTS } from '../shared/constants';
@@ -32,6 +32,7 @@ export class UserService {
         this.user = userres.result;
         this.localStoreSvc.set(CONSTANTS.KEY_STORE_USEREMAIL, this.user.email);
         this.localStoreSvc.set(CONSTANTS.KEY_STORE_KEY, KEY);
+        this.localStoreSvc.set(CONSTANTS.KEY_STORE_USERTYPE, 'user');
         this.loginComplete.emit(true);
       }, (err) => {
         this.loginComplete.emit(false);
@@ -68,6 +69,10 @@ export class UserService {
 
   updateUser(user: UserModel): Observable<APIResponse> {
     return this.http.put<APIResponse>(`api/user`, user);
+  }
+
+  changePassword(cpr: ChangePasswordRequest): Observable<APIResponse> {
+    return this.http.put<APIResponse>(`api/user/updatepassword`, cpr);
   }
 
   deleteUser(id: string): Observable<APIResponse> {

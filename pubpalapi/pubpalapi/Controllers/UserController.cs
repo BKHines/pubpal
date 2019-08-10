@@ -19,6 +19,7 @@ namespace pubpalapi.Controllers
     [Route("api/User")]
     [EnableCors("PubPalCORS")]
     [ServiceFilter(typeof(PubPalInterceptor))]
+    [ApiController]
     public class UserController : ControllerBase
     {
         private readonly SettingsModel _settings;
@@ -152,6 +153,27 @@ namespace pubpalapi.Controllers
                 var repo = new UserRepository(dbName, storeName);
                 var userupdated = repo.UpdateUser(user);
                 return Ok(userupdated);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex);
+            }
+        }
+
+        [HttpPut("UpdatePassword", Name = "UpdateUserPassword")]
+        [Authorize(AuthenticationSchemes = Constants.SchemesNamesConst)]
+        public IActionResult UpdatePassword([FromBody] ChangePasswordRequest changePassword)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest();
+            }
+
+            try
+            {
+                var repo = new UserRepository(dbName, storeName);
+                var Userupdated = repo.ChangePassword(changePassword);
+                return Ok(Userupdated);
             }
             catch (Exception ex)
             {

@@ -1,138 +1,129 @@
-<div class="flex-container">
-    <div>
-        <form #sellerForm="ngForm">
-            <div class="card fullscreen-card">
-                <div class="card-header bg-primary text-white text-uppercase">
-                    <h3>
-                        Seller Information
-                    </h3>
+<div class="center-form">
+    <div class="flex-container">
+        <div>
+            <form #sellerForm="ngForm">
+                <div class="card fullscreen-card">
+                    <div class="card-header bg-primary text-white text-uppercase">
+                        <h3>
+                            Seller Information
+                        </h3>
+                    </div>
+                    <div class="card-body">
+                        <div class="row form-group">
+                            <label for="inputEmail" class="col-lg-2 col-form-label font-weight-bold">Email</label>
+                            <div class="col-lg-10">
+                                <input type="email" class="form-control" id="inputEmail" name="email"
+                                    placeholder="address@email.com" [(ngModel)]="localSeller.email" #entryemail="ngModel"
+                                    required [class.field-error]="entryemail.touched && entryemail.invalid">
+                                <div [hidden]="!entryemail.touched || entryemail.valid"
+                                    class="field-error-message alert alert-danger text-muted">Email is required</div>
+                            </div>
+                        </div>
+                        <div class="row form-group">
+                            <label for="inputFirstName" class="col-lg-2 col-form-label font-weight-bold">First
+                                Name</label>
+                            <div class="col-lg-10">
+                                <input type="text" class="form-control" id="inputFirstName" name="firstname"
+                                    placeholder="First Name" [(ngModel)]="localSeller.firstname" #entryfirstname="ngModel"
+                                    required [class.field-error]="entryfirstname.touched && entryfirstname.invalid">
+                                <div [hidden]="!entryfirstname.touched || entryfirstname.valid"
+                                    class="field-error-message alert alert-danger text-muted">First Name is required
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row form-group">
+                            <label for="inputLastName" class="col-lg-2 col-form-label font-weight-bold">Last
+                                Name</label>
+                            <div class="col-lg-10">
+                                <input type="text" class="form-control" id="inputLastName" name="lastname"
+                                    placeholder="Last Name" [(ngModel)]="localSeller.lastname" #entrylastname="ngModel" required
+                                    [class.field-error]="entrylastname.touched && entrylastname.invalid">
+                                <div [hidden]="!entrylastname.touched || entrylastname.valid"
+                                    class="field-error-message alert alert-danger text-muted">Last Name is required
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row form-group">
+                            <label for="inputPlaceName" class="col-lg-2 col-form-label font-weight-bold">Place
+                                Name</label>
+                            <div class="col-lg-10">
+                                <input type="text" class="form-control" id="inputPlaceName" name="placename"
+                                    placeholder="Name of Your Place" [(ngModel)]="localSeller.place.name"
+                                    #entryplacename="ngModel" required
+                                    [class.field-error]="entryplacename.touched && entryplacename.invalid">
+                                <div [hidden]="!entryplacename.touched || entryplacename.valid"
+                                    class="field-error-message alert alert-danger text-muted">Seller Place Name is
+                                    required
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row form-group">
+                            <label for="inputPlaceDescription"
+                                class="col-lg-2 col-form-label font-weight-bold">Description</label>
+                            <div class="col-lg-10">
+                                <input type="text" class="form-control" id="inputPlaceDescription" name="placedescription"
+                                    placeholder="Description" [(ngModel)]="localSeller.place.description">
+                            </div>
+                        </div>
+                        <div class="row form-group">
+                            <label for="inputPlaceAddress" class="col-lg-2 col-form-label font-weight-bold">Address</label>
+                            <div class="col-lg-10">
+                                <input type="text" class="form-control" id="inputPlaceAddress" name="placeaddress"
+                                    placeholder="Address" [(ngModel)]="localSeller.place.address.address"
+                                    #entryplaceaddress="ngModel" required
+                                    [class.field-error]="entryplaceaddress.touched && entryplaceaddress.invalid">
+                                <div [hidden]="!entryplaceaddress.touched || entryplaceaddress.valid"
+                                    class="field-error-message alert alert-danger text-muted">Seller Address is
+                                    required
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row form-group">
+                            <label for="inputPlaceCity" class="col-lg-2 col-form-label font-weight-bold">City</label>
+                            <div class="col-lg-4">
+                                <input type="text" class="form-control" id="inputPlaceCity" name="placecity" placeholder="City"
+                                    [(ngModel)]="localSeller.place.address.city" #entryplacecity="ngModel" required
+                                    [class.field-error]="entryplacecity.touched && entryplacecity.invalid">
+                            </div>
+                            <label for="inputPlaceState" class="col-lg-1 col-form-label font-weight-bold">State</label>
+                            <div class="col-lg-2">
+                                <select name="entryplacestate" [(ngModel)]="localSeller.place.address.state"
+                                    class="form-control" required #entryplacestate="ngModel"
+                                    [class.field-error]="entryplacestate.touched && entryplacestate.invalid">
+                                    <option [ngValue]="null"></option>
+                                    <option *ngFor="let state of states" [ngValue]="state">{{ state }}</option>
+                                </select>
+                            </div>
+                            <label for="inputPlaceZip" class="col-lg-1 col-form-label font-weight-bold">Zip</label>
+                            <div class="col-lg-2">
+                                <input type="text" class="form-control" id="inputPlaceZip" name="placezip"
+                                    placeholder="Zip Code" [(ngModel)]="localSeller.place.address.zip" #entryplacezip="ngModel"
+                                    required minlength="5" maxlength="5"
+                                    [class.field-error]="entryplacezip.touched && entryplacezip.invalid">
+                            </div>
+                        </div>
+                        <div class="row form-group">
+                            <div class="col-lg-12">
+                                <div *ngIf="(entryplacezip.touched && entryplacezip.invalid) || 
+                                                        (entryplacestate.touched && entryplacestate.invalid) || 
+                                                        (entryplacecity.touched && entryplacecity.invalid)"
+                                    class="field-error-message alert alert-danger text-muted">
+                                    Seller City/State/Zip (5-digit) is required
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-footer bg-white">
+                        <button type="reset" class="btn btn-success ml-2 float-right" (click)="restoreSeller()">
+                            Cancel
+                        </button>
+                        <button type="submit" class="btn btn-success ml-2 float-right" (click)="updateSeller()"
+                            [disabled]="!sellerForm.touched || sellerForm.invalid">
+                            Update
+                        </button>
+                    </div>
                 </div>
-                <div class="card-body">
-                    <div class="row form-group">
-                        <label for="inputEmail" class="col-lg-2 col-form-label font-weight-bold">Email</label>
-                        <div class="col-lg-10">
-                            <input type="email" class="form-control" id="inputEmail" name="email"
-                                placeholder="address@email.com" [(ngModel)]="localSeller.email" #entryemail="ngModel"
-                                required [class.field-error]="entryemail.touched && entryemail.invalid">
-                            <div [hidden]="!entryemail.touched || entryemail.valid"
-                                class="field-error-message alert alert-danger text-muted">Email is required</div>
-                        </div>
-                    </div>
-                    <div class="row form-group">
-                        <label for="inputPassword" class="col-lg-2 col-form-label font-weight-bold">Password</label>
-                        <div class="col-lg-10">
-                            <input type="password" class="form-control" id="inputPassword" name="password"
-                                placeholder="Password" [(ngModel)]="password" #entrypass="ngModel" required
-                                [class.field-error]="entrypass.touched && entrypass.invalid">
-                            <div [hidden]="!entrypass.touched || entrypass.valid"
-                                class="field-error-message alert alert-danger text-muted">Password is required</div>
-                        </div>
-                    </div>
-                    <div class="row form-group">
-                        <label for="inputFirstName" class="col-lg-2 col-form-label font-weight-bold">First
-                            Name</label>
-                        <div class="col-lg-10">
-                            <input type="text" class="form-control" id="inputFirstName" name="firstname"
-                                placeholder="First Name" [(ngModel)]="localSeller.firstname" #entryfirstname="ngModel"
-                                required [class.field-error]="entryfirstname.touched && entryfirstname.invalid">
-                            <div [hidden]="!entryfirstname.touched || entryfirstname.valid"
-                                class="field-error-message alert alert-danger text-muted">First Name is required
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row form-group">
-                        <label for="inputLastName" class="col-lg-2 col-form-label font-weight-bold">Last
-                            Name</label>
-                        <div class="col-lg-10">
-                            <input type="text" class="form-control" id="inputLastName" name="lastname"
-                                placeholder="Last Name" [(ngModel)]="localSeller.lastname" #entrylastname="ngModel"
-                                required [class.field-error]="entrylastname.touched && entrylastname.invalid">
-                            <div [hidden]="!entrylastname.touched || entrylastname.valid"
-                                class="field-error-message alert alert-danger text-muted">Last Name is required
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row form-group">
-                        <label for="inputPlaceName" class="col-lg-2 col-form-label font-weight-bold">Place
-                            Name</label>
-                        <div class="col-lg-10">
-                            <input type="text" class="form-control" id="inputPlaceName" name="placename"
-                                placeholder="Name of Your Place" [(ngModel)]="localSeller.place.name"
-                                #entryplacename="ngModel" required
-                                [class.field-error]="entryplacename.touched && entryplacename.invalid">
-                            <div [hidden]="!entryplacename.touched || entryplacename.valid"
-                                class="field-error-message alert alert-danger text-muted">Seller Place Name is
-                                required
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row form-group">
-                        <label for="inputPlaceDescription"
-                            class="col-lg-2 col-form-label font-weight-bold">Description</label>
-                        <div class="col-lg-10">
-                            <input type="text" class="form-control" id="inputPlaceDescription" name="placedescription"
-                                placeholder="Description" [(ngModel)]="localSeller.place.description">
-                        </div>
-                    </div>
-                    <div class="row form-group">
-                        <label for="inputPlaceAddress" class="col-lg-2 col-form-label font-weight-bold">Address</label>
-                        <div class="col-lg-10">
-                            <input type="text" class="form-control" id="inputPlaceAddress" name="placeaddress"
-                                placeholder="Address" [(ngModel)]="localSeller.place.address.address"
-                                #entryplaceaddress="ngModel" required
-                                [class.field-error]="entryplaceaddress.touched && entryplaceaddress.invalid">
-                            <div [hidden]="!entryplaceaddress.touched || entryplaceaddress.valid"
-                                class="field-error-message alert alert-danger text-muted">Seller Address is
-                                required
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row form-group">
-                        <label for="inputPlaceCity" class="col-lg-2 col-form-label font-weight-bold">City</label>
-                        <div class="col-lg-4">
-                            <input type="text" class="form-control" id="inputPlaceCity" name="placecity"
-                                placeholder="City" [(ngModel)]="localSeller.place.address.city"
-                                #entryplacecity="ngModel" required
-                                [class.field-error]="entryplacecity.touched && entryplacecity.invalid">
-                        </div>
-                        <label for="inputPlaceState" class="col-lg-1 col-form-label font-weight-bold">State</label>
-                        <div class="col-lg-2">
-                            <select name="entryplacestate" [(ngModel)]="localSeller.place.address.state"
-                                class="form-control" required #entryplacestate="ngModel"
-                                [class.field-error]="entryplacestate.touched && entryplacestate.invalid">
-                                <option [ngValue]="null"></option>
-                                <option *ngFor="let state of states" [ngValue]="state">{{ state }}</option>
-                            </select>
-                        </div>
-                        <label for="inputPlaceZip" class="col-lg-1 col-form-label font-weight-bold">Zip</label>
-                        <div class="col-lg-2">
-                            <input type="text" class="form-control" id="inputPlaceZip" name="placezip"
-                                placeholder="Zip Code" [(ngModel)]="localSeller.place.address.zip"
-                                #entryplacezip="ngModel" required minlength="5" maxlength="5"
-                                [class.field-error]="entryplacezip.touched && entryplacezip.invalid">
-                        </div>
-                    </div>
-                    <div class="row form-group">
-                        <div class="col-lg-12">
-                            <div *ngIf="(entryplacezip.touched && entryplacezip.invalid) || 
-                                                (entryplacestate.touched && entryplacestate.invalid) || 
-                                                (entryplacecity.touched && entryplacecity.invalid)"
-                                class="field-error-message alert alert-danger text-muted">
-                                Seller City/State/Zip (5-digit) is required
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="card-footer bg-white">
-                    <button type="reset" class="btn btn-success ml-2 float-right" (click)="restoreSeller()">
-                        Cancel
-                    </button>
-                    <button type="submit" class="btn btn-success ml-2 float-right" (click)="updateSeller()"
-                        [disabled]="!sellerForm.touched || sellerForm.invalid">
-                        Update
-                    </button>
-                </div>
-            </div>
-        </form>
+            </form>
+        </div>
     </div>
 </div>

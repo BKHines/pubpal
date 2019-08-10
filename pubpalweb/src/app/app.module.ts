@@ -16,6 +16,7 @@ import { RegistrationComponent } from './features/registration/registration.comp
 import { ModalcontainerComponent } from './shared/modalcontainer/modalcontainer.component';
 import { LoadingComponent } from './shared/loading/loading.component';
 import { SellerComponent } from './features/seller/seller.component';
+import { ChangepasswordComponent } from './features/changepassword/changepassword.component';
 
 @NgModule({
   declarations: [
@@ -27,7 +28,8 @@ import { SellerComponent } from './features/seller/seller.component';
     RegistrationComponent,
     ModalcontainerComponent,
     LoadingComponent,
-    SellerComponent
+    SellerComponent,
+    ChangepasswordComponent
   ],
   imports: [
     BrowserModule,
@@ -48,7 +50,8 @@ import { SellerComponent } from './features/seller/seller.component';
     RegistrationComponent,
     ModalcontainerComponent,
     LoadingComponent,
-    SellerComponent
+    SellerComponent,
+    ChangepasswordComponent
   ]
 })
 export class AppModule { }
