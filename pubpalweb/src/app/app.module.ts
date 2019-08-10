@@ -15,6 +15,7 @@ import { LoginComponent } from './features/login/login.component';
 import { RegistrationComponent } from './features/registration/registration.component';
 import { ModalcontainerComponent } from './shared/modalcontainer/modalcontainer.component';
 import { LoadingComponent } from './shared/loading/loading.component';
+import { SellerComponent } from './features/seller/seller.component';
 
 @NgModule({
   declarations: [
@@ -25,7 +26,8 @@ import { LoadingComponent } from './shared/loading/loading.component';
     LoginComponent,
     RegistrationComponent,
     ModalcontainerComponent,
-    LoadingComponent
+    LoadingComponent,
+    SellerComponent
   ],
   imports: [
     BrowserModule,
@@ -45,7 +47,8 @@ import { LoadingComponent } from './shared/loading/loading.component';
     LoginComponent,
     RegistrationComponent,
     ModalcontainerComponent,
-    LoadingComponent
+    LoadingComponent,
+    SellerComponent
   ]
 })
 export class AppModule { }

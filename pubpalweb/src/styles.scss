@@ -6,6 +6,7 @@ body {
 
 .fullscreen-card > .card-body {
     height: 80vh;
+    overflow-y: auto;
 }
 
 .fullscreen-card {
@@ -46,4 +47,12 @@ input.form-control {
 
 .radio-group > span {
     flex: 1 0 0px;
+}
+
+.userselection .checkbox-container > fa-icon {
+    font-size: 1.5em;
+}
+
+.user-selection .checkbox-container > .checkbox-content {
+    padding-left: 10px;
 }

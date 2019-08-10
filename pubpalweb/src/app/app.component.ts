@@ -7,6 +7,8 @@ import { APIResponse } from './shared/models';
 import { ModalService } from './providers/modal.service';
 import { BsModalRef } from 'ngx-bootstrap/modal/public_api';
 import { LoginComponent } from './features/login/login.component';
+import { TokenService } from './providers/token.service';
+import { SellerService } from './providers/seller.service';
 
 @Component({
   selector: 'app-root',
@@ -23,25 +25,42 @@ export class AppComponent implements OnInit {
     private localStoreSvc: LocalstoreService,
     private modalSvc: ModalService,
     private userSvc: UserService,
+    private sellerSvc: SellerService,
+    private tokenSvc: TokenService,
     private pubpalCryptoSvc: PubpalcryptoService) { }
 
   ngOnInit() {
     const storedKey = this.localStoreSvc.get(CONSTANTS.KEY_STORE_KEY);
     const storedEmail = this.localStoreSvc.get(CONSTANTS.KEY_STORE_USEREMAIL);
+    const storedType = this.localStoreSvc.get(CONSTANTS.KEY_STORE_USERTYPE);
 
     if (storedKey) {
       this.pubpalCryptoSvc.getIp().subscribe((ipres: APIResponse) => {
-        this.userSvc.authToken = this.pubpalCryptoSvc.generateToken(storedEmail, storedKey, ipres.result);
+        this.tokenSvc.authToken = this.pubpalCryptoSvc.generateToken(storedEmail, storedKey, ipres.result);
 
-        this.userSvc.getUserByEmail(storedEmail).subscribe((userres) => {
-          this.userSvc.user = userres.result;
-          this.localStorageChecked = true;
-        }, (err) => {
-          this.userSvc.logout();
-          this.localStoreSvc.removeMultiple([CONSTANTS.KEY_STORE_KEY, CONSTANTS.KEY_STORE_USEREMAIL]);
-          this.localStorageChecked = true;
+        switch (storedType) {
+          case 'seller':
+              this.sellerSvc.getSellerByEmail(storedEmail).subscribe((sellerres) => {
+                this.sellerSvc.seller = sellerres.result;
+                this.localStorageChecked = true;
+              }, (err) => {
+                this.sellerSvc.logout();
+                this.localStoreSvc.removeMultiple([CONSTANTS.KEY_STORE_KEY, CONSTANTS.KEY_STORE_USEREMAIL, CONSTANTS.KEY_STORE_USERTYPE]);
+                this.localStorageChecked = true;
+              });
+              break;
+          default:
+            this.userSvc.getUserByEmail(storedEmail).subscribe((userres) => {
+              this.userSvc.user = userres.result;
+              this.localStorageChecked = true;
+            }, (err) => {
+              this.userSvc.logout();
+              this.localStoreSvc.removeMultiple([CONSTANTS.KEY_STORE_KEY, CONSTANTS.KEY_STORE_USEREMAIL, CONSTANTS.KEY_STORE_USERTYPE]);
+              this.localStorageChecked = true;
+            });
+            break;
+          }
         });
-      });
     } else {
       this.localStorageChecked = true;
     }

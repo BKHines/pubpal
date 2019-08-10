@@ -5,18 +5,19 @@ import { PubpalcryptoService } from './pubpalcrypto.service';
 import { LocalstoreService } from './localstore.service';
 import { CONSTANTS } from '../shared/constants';
 import { Observable } from 'rxjs';
+import { TokenService } from './token.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class SellerService {
   seller: SellerModel;
-  authToken: string;
 
   loginComplete: EventEmitter<boolean> = new EventEmitter<boolean>();
 
   constructor(
     private http: HttpClient,
+    private tokenSvc: TokenService,
     private pubpalCryptoSvc: PubpalcryptoService,
     private localStoreSvc: LocalstoreService) { }
 
@@ -25,7 +26,7 @@ export class SellerService {
       const IP = ipres.result;
       const KEY = this.pubpalCryptoSvc.getKey(password);
 
-      this.authToken = this.pubpalCryptoSvc.generateToken(email, KEY, IP);
+      this.tokenSvc.authToken = this.pubpalCryptoSvc.generateToken(email, KEY, IP);
 
       this.getSellerByEmail(email).subscribe((sellerres) => {
         this.seller = sellerres.result;
@@ -100,6 +101,6 @@ export class SellerService {
 
   logout() {
     this.seller = null;
-    this.authToken = '';
+    this.tokenSvc.authToken = '';
   }
 }

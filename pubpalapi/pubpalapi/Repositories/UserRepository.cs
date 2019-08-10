@@ -24,19 +24,19 @@ namespace pubpalapi.Repositories
 
         public IEnumerable<UserModel> GetUsers()
         {
-            var users = userDA.GetUsers();
+            var users = userDA.GetPersons();
             return users;
         }
 
         public UserModel GetUserById(string id)
         {
-            var user = userDA.GetUserById(id);
+            var user = userDA.GetPersonById(id);
             return user;
         }
 
         public UserModel GetUserByEmail(string email)
         {
-            var user = userDA.GetUserByEmail(email);
+            var user = userDA.GetPersonByEmail(email);
             return user;
         }
 
@@ -48,39 +48,39 @@ namespace pubpalapi.Repositories
                 return null;
             }
 
-            var user = userDA.GetUserByName(nameParts[0], nameParts.Length > 1 ? nameParts[1] : string.Empty);
+            var user = userDA.GetPersonByName(nameParts[0], nameParts.Length > 1 ? nameParts[1] : string.Empty);
             return user;
         }
 
         public string CreateUser(UserModel user)
         {
-            var userid = userDA.CreateUser(user);
+            var userid = userDA.CreatePerson(user);
             return userid;
         }
 
         public bool UpdateUser(UserModel user)
         {
-            var userupdated = userDA.UpdateUser(user, false);
+            var userupdated = userDA.UpdatePerson(user, false);
             return userupdated;
         }
 
         public bool ChangePassword(UserModel user)
         {
-            var userupdated = userDA.UpdateUser(user, true);
+            var userupdated = userDA.UpdatePerson(user, true);
             return userupdated;
         }
 
         public bool DeleteUser(string id)
         {
-            var userdeleted = userDA.DeleteUser(id);
+            var userdeleted = userDA.DeletePerson(id);
             return userdeleted;
         }
 
         public bool DisableUser(string id)
         {
-            var user = userDA.GetUserById(id);
+            var user = userDA.GetPersonById(id);
             user.enabled = false;
-            var userupdated = userDA.UpdateUser(user, false);
+            var userupdated = userDA.UpdatePerson(user, false);
             return userupdated;
         }
     }

@@ -10,19 +10,21 @@
                 <div class="card-body">
                     <div class="row form-group">
                         <div class="col-lg-12">
-                            <div class="radio-group">
+                            <div class="radio-group user-selection">
                                 <span>
-                                    <div class="handCursor" (click)="registeringUser = true; initializeUser();">
-                                        <fa-icon [icon]="faCheckSquare" *ngIf="registeringUser"></fa-icon>
-                                        <fa-icon [icon]="faSquare" *ngIf="!registeringUser"></fa-icon>
-                                        User
+                                    <div class="checkbox-container my-auto">
+                                        <fa-icon [icon]="faUser" class="handCursor" (click)="initializeUser();">
+                                        </fa-icon>
+                                        <span class="checkbox-content handCursor"
+                                            (click)="initializeUser();">User</span>
                                     </div>
                                 </span>
                                 <span>
-                                    <div class="handCursor" (click)="registeringUser = false; initializeSeller();">
-                                        <fa-icon [icon]="faCheckSquare" *ngIf="!registeringUser"></fa-icon>
-                                        <fa-icon [icon]="faSquare" *ngIf="registeringUser"></fa-icon>
-                                        Seller
+                                    <div class="checkbox-container my-auto">
+                                        <fa-icon [icon]="faSeller" class="handCursor" (click)="initializeSeller();">
+                                        </fa-icon>
+                                        <span class="checkbox-content handCursor"
+                                            (click)="initializeSeller();">Seller</span>
                                     </div>
                                 </span>
                             </div>
@@ -141,13 +143,7 @@
                             <div class="col-lg-10">
                                 <input type="text" class="form-control" id="inputPlaceDescription"
                                     name="placedescription" placeholder="Description"
-                                    [(ngModel)]="localSeller.place.description" #entryplacedescription="ngModel"
-                                    required
-                                    [class.field-error]="entryplacedescription.touched && entryplacedescription.invalid">
-                                <div [hidden]="!entryplacedescription.touched || entryplacedescription.valid"
-                                    class="field-error-message alert alert-danger text-muted">Seller Description is
-                                    required
-                                </div>
+                                    [(ngModel)]="localSeller.place.description">
                             </div>
                         </div>
                         <div class="row form-group">
@@ -166,40 +162,36 @@
                         </div>
                         <div class="row form-group">
                             <label for="inputPlaceCity" class="col-lg-2 col-form-label font-weight-bold">City</label>
-                            <div class="col-lg-10">
+                            <div class="col-lg-4">
                                 <input type="text" class="form-control" id="inputPlaceCity" name="placecity"
                                     placeholder="City" [(ngModel)]="localSeller.place.address.city"
                                     #entryplacecity="ngModel" required
                                     [class.field-error]="entryplacecity.touched && entryplacecity.invalid">
-                                <div [hidden]="!entryplacecity.touched || entryplacecity.valid"
-                                    class="field-error-message alert alert-danger text-muted">Seller City is
-                                    required
-                                </div>
                             </div>
-                        </div>
-                        <div class="row form-group">
-                            <label for="inputPlaceState" class="col-lg-2 col-form-label font-weight-bold">State</label>
-                            <div class="col-lg-10">
-                                <input type="text" class="form-control" id="inputPlaceState" name="placestate"
-                                    placeholder="State" [(ngModel)]="localSeller.place.address.state"
-                                    #entryplacestate="ngModel" required
+                            <label for="inputPlaceState" class="col-lg-1 col-form-label font-weight-bold">State</label>
+                            <div class="col-lg-2">
+                                <select name="entryplacestate" [(ngModel)]="localSeller.place.address.state"
+                                    class="form-control" required #entryplacestate="ngModel"
                                     [class.field-error]="entryplacestate.touched && entryplacestate.invalid">
-                                <div [hidden]="!entryplacestate.touched || entryplacestate.valid"
-                                    class="field-error-message alert alert-danger text-muted">Seller State is
-                                    required
-                                </div>
+                                    <option [ngValue]="null"></option>
+                                    <option *ngFor="let state of states" [ngValue]="state">{{ state }}</option>
+                                </select>
                             </div>
-                        </div>
-                        <div class="row form-group">
-                            <label for="inputPlaceZip" class="col-lg-2 col-form-label font-weight-bold">Zip</label>
-                            <div class="col-lg-10">
+                            <label for="inputPlaceZip" class="col-lg-1 col-form-label font-weight-bold">Zip</label>
+                            <div class="col-lg-2">
                                 <input type="text" class="form-control" id="inputPlaceZip" name="placezip"
                                     placeholder="Zip Code" [(ngModel)]="localSeller.place.address.zip"
-                                    #entryplacezip="ngModel" required
+                                    #entryplacezip="ngModel" required minlength="5" maxlength="5"
                                     [class.field-error]="entryplacezip.touched && entryplacezip.invalid">
-                                <div [hidden]="!entryplacezip.touched || entryplacezip.valid"
-                                    class="field-error-message alert alert-danger text-muted">Seller Zip Code is
-                                    required
+                            </div>
+                        </div>
+                        <div class="row form-group">
+                            <div class="col-lg-12">
+                                <div *ngIf="(entryplacezip.touched && entryplacezip.invalid) || 
+                                            (entryplacestate.touched && entryplacestate.invalid) || 
+                                            (entryplacecity.touched && entryplacecity.invalid)"
+                                    class="field-error-message alert alert-danger text-muted">
+                                    Seller City/State/Zip (5-digit) is required
                                 </div>
                             </div>
                         </div>
@@ -212,10 +204,10 @@
                     </div>
                 </div>
                 <div class="card-footer bg-white">
-                    <button type="reset" class="btn btn-success ml-2 float-right" (click)="resetUser()">
+                    <button type="reset" class="btn btn-success ml-2 float-right" (click)="resetHandler()">
                         Cancel
                     </button>
-                    <button type="submit" class="btn btn-success ml-2 float-right" (click)="addUser()"
+                    <button type="submit" class="btn btn-success ml-2 float-right" (click)="addHandler()"
                         [disabled]="!userForm.touched || userForm.invalid">
                         Register
                     </button>

@@ -141,7 +141,7 @@ namespace pubpalapi.Controllers
 
         [HttpPost("AddItem", Name = "AddItem")]
         [Authorize(AuthenticationSchemes = Constants.SchemesNamesConst)]
-        public IActionResult v([FromRoute] string id, [FromBody] PurchasableItemModel item)
+        public IActionResult Post([FromRoute] string id, [FromBody] PurchasableItemModel item)
         {
             if (!ModelState.IsValid || string.IsNullOrEmpty(id))
             {

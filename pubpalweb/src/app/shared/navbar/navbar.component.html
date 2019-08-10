@@ -5,19 +5,22 @@
     </a>
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav ml-auto item-right">
-            <li class="nav-item" *ngIf="userSvc.user && showuserlinks">
+            <li class="nav-item" *ngIf="(userSvc.user || sellerSvc.seller) && showuserlinks">
                 <div class="btn-group">
                     <button type="button" class="btn bg-primary text-white dropdown-toggle" data-toggle="dropdown"
                         aria-haspopup="true" aria-expanded="false">
-                        Welcome {{ userSvc.user.firstname }}!
+                        Welcome {{ userSvc.user ? userSvc.user.firstname : sellerSvc.seller.firstname }}!
                     </button>
                     <div class="dropdown-menu dropdown-menu-right bg-primary">
-                        <a class="dropdown-item bg-primary text-white" [routerLink]="['/user']">Account Info</a>
+                        <a *ngIf="userSvc.user" class="dropdown-item bg-primary text-white"
+                            [routerLink]="['/user']">Account Info</a>
+                        <a *ngIf="sellerSvc.seller" class="dropdown-item bg-primary text-white"
+                            [routerLink]="['/seller']">Account Info</a>
                         <a class="dropdown-item bg-primary text-white handCursor" (click)="logout()">Logout</a>
                     </div>
                 </div>
             </li>
-            <li class="nav-item" *ngIf="!userSvc.user && showuserlinks">
+            <li class="nav-item" *ngIf="!userSvc.user && !sellerSvc.seller && showuserlinks">
                 <a class="nav-link" [routerLink]="['/register']">
                     Register
                     <span class="sr-only"></span>
@@ -29,7 +32,7 @@
                     <span class="sr-only"></span>
                 </a>
             </li> -->
-            <li class="nav-item" *ngIf="!userSvc.user && showuserlinks">
+            <li class="nav-item" *ngIf="!userSvc.user && !sellerSvc.seller && showuserlinks">
                 <a class="nav-link handCursor" (click)="loginClick();">
                     Login
                     <span class="sr-only"></span>

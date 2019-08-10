@@ -6,6 +6,8 @@ using System.Security.Cryptography;
 using System.Text;
 using pubpalapi.Repositories;
 using Microsoft.Extensions.Logging;
+using pubpalapi.DataAccess;
+using pubpalapi.Models;
 
 namespace pubpalapi.Core
 {
@@ -105,25 +107,35 @@ namespace pubpalapi.Core
                             _expirationMinutesEnd += 60;
 
                         }
-                        UserRepository tempRepo = new UserRepository(dbName, storeName);
                         var _email = email.Replace("\"", "");
-                        var userInfo = tempRepo.GetUserByEmail(_email);
-                        if (_email == userInfo.email)
+                        var personInfo = new PersonModel() { email = _email };
+                        if (storeName == "sellerstore")
                         {
-                            string password = userInfo.password;
+                            var personDA = new PersonDA<SellerModel>(dbName, storeName);
+                            var seller = personDA.GetPersonByEmail(_email);
+                            personInfo.password = seller.password;
+                        }
+                        else if (storeName == "userstore")
+                        {
+                            var personDA = new PersonDA<UserModel>(dbName, storeName);
+                            var user = personDA.GetPersonByEmail(_email);
+                            personInfo.password = user.password;
+                        }
 
-                            // Hash the message with the key to generate a token.
-                            string computedToken = GenerateToken(_email, password, ip, ticks);
+                        string password = personInfo.password;
 
-                            // Compare the computed token with the one supplied and ensure they match.
-                            result = (token == computedToken);
+                        // Hash the message with the key to generate a token.
+                        string computedToken = GenerateToken(_email, password, ip, ticks);
 
-                            if (!result)
+                        // Compare the computed token with the one supplied and ensure they match.
+                        result = (token == computedToken);
+
+                        if (!result)
+                        {
+                            var logMessage = new PubPalLog()
                             {
-                                var logMessage = new PubPalLog()
-                                {
-                                    title = "Login Failed",
-                                    messages = new List<string>()
+                                title = "Login Failed",
+                                messages = new List<string>()
                                     {
                                         $"Token From Login: {token}",
                                         $"Token From Class: {computedToken}",
@@ -132,10 +144,9 @@ namespace pubpalapi.Core
                                         $"Stored email: {_email}",
                                         $"Login ticks: {ticks}",
                                     }
-                                };
+                            };
 
-                                ppLogger.LogMessage(LogType.info, logMessage);
-                            }
+                            ppLogger.LogMessage(LogType.info, logMessage);
                         }
                     }
                 }
@@ -154,7 +165,7 @@ namespace pubpalapi.Core
             return result;
         }
 
-        public static string GetUserIdFromToken(string token, string dbName, string storeName)
+        public static string GetPersonIdFromToken(string token, string dbName, string storeName)
         {
             string result = string.Empty;
 
@@ -168,9 +179,9 @@ namespace pubpalapi.Core
                 if (parts.Length == 3)
                 {
                     string email = parts[1];
-                    UserRepository tempRepo = new UserRepository(dbName, storeName);
-                    var userInfo = tempRepo.GetUserByEmail(email);
-                    result = userInfo._id;
+                    var personDA = new PersonDA<PersonModel>(dbName, storeName);
+                    var personInfo = personDA.GetPersonByEmail(email);
+                    result = personInfo._id;
                 }
             }
             catch

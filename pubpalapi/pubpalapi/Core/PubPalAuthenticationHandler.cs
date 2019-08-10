@@ -73,7 +73,14 @@ namespace pubpalapi.Core
                     string userStore = _settings.UserStoreName;
                     string sellerStore = _settings.SellerStoreName;
 
-                    return PubPalSecurityManager.IsTokenValid(tokenTrim, ip, dbName, userStore, _logger);
+                    string storeToUse = userStore;
+
+                    if (_httpContextAccessor.HttpContext.Request.Path.Value.Contains("api/seller"))
+                    {
+                        storeToUse = sellerStore;
+                    }
+
+                    return PubPalSecurityManager.IsTokenValid(tokenTrim, ip, dbName, storeToUse, _logger);
                 }
                 catch
                 {

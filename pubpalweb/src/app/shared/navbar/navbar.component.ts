@@ -4,6 +4,8 @@ import { UserService } from 'src/app/providers/user.service';
 import { LocalstoreService } from 'src/app/providers/localstore.service';
 import { CONSTANTS } from '../constants';
 import { Router } from '@angular/router';
+import { SellerService } from 'src/app/providers/seller.service';
+import { TokenService } from 'src/app/providers/token.service';
 
 @Component({
   selector: 'app-navbar',
@@ -18,6 +20,8 @@ export class NavbarComponent implements OnInit {
 
   constructor(
     public userSvc: UserService,
+    public sellerSvc: SellerService,
+    public tokenSvc: TokenService,
     private localStoreSvc: LocalstoreService,
     private router: Router) { }
 
@@ -29,8 +33,12 @@ export class NavbarComponent implements OnInit {
   }
 
   logout() {
-    this.userSvc.logout();
-    this.localStoreSvc.removeMultiple([CONSTANTS.KEY_STORE_KEY, CONSTANTS.KEY_STORE_USEREMAIL]);
+    if (this.userSvc.user) {
+      this.userSvc.logout();
+    } else if (this.sellerSvc.seller) {
+      this.sellerSvc.logout();
+    }
+    this.localStoreSvc.removeMultiple([CONSTANTS.KEY_STORE_KEY, CONSTANTS.KEY_STORE_USEREMAIL, CONSTANTS.KEY_STORE_USERTYPE]);
     this.router.navigate(['']);
   }
 }

@@ -3,17 +3,17 @@ import { HttpInterceptor, HttpEvent, HttpHandler, HttpRequest, HttpErrorResponse
 import { Observable, throwError } from 'rxjs';
 import { map, catchError } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
-import { UserService } from './user.service';
+import { TokenService } from './token.service';
 
 @Injectable({ providedIn: 'root' })
 export class PubpalinterceptorService implements HttpInterceptor {
-    constructor(private userSvc: UserService) { }
+    constructor(private tokenSvc: TokenService) { }
 
     intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
         const fullurl = this.getFullUrl(req.url);
         req = req.clone({
             url: fullurl,
-            headers: req.headers.set('Authorization', `Bearer ${this.userSvc.authToken}`),
+            headers: req.headers.set('Authorization', `Bearer ${this.tokenSvc.authToken}`),
             params: req.params,
             body: req.body
         });

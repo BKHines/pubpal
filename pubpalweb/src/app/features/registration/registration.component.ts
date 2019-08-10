@@ -4,7 +4,8 @@ import { UserService } from 'src/app/providers/user.service';
 import { Router } from '@angular/router';
 import { SellerService } from 'src/app/providers/seller.service';
 
-import { faCheckSquare, faSquare } from '@fortawesome/free-solid-svg-icons';
+import { faCheckSquare, faSquare } from '@fortawesome/free-regular-svg-icons';
+import { CONSTANTS } from 'src/app/shared/constants';
 
 @Component({
   selector: 'app-registration',
@@ -18,8 +19,10 @@ export class RegistrationComponent implements OnInit {
   password: string;
   registrationFailed: boolean;
 
-  faCheckSquare = faCheckSquare;
-  faSquare = faSquare;
+  faSeller = faCheckSquare;
+  faUser = faSquare;
+
+  states: string[];
 
   constructor(
     public userSvc: UserService,
@@ -27,6 +30,7 @@ export class RegistrationComponent implements OnInit {
     private router: Router) { }
 
   ngOnInit() {
+    this.states = CONSTANTS.states;
     if (this.registeringUser) {
       this.initializeUser();
     } else {
@@ -35,6 +39,9 @@ export class RegistrationComponent implements OnInit {
   }
 
   initializeUser() {
+    this.registeringUser = true;
+    this.faUser = faCheckSquare;
+    this.faSeller = faSquare;
     if (this.userSvc.user) {
       this.localUser = Object.assign({}, this.userSvc.user);
     } else {
@@ -47,6 +54,9 @@ export class RegistrationComponent implements OnInit {
   }
 
   initializeSeller() {
+    this.registeringUser = false;
+    this.faUser = faSquare;
+    this.faSeller = faCheckSquare;
     if (this.sellerSvc.seller) {
       this.localSeller = Object.assign({}, this.sellerSvc.seller);
     } else {
@@ -68,6 +78,19 @@ export class RegistrationComponent implements OnInit {
         }
       };
     }
+  }
+
+  addHandler() {
+    if (this.registeringUser) {
+      this.addUser();
+    } else {
+      this.addSeller();
+    }
+  }
+
+  resetHandler() {
+    this.resetUser();
+    this.resetSeller();
   }
 
   addUser() {

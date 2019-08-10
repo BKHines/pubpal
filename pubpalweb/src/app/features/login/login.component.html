@@ -9,6 +9,29 @@
                 </div>
                 <div class="card-body">
                     <div class="row form-group">
+                        <div class="col-lg-12">
+                            <div class="radio-group user-selection">
+                                <span>
+                                    <div class="checkbox-container my-auto">
+                                        <fa-icon [icon]="faUser" class="handCursor" (click)="this.userType = 'user'">
+                                        </fa-icon>
+                                        <span class="checkbox-content handCursor"
+                                            (click)="this.userType = 'user'">User</span>
+                                    </div>
+                                </span>
+                                <span>
+                                    <div class="checkbox-container my-auto">
+                                        <fa-icon [icon]="faSeller" class="handCursor"
+                                            (click)="this.userType = 'seller'">
+                                        </fa-icon>
+                                        <span class="checkbox-content handCursor"
+                                            (click)="this.userType = 'seller'">Seller</span>
+                                    </div>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row form-group">
                         <label for="inputEmail" class="col-lg-2 col-form-label font-weight-bold">Email</label>
                         <div class="col-lg-10">
                             <input type="email" class="form-control" id="inputEmail" name="email"

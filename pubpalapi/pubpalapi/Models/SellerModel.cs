@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace pubpalapi.Models
 {
-    public class SellerModel : UserModel
+    public class SellerModel : PersonModel
     {
         [Required]
         public PlaceModel place { get; set; }
