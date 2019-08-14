@@ -2,6 +2,11 @@
     right: 0px;
 }
 
+.navbar {
+    flex-wrap: unset;
+    text-align: right;
+}
+
 .navbar a {
     color: white;
 }
@@ -14,4 +19,8 @@
     font-size: 2rem;
     font-weight: 700;
     padding: 0px;
+}
+
+.navbar-nav .dropdown-menu {
+    position: absolute;
 }

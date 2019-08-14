@@ -5,7 +5,7 @@ body {
 }
 
 .fullscreen-card>.card-body {
-    height: 80vh;
+    height: 75vh;
     overflow-y: auto;
 }
 
@@ -71,4 +71,13 @@ input.form-control {
         max-width: 1000px;
         width: 100vh;
     }
+}
+
+.modal-no-padding-body .modal-body {
+    padding: 0px;
+}
+
+textarea {
+    overflow-y: auto;
+    resize: none;
 }

@@ -38,14 +38,14 @@ export interface PlaceModel {
 
 export interface Ingredient {
     ingredient: string;
-    description: string;
+    description?: string;
     upcharge: number;
 }
 
 export interface PurchasableItemModel {
     id: string;
     name: string;
-    description: string;
+    description?: string;
     price: number;
     baseingredient: string;
     requireingredients: boolean;

@@ -4,6 +4,7 @@ import { NgModule } from '@angular/core';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { ModalModule } from 'ngx-bootstrap/modal';
+import { NgxMaskModule, IConfig } from 'ngx-mask';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -17,6 +18,8 @@ import { ModalcontainerComponent } from './shared/modalcontainer/modalcontainer.
 import { LoadingComponent } from './shared/loading/loading.component';
 import { SellerComponent } from './features/seller/seller.component';
 import { ChangepasswordComponent } from './features/changepassword/changepassword.component';
+import { PurchasableitementryComponent } from './features/purchasableitementry/purchasableitementry.component';
+import { PurchasableitemsComponent } from './features/purchasableitems/purchasableitems.component';
 
 @NgModule({
   declarations: [
@@ -29,7 +32,9 @@ import { ChangepasswordComponent } from './features/changepassword/changepasswor
     ModalcontainerComponent,
     LoadingComponent,
     SellerComponent,
-    ChangepasswordComponent
+    ChangepasswordComponent,
+    PurchasableitementryComponent,
+    PurchasableitemsComponent
   ],
   imports: [
     BrowserModule,
@@ -37,7 +42,8 @@ import { ChangepasswordComponent } from './features/changepassword/changepasswor
     HttpClientModule,
     AppRoutingModule,
     FontAwesomeModule, // free font awesome icons: https://fontawesome.com/icons?d=gallery
-    ModalModule.forRoot()
+    ModalModule.forRoot(),
+    NgxMaskModule.forRoot()
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: PubpalinterceptorService, multi: true }
@@ -51,7 +57,9 @@ import { ChangepasswordComponent } from './features/changepassword/changepasswor
     ModalcontainerComponent,
     LoadingComponent,
     SellerComponent,
-    ChangepasswordComponent
+    ChangepasswordComponent,
+    PurchasableitemsComponent,
+    PurchasableitementryComponent
   ]
 })
 export class AppModule { }

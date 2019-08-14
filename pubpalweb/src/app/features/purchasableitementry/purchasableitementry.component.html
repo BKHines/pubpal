@@ -1,0 +1,125 @@
+<div class="center-form">
+    <div class="flex-container">
+        <div>
+            <form #itemForm="ngForm">
+                <div class="card fullscreen-card">
+                    <div class="card-body">
+                        <div class="row form-group mb-0">
+                            <label for="inputName" class="col-lg-2 col-form-label font-weight-bold">Name</label>
+                            <div class="col-lg-10">
+                                <input type="text" class="form-control" id="inputName" name="name"
+                                    placeholder="Menu Item Name" [(ngModel)]="pi.name" #entryname="ngModel" required
+                                    [class.field-error]="entryname.touched && entryname.invalid">
+                                <div [hidden]="!entryname.touched || entryname.valid"
+                                    class="field-error-message alert alert-danger text-muted">Name is required</div>
+                            </div>
+                        </div>
+                        <div class="row form-group mb-0">
+                            <label for="inputDescription"
+                                class="col-lg-2 col-form-label font-weight-bold">Description</label>
+                            <div class="col-lg-10">
+                                <textarea class="form-control" rows="3" id="inputDescription" name="description"
+                                    placeholder="Menu Item Description" [(ngModel)]="pi.description"></textarea>
+                            </div>
+                        </div>
+                        <div class="row form-group mb-0">
+                            <label for="inputBaseIngredient" class="col-lg-2 col-form-label font-weight-bold">Base
+                                Ingredient</label>
+                            <div class="col-lg-10">
+                                <input type="text" class="form-control" id="inputBaseIngredient" name="baseingredient"
+                                    placeholder="Base Ingredient of the Menu Item (Whiskey, Tequila, Rum, etc...)"
+                                    [(ngModel)]="pi.baseingredient" #entrybaseingredient="ngModel" required
+                                    [class.field-error]="entrybaseingredient.touched && entrybaseingredient.invalid">
+                                <div [hidden]="!entrybaseingredient.touched || entrybaseingredient.valid"
+                                    class="field-error-message alert alert-danger text-muted">Base Ingredient is
+                                    required.</div>
+                            </div>
+                        </div>
+                        <div class="row form-group mb-0">
+                            <label for="inputPrice" class="col-lg-2 col-form-label font-weight-bold">Price</label>
+                            <div class="col-lg-10">
+                                <input type="text" class="form-control" id="inputPrice" name="price" placeholder="10.00"
+                                    mask="comma_separator.2" [(ngModel)]="pi.price" #entryprice="ngModel" required
+                                    [class.field-error]="entryprice.touched && entryprice.invalid">
+                                <div [hidden]="!entryprice.touched || entryprice.valid"
+                                    class="field-error-message alert alert-danger text-muted">Price is required.</div>
+                            </div>
+                        </div>
+                        <div class="row form-group mb-0">
+                            <table class="table table-striped table-sm">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">Ingredient</th>
+                                        <th scope="col">Description</th>
+                                        <th scope="col">Upcharge</th>
+                                        <th scope="col"></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr *ngFor="let ing of pi.ingredients">
+                                        <td>{{ ing.ingredient }}</td>
+                                        <td>{{ ing.description }}</td>
+                                        <td>{{ ing.upcharge | currency }}</td>
+                                        <td></td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <input type="text" class="form-control" id="inputIngredient"
+                                                name="ingredient" placeholder="Option"
+                                                [(ngModel)]="newIngredient.ingredient" #entryingredient="ngModel"
+                                                required
+                                                [class.field-error]="entryingredient.touched && entryingredient.invalid">
+                                            <div [hidden]="!entryingredient.touched || entryingredient.valid"
+                                                class="field-error-message alert alert-danger text-muted">Required.
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <input type="text" class="form-control" id="inputIngDesc" name="ingdedc"
+                                                placeholder="Description" [(ngModel)]="newIngredient.description">
+                                        </td>
+                                        <td>
+                                            <input type="text" class="form-control" id="inputIngPrice" name="ingprice"
+                                                placeholder="10.00" mask="comma_separator.2"
+                                                [(ngModel)]="newIngredient.upcharge" #entryingprice="ngModel" required
+                                                [class.field-error]="entryingprice.touched && entryingprice.invalid">
+                                            <div [hidden]="!entryingprice.touched || entryingprice.valid"
+                                                class="field-error-message alert alert-danger text-muted">Required.
+                                            </div>
+                                        </td>
+                                        <td class="inline-buttons">
+                                            <button type="submit" class="btn btn-success btn-sm ml-2 float-right"
+                                                (click)="ingAddHandler()"
+                                                [disabled]="(!entryingredient.touched && !entryingprice.touched) || entryingredient.invalid || entryingprice.invalid">
+                                                +
+                                            </button>
+                                            <button type="reset" class="btn btn-danger btn-sm ml-2 float-right"
+                                                (click)="ingResetHandler()">
+                                                X
+                                            </button>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="card-footer bg-white">
+                        <div class="row" *ngIf="entryFailed">
+                            <div class="col-md-12">
+                                <div class="field-error-message alert alert-danger text-muted">
+                                    {{ pi.id ? 'Item update failed!' : 'Item could not be added!'}} Please
+                                    try again.</div>
+                            </div>
+                        </div>
+                        <button type="reset" class="btn btn-success ml-2 float-right" (click)="piResetHandler()">
+                            Cancel
+                        </button>
+                        <button type="submit" class="btn btn-success ml-2 float-right" (click)="piAddHandler()"
+                            [disabled]="!itemForm.touched || itemForm.invalid">
+                            {{ pi.id ? 'Update' : 'Add' }}
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

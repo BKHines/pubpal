@@ -67,8 +67,8 @@ export class AppComponent implements OnInit {
   }
 
   showLogin() {
-    const _modHeader = this.modalSvc.createHeader('Login', () => { this.modalSvc.hideModal('login'); });
+    const _modHeader = this.modalSvc.createHeader('Login', () => { this.modalSvc.hideModal(CONSTANTS.MODAL_LOGIN); });
     const _modBody = this.modalSvc.createBody(LoginComponent, null, 'lg');
-    this.bsModalRef = this.modalSvc.showModal('login', _modBody, _modHeader);
+    this.bsModalRef = this.modalSvc.showModal(CONSTANTS.MODAL_LOGIN, _modBody, _modHeader);
   }
 }
