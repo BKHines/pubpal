@@ -16,7 +16,7 @@ using Microsoft.AspNetCore.Authorization;
 namespace pubpalapi.Controllers
 {
     [Produces("application/json")]
-    [Route("api/User")]
+    [Route("api/[controller]")]
     [EnableCors("PubPalCORS")]
     [ServiceFilter(typeof(PubPalInterceptor))]
     [ApiController]

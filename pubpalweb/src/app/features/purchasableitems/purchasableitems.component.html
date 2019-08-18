@@ -1,5 +1,57 @@
-<div class="center-form">
+<div>
     <button type="button" class="btn btn-success" (click)="showAddItemModal()">
         Add Item
     </button>
+    <table class="table table-striped table-sm"
+        *ngIf="sellerSvc.seller && sellerSvc.seller.items && sellerSvc.seller.items.length > 0">
+        <thead>
+            <tr>
+                <th scope="col">Name</th>
+                <th scope="col">Description</th>
+                <th scope="col">Base Ingredient</th>
+                <th scope="col">Price</th>
+                <th scope="col">Options</th>
+                <th scope="col"></th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let item of sellerSvc.seller.items">
+                <td>{{ item.name }}</td>
+                <td>{{ item.description }}</td>
+                <td>{{ item.baseingredient }}</td>
+                <td>{{ item.price | currency }}</td>
+                <td>
+                    <table class="table table-striped table-sm">
+                        <thead>
+                            <tr>
+                                <th scope="col">Ingredient</th>
+                                <th scope="col">Desc.</th>
+                                <th scope="col">Upcharge</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let ingredient of item.ingredients">
+                                <td>{{ ingredient.ingredient }}</td>
+                                <td>{{ ingredient.description }}</td>
+                                <td>{{ ingredient.upcharge | currency }}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </td>
+                <td>
+                    <button type="button" class="btn btn-danger btn-sm ml-2 float-right"
+                        (click)="showDeleteConfirmationModal(item.id)">
+                        DEL
+                    </button>
+                    <button type="button" class="btn btn-primary btn-sm ml-2 float-right"
+                        (click)="showEditItemModal(item)">
+                        EDIT
+                    </button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
 </div>
+<ng-template #deletConfirm>
+    <p>Are you sure you want to delete this item and all its options?</p>
+</ng-template>

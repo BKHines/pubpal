@@ -73,6 +73,13 @@ input.form-control {
     }
 }
 
+.modal-body .center-form {
+    .flex-container > div {
+        max-width: unset !important;
+        width: 100% !important;
+    }
+}
+
 .modal-no-padding-body .modal-body {
     padding: 0px;
 }

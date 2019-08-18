@@ -13,7 +13,7 @@ using System.Threading.Tasks;
 namespace pubpalapi.Controllers
 {
     [Produces("application/json")]
-    [Route("api/Ip")]
+    [Route("api/[controller]")]
     [EnableCors("PubPalCORS")]
     [ServiceFilter(typeof(PubPalInterceptor))]
     public class IpController : ControllerBase

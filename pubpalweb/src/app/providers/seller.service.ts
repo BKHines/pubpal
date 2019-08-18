@@ -82,6 +82,13 @@ export class SellerService {
     return this.http.put<APIResponse>(`api/seller/additem`, item, { params });
   }
 
+  updatePurchasableItem(id: string, item: PurchasableItemModel): Observable<APIResponse> {
+    const params: HttpParams = new HttpParams()
+      .set('id', id);
+
+    return this.http.put<APIResponse>(`api/seller/updateitem`, item, { params });
+  }
+
   deletePurchasableItem(id: string, itemid: string): Observable<APIResponse> {
     const params: HttpParams = new HttpParams()
       .set('id', id)

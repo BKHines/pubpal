@@ -1,8 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef, Input } from '@angular/core';
 import { PurchasableItemModel, Ingredient } from 'src/app/shared/models';
 import { SellerService } from 'src/app/providers/seller.service';
 import { ModalService } from 'src/app/providers/modal.service';
 import { CONSTANTS } from 'src/app/shared/constants';
+import { NgForm } from '@angular/forms';
 
 @Component({
   selector: 'app-purchasableitementry',
@@ -10,55 +11,123 @@ import { CONSTANTS } from 'src/app/shared/constants';
   styleUrls: ['./purchasableitementry.component.scss']
 })
 export class PurchasableitementryComponent implements OnInit {
-  pi: PurchasableItemModel;
+  @Input() piId: string;
   entryFailed: boolean;
   newIngredient: Ingredient;
+
+  newPI: PurchasableItemModel;
+
+  @ViewChild('ingentry', { static: false }) entryingredient: ElementRef;
+  @ViewChild('ingpriceentry', { static: true }) entryingprice: ElementRef;
 
   constructor(private sellerSvc: SellerService, private modalSvc: ModalService) { }
 
   ngOnInit() {
-    this.resetPI();
+    if (this.piId) {
+      this.newPI = JSON.parse(JSON.stringify(this.sellerSvc.seller.items.find(a => a.id === this.piId)));
+    } else {
+      this.resetNewPI();
+    }
     this.resetIng();
   }
 
-  resetPI() {
-    this.pi = {
+  resetNewPI() {
+    this.newPI = {
       id: '',
       baseingredient: '',
       description: '',
       name: '',
-      price: -1,
+      price: null,
       requireingredients: false
     };
   }
 
   resetIng() {
     this.newIngredient = {
+      id: null,
       ingredient: '',
-      upcharge: -1
+      description: '',
+      upcharge: null
     };
   }
 
-  ingAddHandler() {
-    if (!this.pi.ingredients) {
-      this.pi.ingredients = [];
+  ingAddHandler(entryForm: NgForm) {
+    if (!this.newPI.ingredients) {
+      this.newPI.ingredients = [];
     }
 
-    this.pi.ingredients.push(this.newIngredient);
+    this.newPI.ingredients.forEach((i, idx) => {
+      i.id = idx;
+      i.upcharge = +i.upcharge;
+    });
+    this.newIngredient.id = this.newPI.ingredients.length;
+    this.newPI.ingredients.push(this.newIngredient);
     this.resetIng();
+    this.entryingredient.nativeElement.focus();
+    this.resetForm(entryForm);
   }
 
-  ingResetHandler() {
+  ingResetHandler(entryForm: NgForm) {
     this.resetIng();
+    this.resetForm(entryForm);
   }
 
-  piAddHandler() {
-    this.modalSvc.hideModal(CONSTANTS.MODAL_PURCHASEITEM_ENTRY);
-    this.resetPI();
+  ingDeleteHandler(id: number) {
+    this.newPI.ingredients.splice(id, 1);
+    this.setIndices();
+  }
+
+  setIndices() {
+    this.newPI.ingredients.forEach((i, idx) => {
+      i.id = idx;
+    });
+  }
+
+  resetForm(entryForm: NgForm) {
+    entryForm.form.markAsPristine();
+    entryForm.form.markAsUntouched();
+    entryForm.form.updateValueAndValidity();
+  }
+
+  piAddUpdateHandler() {
+    this.newPI.price = +this.newPI.price;
+    if (this.newPI.ingredients) {
+      this.newPI.ingredients.forEach((i) => {
+        i.upcharge = +i.upcharge;
+      });
+    }
+
+    if (this.piId) {
+      this.sellerSvc.updatePurchasableItem(this.sellerSvc.seller._id, this.newPI).subscribe((res) => {
+        if (!this.sellerSvc.seller.items) {
+          this.sellerSvc.seller.items = [];
+        }
+        if (res.result) {
+          const updateIdx = this.sellerSvc.seller.items.findIndex(a => a.id === this.piId);
+          this.sellerSvc.seller.items[updateIdx] = JSON.parse(JSON.stringify(this.newPI));
+          setTimeout(() => {
+            this.modalSvc.hideModal(CONSTANTS.MODAL_PURCHASEITEM_ENTRY);
+            this.resetNewPI();
+          }, 200);
+        }
+      });
+    } else {
+      this.sellerSvc.addPurchasableItem(this.sellerSvc.seller._id, this.newPI).subscribe((res) => {
+        if (!this.sellerSvc.seller.items) {
+          this.sellerSvc.seller.items = [];
+        }
+        this.newPI.id = res.result;
+        this.sellerSvc.seller.items.push(this.newPI);
+        setTimeout(() => {
+          this.modalSvc.hideModal(CONSTANTS.MODAL_PURCHASEITEM_ENTRY);
+          this.resetNewPI();
+        }, 200);
+      });
+    }
   }
 
   piResetHandler() {
     this.modalSvc.hideModal(CONSTANTS.MODAL_PURCHASEITEM_ENTRY);
-    this.resetPI();
+    this.resetNewPI();
   }
 }

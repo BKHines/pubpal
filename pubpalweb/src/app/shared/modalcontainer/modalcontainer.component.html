@@ -1,6 +1,6 @@
 <div class="modal-header" *ngIf="title || closeOperation">
     <h4 class="modal-title pull-left">{{ title }}</h4>
-    <button type="button" class="close pull-right" aria-label="Close" (click)="callCloseOperation()">
+    <button type="button" class="close pull-right" aria-label="Close" *ngIf="closeOperation" (click)="callCloseOperation()">
         <span aria-hidden="true">&times;</span>
     </button>
 </div>
@@ -9,7 +9,8 @@
     <ng-template [ngIf]="isComponent" *ngTemplateOutlet="actualTemplateRef; context: bodyContentData"></ng-template>
 </div>
 <div class="modal-footer" *ngIf="footerButtons">
-    <button *ngFor="let fb of footerButtons" type="button" class="btn btn-default" (click)="fb.buttonOperation();">
+    <button *ngFor="let fb of footerButtons" type="button"
+        class="btn {{ fb.buttonClass ? fb.buttonClass : 'btn-default' }}" (click)="fb.buttonOperation();">
         {{ fb.buttonText }}
     </button>
 </div>

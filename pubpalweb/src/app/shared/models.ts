@@ -37,6 +37,7 @@ export interface PlaceModel {
 }
 
 export interface Ingredient {
+    id: number;
     ingredient: string;
     description?: string;
     upcharge: number;
@@ -60,11 +61,12 @@ export interface IModalHeader {
 export interface IModalBody {
     bodyTemplate: TemplateRef<any> | any;
     bodyContent?: any;
-    modalSize?: 'xs' | 'sm' | 'md' | 'lg' | 'full';
+    modalSize?: 'xs' | 'sm' | 'md' | 'lg' | 'xl';
 }
 
 export interface IModalFooterButton {
     buttonText: string;
+    buttonClass?: string;
     buttonOperation(): any;
 }
 

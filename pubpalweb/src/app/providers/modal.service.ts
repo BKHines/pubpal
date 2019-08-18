@@ -34,7 +34,7 @@ export class ModalService {
     return _modalHeader;
   }
 
-  createBody(modalBody: TemplateRef<any> | any, modalContent?: any, modalSize?: 'xs' | 'sm' | 'md' | 'lg' | 'full'): IModalBody {
+  createBody(modalBody: TemplateRef<any> | any, modalContent?: any, modalSize?: 'xs' | 'sm' | 'md' | 'lg' | 'xl'): IModalBody {
     const _modalBody: IModalBody = {
       bodyTemplate: modalBody,
       bodyContent: modalContent,

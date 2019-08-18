@@ -97,9 +97,9 @@ namespace pubpalapi.Repositories
             return sellerupdated;
         }
 
-        public bool AddPurchasableItem(string id, PurchasableItemModel item)
+        public string AddPurchasableItem(string id, PurchasableItemModel item)
         {
-            item.id = new Guid().ToString();
+            item.id = Guid.NewGuid().ToString();
             var seller = sellerDA.GetPersonById(id);
             if (seller.items == null)
             {
@@ -110,7 +110,17 @@ namespace pubpalapi.Repositories
             _items.Add(item);
             seller.items = _items.ToArray();
             var sellerupdated = sellerDA.UpdatePerson(seller, false);
-            return sellerupdated;
+            return sellerupdated ? item.id : string.Empty;
+        }
+
+        public bool UpdatePurchasableItem(string id, PurchasableItemModel item)
+        {
+            var seller = sellerDA.GetPersonById(id);
+            var itemToUpdate = seller.items.First(a => a.id == item.id);
+            var indexOfItemToUpdate = Array.IndexOf(seller.items, itemToUpdate);
+            seller.items[indexOfItemToUpdate] = item;
+            var sellerUpdated = sellerDA.UpdatePerson(seller, false);
+            return sellerUpdated;
         }
 
         public bool DeletePurchasableItem(string id, string itemid)

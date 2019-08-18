@@ -16,7 +16,7 @@ using PubPalAPI.Models;
 namespace pubpalapi.Controllers
 {
     [Produces("application/json")]
-    [Route("api/Seller")]
+    [Route("api/[controller]")]
     [EnableCors("PubPalCORS")]
     [ServiceFilter(typeof(PubPalInterceptor))]
     [ApiController]
@@ -139,27 +139,6 @@ namespace pubpalapi.Controllers
             }
         }
 
-        [HttpPost("AddItem", Name = "AddItem")]
-        [Authorize(AuthenticationSchemes = Constants.SchemesNamesConst)]
-        public IActionResult Post([FromRoute] string id, [FromBody] PurchasableItemModel item)
-        {
-            if (!ModelState.IsValid || string.IsNullOrEmpty(id))
-            {
-                return BadRequest();
-            }
-
-            try
-            {
-                var repo = new SellerRepository(dbName, storeName);
-                var SellerId = repo.AddPurchasableItem(id, item);
-                return Ok(SellerId);
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(500, ex);
-            }
-        }
-
         [HttpPut]
         [Authorize(AuthenticationSchemes = Constants.SchemesNamesConst)]
         public IActionResult Put([FromBody] SellerModel Seller)
@@ -174,6 +153,48 @@ namespace pubpalapi.Controllers
                 var repo = new SellerRepository(dbName, storeName);
                 var Sellerupdated = repo.UpdateSeller(Seller);
                 return Ok(Sellerupdated);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex);
+            }
+        }
+
+        [HttpPut("AddItem", Name = "AddItem")]
+        [Authorize(AuthenticationSchemes = Constants.SchemesNamesConst)]
+        public IActionResult AddItem(string id, [FromBody] PurchasableItemModel item)
+        {
+            if (!ModelState.IsValid || string.IsNullOrEmpty(id))
+            {
+                return BadRequest();
+            }
+
+            try
+            {
+                var repo = new SellerRepository(dbName, storeName);
+                var purchasableItemId = repo.AddPurchasableItem(id, item);
+                return Ok(purchasableItemId);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex);
+            }
+        }
+
+        [HttpPut("UpdateItem", Name = "UpdateItem")]
+        [Authorize(AuthenticationSchemes = Constants.SchemesNamesConst)]
+        public IActionResult UpdateItem(string id, [FromBody] PurchasableItemModel item)
+        {
+            if (!ModelState.IsValid || string.IsNullOrEmpty(id))
+            {
+                return BadRequest();
+            }
+
+            try
+            {
+                var repo = new SellerRepository(dbName, storeName);
+                var purchasableItemId = repo.UpdatePurchasableItem(id, item);
+                return Ok(purchasableItemId);
             }
             catch (Exception ex)
             {
