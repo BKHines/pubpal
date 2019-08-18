@@ -7,7 +7,7 @@ import { RegistrationComponent } from './features/registration/registration.comp
 import { AuthGuard } from './guards/auth.guard';
 import { SellerComponent } from './features/seller/seller.component';
 import { ChangepasswordComponent } from './features/changepassword/changepassword.component';
-import { PurchasableitemsComponent } from './features/purchasableitems/purchasableitems.component';
+import { PurchasableitemsComponent } from './features/seller/purchasableitems/purchasableitems.component';
 
 const routes: Routes = [
   { path: '', component: HomeComponent },

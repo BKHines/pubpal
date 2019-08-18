@@ -18,8 +18,8 @@ import { ModalcontainerComponent } from './shared/modalcontainer/modalcontainer.
 import { LoadingComponent } from './shared/loading/loading.component';
 import { SellerComponent } from './features/seller/seller.component';
 import { ChangepasswordComponent } from './features/changepassword/changepassword.component';
-import { PurchasableitementryComponent } from './features/purchasableitementry/purchasableitementry.component';
-import { PurchasableitemsComponent } from './features/purchasableitems/purchasableitems.component';
+import { PurchasableitementryComponent } from './features/seller/purchasableitementry/purchasableitementry.component';
+import { PurchasableitemsComponent } from './features/seller/purchasableitems/purchasableitems.component';
 
 @NgModule({
   declarations: [
