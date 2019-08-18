@@ -218,9 +218,9 @@ namespace pubpalapi.Controllers
         #endregion
 
         #region Purchase Methods
-        [HttpGet("GetPurchasesByPersonId", Name = "GetPurchasesByPersonId")]
+        [HttpGet("GetPurchasesByUserId", Name = "GetPurchasesByUserId")]
         [Authorize(AuthenticationSchemes = Constants.SchemesNamesConst)]
-        public IActionResult GetPurchasesByPersonId(string personid)
+        public IActionResult GetPurchasesByUserId(string personid)
         {
             try
             {
@@ -238,9 +238,9 @@ namespace pubpalapi.Controllers
             }
         }
 
-        [HttpGet("GetPurchaseById", Name = "GetPurchaseById")]
+        [HttpGet("GetPurchaseForUserById", Name = "GetPurchaseForUserById")]
         [Authorize(AuthenticationSchemes = Constants.SchemesNamesConst)]
-        public IActionResult GetPurchaseById(string id)
+        public IActionResult GetPurchaseForUserById(string id)
         {
             try
             {
@@ -258,7 +258,7 @@ namespace pubpalapi.Controllers
             }
         }
 
-        [HttpPost("CreatePurchase", Name = "CreatePurchase")]
+        [HttpPost("CreatePurchaseByUser", Name = "CreatePurchaseByUser")]
         [Authorize(AuthenticationSchemes = Constants.SchemesNamesConst)]
         public IActionResult CreatePurchase([FromBody] PurchaseModel purchase)
         {
@@ -279,9 +279,9 @@ namespace pubpalapi.Controllers
             }
         }
 
-        [HttpPost("UpdatePurchase", Name = "UpdatePurchase")]
+        [HttpPost("UpdatePurchaseByUser", Name = "UpdatePurchaseByUser")]
         [Authorize(AuthenticationSchemes = Constants.SchemesNamesConst)]
-        public IActionResult UpdatePurchase([FromBody] PurchaseModel purchase)
+        public IActionResult UpdatePurchaseByUser([FromBody] PurchaseModel purchase)
         {
             if (!ModelState.IsValid)
             {
@@ -300,9 +300,9 @@ namespace pubpalapi.Controllers
             }
         }
 
-        [HttpPut("CancelPurchase", Name = "CancelPurchase")]
+        [HttpPut("CancelPurchaseByUser", Name = "CancelPurchaseByUser")]
         [Authorize(AuthenticationSchemes = Constants.SchemesNamesConst)]
-        public IActionResult CancelPurchase(string id, [FromBody] ChangePurchaseStatusRequest req)
+        public IActionResult CancelPurchaseByUser(string id, [FromBody] ChangePurchaseStatusRequest req)
         {
             if (!ModelState.IsValid || string.IsNullOrEmpty(id))
             {

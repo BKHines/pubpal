@@ -276,9 +276,9 @@ namespace pubpalapi.Controllers
         #endregion
 
         #region Purchase Methods
-        [HttpGet("GetPurchasesByPersonId", Name = "GetPurchasesByPersonId")]
+        [HttpGet("GetPurchasesBySellerId", Name = "GetPurchasesBySellerId")]
         [Authorize(AuthenticationSchemes = Constants.SchemesNamesConst)]
-        public IActionResult GetPurchasesByPersonId(string personid)
+        public IActionResult GetPurchasesBySellerId(string personid)
         {
             try
             {
@@ -296,9 +296,9 @@ namespace pubpalapi.Controllers
             }
         }
 
-        [HttpGet("GetPurchaseById", Name = "GetPurchaseById")]
+        [HttpGet("GetPurchaseForSellerById", Name = "GetPurchaseForSellerById")]
         [Authorize(AuthenticationSchemes = Constants.SchemesNamesConst)]
-        public IActionResult GetPurchaseById(string id)
+        public IActionResult GetPurchaseForSellerById(string id)
         {
             try
             {
@@ -316,9 +316,9 @@ namespace pubpalapi.Controllers
             }
         }
 
-        [HttpPut("ChangePurchaseStatus", Name = "ChangePurchaseStatus")]
+        [HttpPut("ChangePurchaseStatusBySeller", Name = "ChangePurchaseStatusBySeller")]
         [Authorize(AuthenticationSchemes = Constants.SchemesNamesConst)]
-        public IActionResult ChangePurchaseStatus(string id, [FromBody] ChangePurchaseStatusRequest req)
+        public IActionResult ChangePurchaseStatusBySeller(string id, [FromBody] ChangePurchaseStatusRequest req)
         {
             if (!ModelState.IsValid || string.IsNullOrEmpty(id))
             {
@@ -337,9 +337,9 @@ namespace pubpalapi.Controllers
             }
         }
 
-        [HttpPut("CancelPurchase", Name = "CancelPurchase")]
+        [HttpPut("CancelPurchaseBySeller", Name = "CancelPurchaseBySeller")]
         [Authorize(AuthenticationSchemes = Constants.SchemesNamesConst)]
-        public IActionResult CancelPurchase(string id, [FromBody] ChangePurchaseStatusRequest req)
+        public IActionResult CancelPurchaseBySeller(string id, [FromBody] ChangePurchaseStatusRequest req)
         {
             if (!ModelState.IsValid || string.IsNullOrEmpty(id))
             {
