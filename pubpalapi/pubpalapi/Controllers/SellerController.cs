@@ -25,6 +25,7 @@ namespace pubpalapi.Controllers
         private readonly SettingsModel _settings;
         private readonly string dbName;
         private readonly string storeName;
+        private readonly string purchaseStoreName;
         private readonly PubPalLogger _logger;
 
         public SellerController(IOptions<SettingsModel> options, ILogger<SellerController> logger)
@@ -32,9 +33,11 @@ namespace pubpalapi.Controllers
             _settings = options.Value;
             dbName = _settings.Database;
             storeName = _settings.SellerStoreName;
+            purchaseStoreName = _settings.PurchaseStoreName;
             _logger = new PubPalLogger(logger);
         }
 
+        #region Seller Methods
         [HttpGet]
         [Authorize(AuthenticationSchemes = Constants.SchemesNamesConst)]
         public IActionResult Get()
@@ -270,6 +273,90 @@ namespace pubpalapi.Controllers
                 return StatusCode(500, ex);
             }
         }
+        #endregion
 
+        #region Purchase Methods
+        [HttpGet("GetPurchasesByPersonId", Name = "GetPurchasesByPersonId")]
+        [Authorize(AuthenticationSchemes = Constants.SchemesNamesConst)]
+        public IActionResult GetPurchasesByPersonId(string personid)
+        {
+            try
+            {
+                var repo = new PurchaseRepository(dbName, purchaseStoreName);
+                var purchases = repo.GetPurchasesBySellerId(personid);
+                if (purchases == null)
+                {
+                    return NotFound();
+                }
+                return Ok(purchases);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex);
+            }
+        }
+
+        [HttpGet("GetPurchaseById", Name = "GetPurchaseById")]
+        [Authorize(AuthenticationSchemes = Constants.SchemesNamesConst)]
+        public IActionResult GetPurchaseById(string id)
+        {
+            try
+            {
+                var repo = new PurchaseRepository(dbName, purchaseStoreName);
+                var purchase = repo.GetPurchaseById(id);
+                if (purchase == null)
+                {
+                    return NotFound();
+                }
+                return Ok(purchase);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex);
+            }
+        }
+
+        [HttpPut("ChangePurchaseStatus", Name = "ChangePurchaseStatus")]
+        [Authorize(AuthenticationSchemes = Constants.SchemesNamesConst)]
+        public IActionResult ChangePurchaseStatus(string id, [FromBody] ChangePurchaseStatusRequest req)
+        {
+            if (!ModelState.IsValid || string.IsNullOrEmpty(id))
+            {
+                return BadRequest();
+            }
+
+            try
+            {
+                var repo = new PurchaseRepository(dbName, purchaseStoreName);
+                var purchaseStatusUpdated = repo.UpdatePurchaseStatus(id, req.purchaseid, req.status, req.message);
+                return Ok(purchaseStatusUpdated);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex);
+            }
+        }
+
+        [HttpPut("CancelPurchase", Name = "CancelPurchase")]
+        [Authorize(AuthenticationSchemes = Constants.SchemesNamesConst)]
+        public IActionResult CancelPurchase(string id, [FromBody] ChangePurchaseStatusRequest req)
+        {
+            if (!ModelState.IsValid || string.IsNullOrEmpty(id))
+            {
+                return BadRequest();
+            }
+
+            try
+            {
+                var repo = new PurchaseRepository(dbName, purchaseStoreName);
+                var purchaseStatusUpdated = repo.UpdatePurchaseStatus(id, req.purchaseid, req.status, req.message);
+                return Ok(purchaseStatusUpdated);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex);
+            }
+        }
+        #endregion
     }
 }

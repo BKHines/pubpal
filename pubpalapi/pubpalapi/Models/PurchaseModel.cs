@@ -40,12 +40,13 @@ namespace pubpalapi.Models
         public PurchaseStatus purchasestatus { get; set; }
         [Required]
         public string statusdate { get; set; }
+        public string message { get; set; }
     }
 
     public enum PurchaseStatus
     {
         ordered,
-        received,
+        accepted,
         inprogress,
         ready,
         pickedup,

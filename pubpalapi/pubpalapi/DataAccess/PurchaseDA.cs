@@ -38,17 +38,24 @@ namespace pubpalapi.DataAccess
         public PurchaseModel GetPurchaseById(string id)
         {
             var queryText = $"{{'_id': {{'$oid':'{id}'}} }}";
-            var user = GetFromStore(queryText);
-            return user.SingleOrDefault();
+            var purchase = GetFromStore(queryText);
+            return purchase.SingleOrDefault();
+        }
+
+        public PurchaseModel GetPurchaseByIdAndPersonId(string id, string personId)
+        {
+            var queryText = $"{{ $and: [{{'_id': {{ '$oid':'{id}' }} }}, {{ $or: [ {{ 'sellerid': {{ '$oid':'{personId}'}} }}, {{ 'userid': {{ '$oid':'{personId}' }} }}] }}] }}";
+            var purchases = GetFromStore(queryText);
+            return purchases.SingleOrDefault();
         }
 
         public IEnumerable<PurchaseModel> GetPurchasesBySellerId(string sellerid)
         {
             if (_mongoDatabase != null)
             {
-                var users = _mongoDatabase.GetCollection<PurchaseModel>(storeName);
-                var result = users.Find(a => a.sellerid == sellerid).ToEnumerable();
-                return result;
+                var queryText = $"{{'sellerid': {{'$oid':'{sellerid}'}} }}";
+                var purchases = GetFromStore(queryText);
+                return purchases;
             }
 
             return null;
@@ -58,9 +65,21 @@ namespace pubpalapi.DataAccess
         {
             if (_mongoDatabase != null)
             {
-                var users = _mongoDatabase.GetCollection<PurchaseModel>(storeName);
-                var result = users.Find(a => a.userid == userid).ToEnumerable();
-                return result;
+                var queryText = $"{{'userid': {{'$oid':'{userid}'}} }}";
+                var purchases = GetFromStore(queryText);
+                return purchases;
+            }
+
+            return null;
+        }
+
+        public IEnumerable<PurchaseModel> GetSellerPurchasesByStatus(string sellerid, PurchaseStatus status)
+        {
+            if (_mongoDatabase != null)
+            {
+                var queryText = $"{{ $and: [{{'sellerid': {{ '$oid':'{sellerid}' }} }}, {{'currentstatus': '{status.ToString()}' }}] }}";
+                var purchases = GetFromStore(queryText);
+                return purchases;
             }
 
             return null;
