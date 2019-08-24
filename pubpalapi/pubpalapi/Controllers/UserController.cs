@@ -26,6 +26,7 @@ namespace pubpalapi.Controllers
         private readonly string dbName;
         private readonly string storeName;
         private readonly string purchaseStoreName;
+        private readonly string sellerStoreName;
         private readonly PubPalLogger _logger;
 
         public UserController(IOptions<SettingsModel> options, ILogger<UserController> logger)
@@ -34,6 +35,7 @@ namespace pubpalapi.Controllers
             dbName = _settings.Database;
             storeName = _settings.UserStoreName;
             purchaseStoreName = _settings.PurchaseStoreName;
+            sellerStoreName = _settings.SellerStoreName;
             _logger = new PubPalLogger(logger);
         }
 
@@ -115,6 +117,26 @@ namespace pubpalapi.Controllers
                 }
                 var _user = repo.GetScrubbedUser(user);
                 return Ok(_user);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex);
+            }
+        }
+
+        [HttpGet("GetSellersByLocation", Name ="GetSellersByLocation")]
+        [Authorize(AuthenticationSchemes = Constants.SchemesNamesConst)]
+        public IActionResult GetSellersByLocation(float lat, float lng, int miles)
+        {
+            try
+            {
+                var repo = new SellerRepository(dbName, sellerStoreName);
+                var Sellers = repo.GetSellersByLocation(lat, lng, miles);
+                if (Sellers == null)
+                {
+                    return NotFound();
+                }
+                return Ok(Sellers);
             }
             catch (Exception ex)
             {
@@ -218,6 +240,46 @@ namespace pubpalapi.Controllers
         #endregion
 
         #region Purchase Methods
+        [HttpGet("GetSellerOptionsById", Name = "GetSellerOptionsById")]
+        [Authorize(AuthenticationSchemes = Constants.SchemesNamesConst)]
+        public IActionResult GetSellerOptionsById(string id)
+        {
+            try
+            {
+                var repo = new SellerRepository(dbName, sellerStoreName);
+                var options = repo.GetSellersOptions(id);
+                if (options == null)
+                {
+                    return NotFound();
+                }
+                return Ok(options);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex);
+            }
+        }
+
+        [HttpGet("GetSellerOptionByIds", Name = "GetSellerOptionByIds")]
+        [Authorize(AuthenticationSchemes = Constants.SchemesNamesConst)]
+        public IActionResult GetSellerOptionById(string id, string optionId)
+        {
+            try
+            {
+                var repo = new SellerRepository(dbName, sellerStoreName);
+                var option = repo.GetSellersOption(id, optionId);
+                if (option == null)
+                {
+                    return NotFound();
+                }
+                return Ok(option);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex);
+            }
+        }
+
         [HttpGet("GetPurchasesByUserId", Name = "GetPurchasesByUserId")]
         [Authorize(AuthenticationSchemes = Constants.SchemesNamesConst)]
         public IActionResult GetPurchasesByUserId(string personid)

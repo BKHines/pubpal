@@ -8,5 +8,6 @@ export const CONSTANTS = {
         'MT', 'NE', 'NV', 'NH', 'NJ', 'NM', 'NY', 'NC', 'ND', 'OH', 'OK', 'OR', 'PA', 'RI', 'SC', 'SD', 'TN', 'TX', 'UT', 'VT', 'VA', 'WA', 'WV', 'WI', 'WY'
     ],
     MODAL_LOGIN: 'login',
-    MODAL_PURCHASEITEM_ENTRY: 'menuitementry'
+    MODAL_PURCHASEITEM_ENTRY: 'menuitementry',
+    MODAL_PURCHASE: 'menuitempurchase'
 };

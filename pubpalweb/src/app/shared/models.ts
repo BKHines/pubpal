@@ -79,3 +79,29 @@ export interface ChangePasswordRequest {
     newpassword: string;
     confirmpassword: string;
 }
+
+export interface PurchaseHistory {
+    purchasestatus: number;
+    statusdate: string;
+    message?: string;
+}
+
+export interface Purchase {
+    _id: string;
+    userid: string;
+    sellerid: string;
+    itemname: string;
+    ingredients: string[];
+    price: number;
+    fee: number;
+    tip: number;
+    instructions?: string;
+    currentstatus: number;
+    purchasehistory: PurchaseHistory[];
+}
+
+export interface ChangePurchaseStatusRequest {
+    purchaseid: string;
+    status: 'ordered' | 'accepted' | 'inprogress' | 'ready' | 'pickedup' | 'cancelled';
+    message?: string;
+}

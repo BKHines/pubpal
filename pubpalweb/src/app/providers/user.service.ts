@@ -1,7 +1,7 @@
 import { Injectable, EventEmitter } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
-import { APIResponse, UserModel, ChangePasswordRequest } from '../shared/models';
+import { APIResponse, UserModel, ChangePasswordRequest, Purchase, ChangePurchaseStatusRequest } from '../shared/models';
 import { PubpalcryptoService } from './pubpalcrypto.service';
 import { LocalstoreService } from './localstore.service';
 import { CONSTANTS } from '../shared/constants';
@@ -11,8 +11,17 @@ import { TokenService } from './token.service';
   providedIn: 'root'
 })
 export class UserService {
-  user: UserModel;
+  private _user: UserModel;
+  get user(): UserModel {
+    return this._user;
+  }
 
+  set user(value: UserModel) {
+    this._user = value;
+    this.userLoaded.emit();
+  }
+
+  userLoaded: EventEmitter<void> = new EventEmitter<void>();
   loginComplete: EventEmitter<boolean> = new EventEmitter<boolean>();
 
   constructor(
@@ -92,5 +101,58 @@ export class UserService {
   logout() {
     this.user = null;
     this.tokenSvc.authToken = '';
+  }
+
+  getSellerOptionsById(sellerId: string): Observable<APIResponse> {
+    const params: HttpParams = new HttpParams()
+      .set('id', sellerId);
+
+    return this.http.get<APIResponse>(`api/user/getselleroptionsbyid`, { params });
+  }
+
+  getSellerOptionByIds(sellerId: string, optionId: string): Observable<APIResponse> {
+    const params: HttpParams = new HttpParams()
+      .set('id', sellerId)
+      .set('optionId', optionId);
+
+    return this.http.get<APIResponse>(`api/user/getselleroptionbyids`, { params });
+  }
+
+  getPurchasesById(personid: string): Observable<APIResponse> {
+    const params: HttpParams = new HttpParams()
+      .set('personid', personid);
+
+    return this.http.get<APIResponse>(`api/user/getpurchasesbyuserid`, { params });
+  }
+
+  getPurchaseById(purchaseid: string): Observable<APIResponse> {
+    const params: HttpParams = new HttpParams()
+      .set('id', purchaseid);
+
+    return this.http.get<APIResponse>(`api/user/GetPurchaseForUserById`, { params });
+  }
+
+  getSellersNearMe(lat: number, lng: number, miles: number): Observable<APIResponse> {
+    const params: HttpParams = new HttpParams()
+      .set('lat', lat.toString())
+      .set('lng', lng.toString())
+      .set('miles', miles.toString());
+
+    return this.http.get<APIResponse>(`api/user/getsellersbylocation`, { params });
+  }
+
+  createPurchase(purchase: Purchase): Observable<APIResponse> {
+    return this.http.post<APIResponse>(`api/usercreatepurchasebyuser`, purchase);
+  }
+
+  updatePurchase(purchase: Purchase): Observable<APIResponse> {
+    return this.http.put<APIResponse>(`api/user/updatepurchasebyuser`, purchase);
+  }
+
+  cancelPurchase(id: string, changeStatusReq: ChangePurchaseStatusRequest): Observable<APIResponse> {
+    const params: HttpParams = new HttpParams()
+      .set('id', id);
+
+    return this.http.put<APIResponse>(`api/user/cancelpurchasebyuser`, changeStatusReq, { params });
   }
 }

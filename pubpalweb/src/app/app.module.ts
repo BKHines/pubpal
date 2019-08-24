@@ -20,6 +20,10 @@ import { SellerComponent } from './features/seller/seller.component';
 import { ChangepasswordComponent } from './features/changepassword/changepassword.component';
 import { PurchasableitementryComponent } from './features/seller/purchasableitementry/purchasableitementry.component';
 import { PurchasableitemsComponent } from './features/seller/purchasableitems/purchasableitems.component';
+import { PurchaseentryComponent } from './features/user/purchaseentry/purchaseentry.component';
+import { PurchasestatusComponent } from './features/user/purchasestatus/purchasestatus.component';
+import { PurchasehistoryComponent } from './features/user/purchasehistory/purchasehistory.component';
+import { PurchaseoptionsComponent } from './features/user/purchaseoptions/purchaseoptions.component';
 
 @NgModule({
   declarations: [
@@ -34,7 +38,11 @@ import { PurchasableitemsComponent } from './features/seller/purchasableitems/pu
     SellerComponent,
     ChangepasswordComponent,
     PurchasableitementryComponent,
-    PurchasableitemsComponent
+    PurchasableitemsComponent,
+    PurchaseentryComponent,
+    PurchasestatusComponent,
+    PurchasehistoryComponent,
+    PurchaseoptionsComponent
   ],
   imports: [
     BrowserModule,
@@ -59,7 +67,11 @@ import { PurchasableitemsComponent } from './features/seller/purchasableitems/pu
     SellerComponent,
     ChangepasswordComponent,
     PurchasableitemsComponent,
-    PurchasableitementryComponent
+    PurchasableitementryComponent,
+    PurchaseentryComponent,
+    PurchasestatusComponent,
+    PurchasehistoryComponent,
+    PurchaseoptionsComponent
   ]
 })
 export class AppModule { }

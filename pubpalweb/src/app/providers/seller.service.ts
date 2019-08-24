@@ -1,5 +1,5 @@
 import { Injectable, EventEmitter } from '@angular/core';
-import { SellerModel, APIResponse, PurchasableItemModel, ChangePasswordRequest } from '../shared/models';
+import { SellerModel, APIResponse, PurchasableItemModel, ChangePasswordRequest, Purchase, ChangePurchaseStatusRequest } from '../shared/models';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { PubpalcryptoService } from './pubpalcrypto.service';
 import { LocalstoreService } from './localstore.service';
@@ -11,7 +11,17 @@ import { TokenService } from './token.service';
   providedIn: 'root'
 })
 export class SellerService {
-  seller: SellerModel;
+  private _seller: SellerModel;
+  get seller(): SellerModel {
+    return this._seller;
+  }
+
+  set seller(value: SellerModel) {
+    this._seller = value;
+    this.sellerLoaded.emit();
+  }
+
+  sellerLoaded: EventEmitter<void> = new EventEmitter<void>();
 
   loginComplete: EventEmitter<boolean> = new EventEmitter<boolean>();
 
@@ -114,5 +124,33 @@ export class SellerService {
   logout() {
     this.seller = null;
     this.tokenSvc.authToken = '';
+  }
+
+  getPurchasesById(personid: string): Observable<APIResponse> {
+    const params: HttpParams = new HttpParams()
+      .set('personid', personid);
+
+    return this.http.get<APIResponse>(`api/seller/getpurchasesbysellerid`, { params });
+  }
+
+  getPurchaseById(purchaseid: string): Observable<APIResponse> {
+    const params: HttpParams = new HttpParams()
+      .set('id', purchaseid);
+
+    return this.http.get<APIResponse>(`api/seller/GetPurchaseForSellerById`, { params });
+  }
+
+  changePurchaseStatus(id: string, changeStatusReq: ChangePurchaseStatusRequest): Observable<APIResponse> {
+    const params: HttpParams = new HttpParams()
+      .set('id', id);
+
+    return this.http.put<APIResponse>(`api/user/changepurchasestatusbyseller`, changeStatusReq, { params });
+  }
+
+  cancelPurchase(id: string, changeStatusReq: ChangePurchaseStatusRequest): Observable<APIResponse> {
+    const params: HttpParams = new HttpParams()
+      .set('id', id);
+
+    return this.http.put<APIResponse>(`api/user/cancelpurchasebyseller`, changeStatusReq, { params });
   }
 }

@@ -93,8 +93,8 @@ export class ModalService {
       initialState: _initState,
       class: `pubpal-modal modal-${_modalBody.modalSize ? _modalBody.modalSize : 'md'}${cssClass ? ' ' + cssClass : ''}`,
       animated: true,
-      ignoreBackdropClick,
-      keyboard: enableKeyboard
+      ignoreBackdropClick: ignoreBackdropClick ? ignoreBackdropClick : true,
+      keyboard: enableKeyboard ? enableKeyboard : false
     };
 
     const _bsModalRef = this.bsModalSvc.show(ModalcontainerComponent, _modalOptions);

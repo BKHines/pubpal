@@ -55,7 +55,20 @@ namespace pubpalapi.Repositories
         public SellerModel[] GetSellersByLocation(float lat, float lng, int miles)
         {
             var sellers = sellerDA.GetSellersByLocation(lat, lng, miles);
-            return sellers;
+            var _sellers = sellers.Select(a => GetScrubbedSeller(a));
+            return _sellers.ToArray();
+        }
+
+        public PurchasableItemModel[] GetSellersOptions(string sellerId)
+        {
+            var seller = sellerDA.GetPersonById(sellerId);
+            return seller.items;
+        }
+
+        public PurchasableItemModel GetSellersOption(string sellerId, string purchaseId)
+        {
+            var seller = sellerDA.GetPersonById(sellerId);
+            return seller.items.FirstOrDefault(a => a.id == purchaseId);
         }
 
         public string CreateSeller(SellerModel seller)
