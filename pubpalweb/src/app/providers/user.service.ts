@@ -142,7 +142,7 @@ export class UserService {
   }
 
   createPurchase(purchase: Purchase): Observable<APIResponse> {
-    return this.http.post<APIResponse>(`api/usercreatepurchasebyuser`, purchase);
+    return this.http.post<APIResponse>(`api/user/createpurchasebyuser`, purchase);
   }
 
   updatePurchase(purchase: Purchase): Observable<APIResponse> {

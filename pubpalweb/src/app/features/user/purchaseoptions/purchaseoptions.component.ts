@@ -38,23 +38,8 @@ export class PurchaseoptionsComponent implements OnInit, AfterViewInit {
 
   openPurchaseModal(optionId: string) {
     const _modHeader = this.modalSvc.createHeader('Make Purchase', () => { this.modalSvc.hideModal(CONSTANTS.MODAL_PURCHASE); });
-    const _modBody = this.modalSvc.createBody(PurchaseentryComponent, { optionId, sellerId: this.selectedSellerId }, 'lg');
-    const _modFooter = this.modalSvc.createFooter([
-      {
-        buttonText: 'Purchase',
-        buttonClass: 'btn-success',
-        buttonOperation: () => {
-          this.modalSvc.hideModal(CONSTANTS.MODAL_PURCHASE);
-        }
-      }, {
-        buttonText: 'Cancel',
-        buttonClass: 'btn-success',
-        buttonOperation: () => {
-          this.modalSvc.hideModal(CONSTANTS.MODAL_PURCHASE);
-        }
-      }
-    ]);
-    this.modalSvc.showModal(CONSTANTS.MODAL_PURCHASE, _modBody, _modHeader, _modFooter);
+    const _modBody = this.modalSvc.createBody(PurchaseentryComponent, { optionId, sellerId: this.selectedSellerId }, 'xl');
+    this.modalSvc.showModal(CONSTANTS.MODAL_PURCHASE, _modBody, _modHeader, null, true, false, 'modal-no-padding-body');
   }
 
   getSellerOptions() {

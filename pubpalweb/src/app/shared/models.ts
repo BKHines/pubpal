@@ -81,13 +81,13 @@ export interface ChangePasswordRequest {
 }
 
 export interface PurchaseHistory {
-    purchasestatus: number;
+    purchasestatus: 'ordered' | 'accepted' | 'inprogress' | 'ready' | 'pickedup' | 'cancelled';
     statusdate: string;
     message?: string;
 }
 
 export interface Purchase {
-    _id: string;
+    _id?: string;
     userid: string;
     sellerid: string;
     itemname: string;
@@ -96,12 +96,12 @@ export interface Purchase {
     fee: number;
     tip: number;
     instructions?: string;
-    currentstatus: number;
+    currentstatus: 'ordered' | 'accepted' | 'inprogress' | 'ready' | 'pickedup' | 'cancelled';
     purchasehistory: PurchaseHistory[];
 }
 
 export interface ChangePurchaseStatusRequest {
-    purchaseid: string;
+    purchaseid?: string;
     status: 'ordered' | 'accepted' | 'inprogress' | 'ready' | 'pickedup' | 'cancelled';
     message?: string;
 }

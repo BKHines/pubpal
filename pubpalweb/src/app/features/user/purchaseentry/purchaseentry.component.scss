@@ -1,0 +1,14 @@
+.col-form-label {
+    font-size: 1.2rem;
+}
+
+.flex-container {
+    display: flex;
+    justify-content: center;
+}
+
+.flex-container > div {
+    max-width: 1600px;
+    width: 180vh;
+}
+

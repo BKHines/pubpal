@@ -14,8 +14,10 @@ namespace pubpalapi.Models
         [BsonRepresentation(BsonType.ObjectId)]
         public string _id { get; set; }
         [BsonRepresentation(BsonType.ObjectId)]
+        [Required]
         public string userid { get; set; }
         [BsonRepresentation(BsonType.ObjectId)]
+        [Required]
         public string sellerid { get; set; }
         [Required]
         public string itemname { get; set; }
