@@ -4,6 +4,7 @@ import { ModalcontainerComponent } from '../shared/modalcontainer/modalcontainer
 import { IModalHeader, IModalBody, IModalFooterButton, IModalFooter } from '../shared/models';
 import { LoadingComponent } from '../shared/loading/loading.component';
 import { LoadingService } from './loading.service';
+import { CONSTANTS } from '../shared/constants';
 
 @Injectable({
   providedIn: 'root'
@@ -116,20 +117,22 @@ export class ModalService {
   }
 
   showLoadingModal() {
-    const _modBody = this.createBody(LoadingComponent, null, 'md');
-    this.showModal('loading', _modBody, null, null, true, false, 'bg-primary modal-no-padding loading-modal');
+    if (!this.bsModalRefs.find(a => a.key === CONSTANTS.MODAL_LOADING)) {
+      const _modBody = this.createBody(LoadingComponent, null, 'md');
+      this.showModal(CONSTANTS.MODAL_LOADING, _modBody, null, null, true, false, 'bg-primary modal-no-padding loading-modal');
+    }
   }
 
   hideLoadingModal() {
     setTimeout(() => {
       // console.log(`${this.bsModalRefs.length}`, 'hideLoadingModal');
-      const _modalIndex = this.bsModalRefs.findIndex(a => a.key === 'loading');
-      const _modalRef = this.bsModalRefs.find(a => a.key === 'loading');
+      const _modalIndex = this.bsModalRefs.findIndex(a => a.key === CONSTANTS.MODAL_LOADING);
+      const _modalRef = this.bsModalRefs.find(a => a.key === CONSTANTS.MODAL_LOADING);
       if (_modalRef) {
         _modalRef.modal.hide();
       }
       this.bsModalRefs.splice(_modalIndex, 1);
       // console.log(`${this.bsModalRefs.length}`, 'hideLoadingModal');
-    }, 200);
+    }, 300);
   }
 }

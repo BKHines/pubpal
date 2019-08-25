@@ -9,5 +9,6 @@ export const CONSTANTS = {
     ],
     MODAL_LOGIN: 'login',
     MODAL_PURCHASEITEM_ENTRY: 'menuitementry',
-    MODAL_PURCHASE: 'menuitempurchase'
+    MODAL_PURCHASE: 'menuitempurchase',
+    MODAL_LOADING: 'loading'
 };

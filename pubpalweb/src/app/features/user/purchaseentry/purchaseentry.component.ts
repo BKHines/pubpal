@@ -4,6 +4,7 @@ import { PurchasableItemModel, APIResponse, Purchase, Ingredient } from 'src/app
 import { faCheckSquare, faSquare } from '@fortawesome/free-regular-svg-icons';
 import { ModalService } from 'src/app/providers/modal.service';
 import { CONSTANTS } from 'src/app/shared/constants';
+import { LoadingService } from 'src/app/providers/loading.service';
 
 @Component({
   selector: 'app-purchaseentry',
@@ -38,7 +39,9 @@ export class PurchaseentryComponent implements OnInit {
   faSquare = faSquare;
   faCheckSquare = faCheckSquare;
 
-  constructor(private userSvc: UserService, private modalSvc: ModalService) { }
+  optionselected = (item: Ingredient) => this.selectedOptions && this.selectedOptions.some(a => a.id === item.id);
+
+  constructor(private userSvc: UserService, private modalSvc: ModalService, private loadingSvc: LoadingService) { }
 
   ngOnInit() {
     if (this.purchaseId) {
@@ -48,10 +51,12 @@ export class PurchaseentryComponent implements OnInit {
     }
 
     if (this.optionId) {
+      this.loadingSvc.addMessage('GetSellerOptions', 'Getting Items...');
       this.userSvc.getSellerOptionByIds(this.sellerId, this.optionId).subscribe((res: APIResponse) => {
         this.purchasableItem = res.result;
         this.totalPrice = this.purchasableItem.price;
         this.setTipAmount('20%');
+        this.loadingSvc.removeMessage('GetSellerOptions');
       });
     }
   }
@@ -99,6 +104,7 @@ export class PurchaseentryComponent implements OnInit {
   addPurchase() {
     this.purchase = {
       userid: this.userSvc.user._id,
+      customername: this.userSvc.user.firstname + ' ' + this.userSvc.user.lastname.substring(0, 1),
       sellerid: this.sellerId,
       itemname: this.purchasableItem.name,
       ingredients: this.selectedOptions.map(a => a.ingredient),
@@ -112,9 +118,11 @@ export class PurchaseentryComponent implements OnInit {
         statusdate: new Date().toLocaleDateString()
       }]
     };
+    this.loadingSvc.addMessage('CreatePurchase', 'Creating Purchase...');
     this.userSvc.createPurchase(this.purchase).subscribe((res: APIResponse) => {
       this.modalSvc.hideModal(CONSTANTS.MODAL_PURCHASE);
       this.purchase._id = res.result;
+      this.loadingSvc.removeMessage('CreatePurchase');
     });
   }
 }

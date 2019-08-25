@@ -24,6 +24,7 @@ import { PurchaseentryComponent } from './features/user/purchaseentry/purchaseen
 import { PurchasestatusComponent } from './features/user/purchasestatus/purchasestatus.component';
 import { PurchasehistoryComponent } from './features/user/purchasehistory/purchasehistory.component';
 import { PurchaseoptionsComponent } from './features/user/purchaseoptions/purchaseoptions.component';
+import { PurchasequeueComponent } from './features/seller/purchasequeue/purchasequeue.component';
 
 @NgModule({
   declarations: [
@@ -42,7 +43,8 @@ import { PurchaseoptionsComponent } from './features/user/purchaseoptions/purcha
     PurchaseentryComponent,
     PurchasestatusComponent,
     PurchasehistoryComponent,
-    PurchaseoptionsComponent
+    PurchaseoptionsComponent,
+    PurchasequeueComponent
   ],
   imports: [
     BrowserModule,
@@ -71,7 +73,8 @@ import { PurchaseoptionsComponent } from './features/user/purchaseoptions/purcha
     PurchaseentryComponent,
     PurchasestatusComponent,
     PurchasehistoryComponent,
-    PurchaseoptionsComponent
+    PurchaseoptionsComponent,
+    PurchasequeueComponent
   ]
 })
 export class AppModule { }

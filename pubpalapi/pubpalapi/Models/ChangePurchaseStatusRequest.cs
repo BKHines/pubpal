@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -10,6 +12,7 @@ namespace pubpalapi.Models
     {
         [Required]
         public string purchaseid { get; set; }
+        [JsonConverter(typeof(StringEnumConverter))]
         [Required]
         public PurchaseStatus status { get; set; }
         public string message { get; set; }

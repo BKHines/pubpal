@@ -1,5 +1,8 @@
-﻿using MongoDB.Bson;
+﻿using Microsoft.EntityFrameworkCore.Storage.ValueConversion.Internal;
+using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -16,6 +19,8 @@ namespace pubpalapi.Models
         [BsonRepresentation(BsonType.ObjectId)]
         [Required]
         public string userid { get; set; }
+        [Required]
+        public string customername { get; set; }
         [BsonRepresentation(BsonType.ObjectId)]
         [Required]
         public string sellerid { get; set; }
@@ -30,6 +35,8 @@ namespace pubpalapi.Models
         [Required]
         public decimal tip { get; set; }
         public string instructions { get; set; }
+        [BsonRepresentation(BsonType.String)]
+        [JsonConverter(typeof(StringEnumConverter))]
         [Required]
         public PurchaseStatus currentstatus { get; set; }
         [Required]
@@ -38,6 +45,8 @@ namespace pubpalapi.Models
 
     public class PurchaseHistory
     {
+        [BsonRepresentation(BsonType.String)]
+        [JsonConverter(typeof(StringEnumConverter))]
         [Required]
         public PurchaseStatus purchasestatus { get; set; }
         [Required]

@@ -34,7 +34,7 @@
                                         (click)="setTotalPrice(item); setTipAmount(tipType);">
                                         <td>
                                             <fa-icon
-                                                [icon]="selectedOption && selectedOption.id === item.id ? faCheckSquare : faSquare"
+                                                [icon]="optionselected(item) ? faCheckSquare : faSquare"
                                                 class="handCursor">
                                             </fa-icon>
                                         </td>

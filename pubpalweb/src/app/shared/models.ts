@@ -80,8 +80,11 @@ export interface ChangePasswordRequest {
     confirmpassword: string;
 }
 
+export type StatusType = 'ordered' | 'accepted' | 'inprogress' | 'ready' | 'pickedup' | 'cancelled';
+export type StatusText = 'Accept' | 'In Progress' | 'Ready' | 'Picked Up' | 'Complete' | 'Unknown';
+
 export interface PurchaseHistory {
-    purchasestatus: 'ordered' | 'accepted' | 'inprogress' | 'ready' | 'pickedup' | 'cancelled';
+    purchasestatus: StatusType;
     statusdate: string;
     message?: string;
 }
@@ -89,6 +92,7 @@ export interface PurchaseHistory {
 export interface Purchase {
     _id?: string;
     userid: string;
+    customername: string;
     sellerid: string;
     itemname: string;
     ingredients: string[];
@@ -96,12 +100,12 @@ export interface Purchase {
     fee: number;
     tip: number;
     instructions?: string;
-    currentstatus: 'ordered' | 'accepted' | 'inprogress' | 'ready' | 'pickedup' | 'cancelled';
+    currentstatus: StatusType;
     purchasehistory: PurchaseHistory[];
 }
 
 export interface ChangePurchaseStatusRequest {
     purchaseid?: string;
-    status: 'ordered' | 'accepted' | 'inprogress' | 'ready' | 'pickedup' | 'cancelled';
+    status: StatusType;
     message?: string;
 }

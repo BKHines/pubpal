@@ -11,6 +11,7 @@ import { PurchasableitemsComponent } from './features/seller/purchasableitems/pu
 import { AuthuserGuard } from './guards/authuser.guard';
 import { AuthsellerGuard } from './guards/authseller.guard';
 import { PurchaseoptionsComponent } from './features/user/purchaseoptions/purchaseoptions.component';
+import { PurchasequeueComponent } from './features/seller/purchasequeue/purchasequeue.component';
 
 const routes: Routes = [
   { path: '', component: HomeComponent },
@@ -21,6 +22,7 @@ const routes: Routes = [
   { path: 'changepassword', component: ChangepasswordComponent, canActivate: [ AuthGuard ] },
   { path: 'purchitem', component: PurchasableitemsComponent, canActivate: [ AuthGuard, AuthsellerGuard ] },
   { path: 'purchase/options', component: PurchaseoptionsComponent, canActivate: [ AuthGuard, AuthuserGuard ] },
+  { path: 'purchasequeue', component: PurchasequeueComponent, canActivate: [ AuthGuard, AuthsellerGuard ] },
   { path: '**', redirectTo: '' }
 ];
 

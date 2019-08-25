@@ -1,0 +1,43 @@
+<table class="table table-striped table-sm" *ngIf="purchases">
+    <thead>
+        <tr>
+            <th scope="col">Customer Name</th>
+            <th scope="col">Purchase</th>
+            <th scope="col">Options</th>
+            <th scope="col">Instructions</th>
+            <th scope="col">Status</th>
+            <th scope="col">Price</th>
+            <th scope="col"></th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let purchase of purchases">
+            <td>{{ purchase.customername }}</td>
+            <td>{{ purchase.itemname }}</td>
+            <td>
+                <table class="table table-sm">
+                    <thead>
+                        <tr>
+                            <th scope="col">Ingredient</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let ingredient of purchase.ingredients">
+                            <td>{{ ingredient }}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </td>
+            <td>{{ purchase.instructions }}</td>
+            <td>{{ purchase.currentstatus }}</td>
+            <td>{{ purchase.price | currency }}</td>
+            <td>
+                <button *ngIf="purchase['nextstatustext'] !== 'Complete'" type="button"
+                    class="btn btn-primary btn-sm ml-2 float-right" (click)="updateToNextStatus(purchase)">
+                    {{ purchase['nextstatustext'] }}
+                </button>
+                <span *ngIf="purchase['nextstatustext'] === 'Complete'">Complete</span>
+            </td>
+        </tr>
+    </tbody>
+</table>

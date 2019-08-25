@@ -4,6 +4,7 @@ import { SellerService } from 'src/app/providers/seller.service';
 import { ModalService } from 'src/app/providers/modal.service';
 import { CONSTANTS } from 'src/app/shared/constants';
 import { NgForm } from '@angular/forms';
+import { LoadingService } from 'src/app/providers/loading.service';
 
 @Component({
   selector: 'app-purchasableitementry',
@@ -20,7 +21,7 @@ export class PurchasableitementryComponent implements OnInit {
   @ViewChild('ingentry', { static: false }) entryingredient: ElementRef;
   @ViewChild('ingpriceentry', { static: true }) entryingprice: ElementRef;
 
-  constructor(private sellerSvc: SellerService, private modalSvc: ModalService) { }
+  constructor(private sellerSvc: SellerService, private modalSvc: ModalService, private loadingSvc: LoadingService) { }
 
   ngOnInit() {
     if (this.piId) {
@@ -98,6 +99,7 @@ export class PurchasableitementryComponent implements OnInit {
     }
 
     if (this.piId) {
+      this.loadingSvc.addMessage('UpdatingPI', 'Updating Item...');
       this.sellerSvc.updatePurchasableItem(this.sellerSvc.seller._id, this.newPI).subscribe((res) => {
         if (!this.sellerSvc.seller.items) {
           this.sellerSvc.seller.items = [];
@@ -106,12 +108,14 @@ export class PurchasableitementryComponent implements OnInit {
           const updateIdx = this.sellerSvc.seller.items.findIndex(a => a.id === this.piId);
           this.sellerSvc.seller.items[updateIdx] = JSON.parse(JSON.stringify(this.newPI));
           setTimeout(() => {
+            this.loadingSvc.removeMessage('UpdatingPI');
             this.modalSvc.hideModal(CONSTANTS.MODAL_PURCHASEITEM_ENTRY);
             this.resetNewPI();
           }, 200);
         }
       });
     } else {
+      this.loadingSvc.addMessage('AddingPI', 'Adding Item...');
       this.sellerSvc.addPurchasableItem(this.sellerSvc.seller._id, this.newPI).subscribe((res) => {
         if (!this.sellerSvc.seller.items) {
           this.sellerSvc.seller.items = [];
@@ -119,6 +123,7 @@ export class PurchasableitementryComponent implements OnInit {
         this.newPI.id = res.result;
         this.sellerSvc.seller.items.push(this.newPI);
         setTimeout(() => {
+          this.loadingSvc.removeMessage('AddingPI');
           this.modalSvc.hideModal(CONSTANTS.MODAL_PURCHASEITEM_ENTRY);
           this.resetNewPI();
         }, 200);

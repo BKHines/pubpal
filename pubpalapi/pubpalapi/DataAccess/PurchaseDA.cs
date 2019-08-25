@@ -104,7 +104,7 @@ namespace pubpalapi.DataAccess
             {
                 var coll = _mongoDatabase.GetCollection<PurchaseModel>(storeName);
 
-                coll.ReplaceOne(a => GetIdFromObject(a) == GetIdFromObject(updatedPurchase), updatedPurchase);
+                coll.ReplaceOne(a => a._id == GetIdFromObject(updatedPurchase), updatedPurchase);
                 return true;
             }
 

@@ -4,6 +4,7 @@ import { UserService } from 'src/app/providers/user.service';
 import { ModalService } from 'src/app/providers/modal.service';
 import { CONSTANTS } from 'src/app/shared/constants';
 import { PurchaseentryComponent } from '../purchaseentry/purchaseentry.component';
+import { LoadingService } from 'src/app/providers/loading.service';
 
 @Component({
   selector: 'app-purchaseoptions',
@@ -23,16 +24,23 @@ export class PurchaseoptionsComponent implements OnInit, AfterViewInit {
 
   purchaseOptions: PurchasableItemModel[];
 
-  constructor(private userSvc: UserService, private modalSvc: ModalService) { }
+  constructor(private userSvc: UserService, private modalSvc: ModalService, private loadingSvc: LoadingService) { }
 
   ngOnInit() {
+    if (this.userSvc.user) {
+      this.loadData();
+    }
   }
 
   ngAfterViewInit() {
     this.userSvc.userLoaded.subscribe(() => {
-      this.userSvc.getSellersNearMe(-1, -1, 1).subscribe((res: APIResponse) => {
-        this.sellers = res.result;
-      });
+      this.loadData();
+    });
+  }
+
+  loadData() {
+    this.userSvc.getSellersNearMe(-1, -1, 1).subscribe((res: APIResponse) => {
+      this.sellers = res.result;
     });
   }
 
@@ -43,8 +51,10 @@ export class PurchaseoptionsComponent implements OnInit, AfterViewInit {
   }
 
   getSellerOptions() {
+    this.loadingSvc.addMessage('GetOptions', 'Getting Menu...');
     this.userSvc.getSellerOptionsById(this.selectedSellerId).subscribe((res: APIResponse) => {
       this.purchaseOptions = res.result;
+      this.loadingSvc.removeMessage('GetOptions');
     });
   }
 }

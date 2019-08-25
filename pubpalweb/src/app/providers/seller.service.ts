@@ -144,7 +144,7 @@ export class SellerService {
     const params: HttpParams = new HttpParams()
       .set('id', id);
 
-    return this.http.put<APIResponse>(`api/user/changepurchasestatusbyseller`, changeStatusReq, { params });
+    return this.http.put<APIResponse>(`api/seller/changepurchasestatusbyseller`, changeStatusReq, { params });
   }
 
   cancelPurchase(id: string, changeStatusReq: ChangePurchaseStatusRequest): Observable<APIResponse> {
