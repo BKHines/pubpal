@@ -119,7 +119,7 @@ namespace pubpalapi.Repositories
                     invalidStatus = currentStatus != PurchaseStatus.ready;
                     break;
                 case PurchaseStatus.cancelled:
-                    invalidStatus = !(currentStatus > PurchaseStatus.inprogress);
+                    invalidStatus = currentStatus > PurchaseStatus.inprogress;
                     break;
             }
             if (invalidStatus)

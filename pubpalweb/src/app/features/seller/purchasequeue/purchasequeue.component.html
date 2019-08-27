@@ -32,12 +32,30 @@
             <td>{{ purchase.currentstatus }}</td>
             <td>{{ purchase.price | currency }}</td>
             <td>
-                <button *ngIf="purchase['nextstatustext'] !== 'Complete'" type="button"
+                <button *ngIf="['ordered', 'accepted', 'inprogress'].indexOf(purchase['nextstatus']) > -1" type="button"
+                    class="btn btn-danger btn-sm ml-2 float-right" (click)="openCancelModal(purchase)">Cancel</button>
+                <button *ngIf="purchase['nextstatustext'] !== 'Complete' && purchase.currentstatus !== 'cancelled'" type="button"
                     class="btn btn-primary btn-sm ml-2 float-right" (click)="updateToNextStatus(purchase)">
                     {{ purchase['nextstatustext'] }}
                 </button>
                 <span *ngIf="purchase['nextstatustext'] === 'Complete'">Complete</span>
+                <span *ngIf="purchase.currentstatus === 'cancelled'"><strong>Order Cancelled</strong></span>
             </td>
         </tr>
     </tbody>
 </table>
+
+<ng-template #cancelTemplate >
+    <div class="row">
+        <div class="col-lg-12">
+            Are you sure you want to cancel the order for <strong>{{ itemname }}</strong> from <strong>{{ customername }}</strong>?<br />Let them know
+            why with the message below.
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-12">
+            <textarea class="form-control" [(ngModel)]="cancelcomments" rows="3" id="cancelComments"
+                placeholder="Comments to the customer"></textarea>
+        </div>
+    </div>
+</ng-template>

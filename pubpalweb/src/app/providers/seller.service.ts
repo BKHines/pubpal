@@ -151,6 +151,6 @@ export class SellerService {
     const params: HttpParams = new HttpParams()
       .set('id', id);
 
-    return this.http.put<APIResponse>(`api/user/cancelpurchasebyseller`, changeStatusReq, { params });
+    return this.http.put<APIResponse>(`api/seller/cancelpurchasebyseller`, changeStatusReq, { params });
   }
 }
