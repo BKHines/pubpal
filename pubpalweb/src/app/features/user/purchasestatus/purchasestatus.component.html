@@ -1,15 +1,31 @@
 <ng-template [ngIf]="purchase">
     <div class="row">
-        <div class="col-lg-2">Purchase:</div>
-        <div class="col-lg-10">{{ purchase.itemname }}</div>
-    </div>
-    <div class="row">
-        <div class="col-lg-2">Current Status:</div>
-        <div class="col-lg-10">{{ purchase.currentstatus }}</div>
-    </div>
-    <div class="row">
-        <div class="col-lg-2">Ordered:</div>
-        <div class="col-lg-10">{{ purchase.purchasehistory[0].statusdate }}</div>
+        <div class="col-lg-5">
+            <div class="row">
+                <div class="col-lg-2">Purchase:</div>
+                <div class="col-lg-10">{{ purchase.itemname }}</div>
+            </div>
+            <div class="row">
+                <div class="col-lg-2">Ingredients:</div>
+                <div class="col-lg-10">
+                    <table class="table table-sm mb-1">
+                        <tbody>
+                            <tr *ngFor="let ingredient of purchase.ingredients">
+                                <td>{{ ingredient }}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-2">Current Status:</div>
+                <div class="col-lg-10">{{ purchase.currentstatus }}</div>
+            </div>
+            <div class="row">
+                <div class="col-lg-2">Ordered:</div>
+                <div class="col-lg-10">{{ purchase.purchasehistory[0].statusdate }}</div>
+            </div>
+        </div>
     </div>
     <div class="row">
         <div class="col-lg-12">
