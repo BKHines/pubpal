@@ -1,13 +1,13 @@
 <ng-template [ngIf]="purchase">
     <div class="row">
-        <div class="col-lg-5">
+        <div class="col-lg-4">
             <div class="row">
-                <div class="col-lg-2">Purchase:</div>
-                <div class="col-lg-10">{{ purchase.itemname }}</div>
+                <div class="col-lg-3">Purchase:</div>
+                <div class="col-lg-9">{{ purchase.itemname }}</div>
             </div>
             <div class="row">
-                <div class="col-lg-2">Ingredients:</div>
-                <div class="col-lg-10">
+                <div class="col-lg-3">Ingredients:</div>
+                <div class="col-lg-9">
                     <table class="table table-sm mb-1">
                         <tbody>
                             <tr *ngFor="let ingredient of purchase.ingredients">
@@ -18,12 +18,31 @@
                 </div>
             </div>
             <div class="row">
-                <div class="col-lg-2">Current Status:</div>
-                <div class="col-lg-10">{{ purchase.currentstatus }}</div>
+                <div class="col-lg-3">Current Status:</div>
+                <div class="col-lg-9">{{ purchase.currentstatus }}</div>
             </div>
             <div class="row">
-                <div class="col-lg-2">Ordered:</div>
-                <div class="col-lg-10">{{ purchase.purchasehistory[0].statusdate }}</div>
+                <div class="col-lg-3">Ordered:</div>
+                <div class="col-lg-9">{{ purchase.purchasehistory[0].statusdate }}</div>
+            </div>
+        </div>
+        <div class="col-lg-8">
+            <div class="row">
+                <div class="col-lg-12">
+                    <textarea class="form-control" [(ngModel)]="cancelcomments" rows="3" id="cancelComments"
+                        placeholder="Comments to the seller"
+                        [disabled]="['ordered', 'accepted', 'inprogress'].indexOf(purchase.currentstatus) === -1"></textarea>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-12">
+                    <button type="button" class="btn btn-danger btn-sm ml-2" (click)="cancelPurchase()"
+                        [disabled]="['ordered', 'accepted', 'inprogress'].indexOf(purchase.currentstatus) === -1">Cancel</button>
+                    <button type="button" class="btn btn-primary btn-sm ml-2" (click)="resetForm()"
+                        [disabled]="['ordered', 'accepted', 'inprogress'].indexOf(purchase.currentstatus) === -1">
+                        Nevermind
+                    </button>
+                </div>
             </div>
         </div>
     </div>

@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { Purchase, APIResponse } from 'src/app/shared/models';
-import { ActivatedRoute } from '@angular/router';
+import { Purchase, APIResponse, ChangePurchaseStatusRequest } from 'src/app/shared/models';
+import { ActivatedRoute, Router } from '@angular/router';
 import { UserService } from 'src/app/providers/user.service';
+import { LoadingService } from 'src/app/providers/loading.service';
 
 @Component({
   selector: 'app-purchasestatus',
@@ -12,7 +13,9 @@ export class PurchasestatusComponent implements OnInit {
   purchaseid: string;
   purchase: Purchase;
 
-  constructor(private activeRoute: ActivatedRoute, private userSvc: UserService) { }
+  cancelcomments: string;
+
+  constructor(private activeRoute: ActivatedRoute, private userSvc: UserService, private router: Router, private loadingSvc: LoadingService) { }
 
   ngOnInit() {
     this.purchaseid = this.activeRoute.snapshot.params['id'];
@@ -24,9 +27,28 @@ export class PurchasestatusComponent implements OnInit {
 
   loadData() {
     if (this.userSvc.user) {
+      this.loadingSvc.addMessage('GettingPurchase', 'Getting purchase details...');
       this.userSvc.getPurchaseById(this.purchaseid).subscribe((res: APIResponse) => {
         this.purchase = res.result as Purchase;
+        this.loadingSvc.removeMessage('GettingPurchase');
       });
     }
+  }
+
+  cancelPurchase() {
+    const cancelReq: ChangePurchaseStatusRequest = {
+      purchaseid: this.purchaseid,
+      status: 'cancelled',
+      message: this.cancelcomments
+    };
+    this.loadingSvc.addMessage('CancelPurchase', 'Cancelling Purchase...');
+    this.userSvc.cancelPurchase(this.userSvc.user._id, cancelReq).subscribe((res: APIResponse) => {
+      this.router.navigate(['purchasehistory']);
+      this.loadingSvc.removeMessage('CancelPurchase');
+    });
+  }
+
+  resetForm() {
+    this.cancelcomments = '';
   }
 }
