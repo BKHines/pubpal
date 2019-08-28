@@ -115,7 +115,7 @@ export class PurchaseentryComponent implements OnInit {
       currentstatus: 'ordered',
       purchasehistory: [{
         purchasestatus: 'ordered',
-        statusdate: new Date().toLocaleDateString()
+        statusdate: `${new Date().toLocaleDateString()} ${new Date().toLocaleTimeString()}`
       }]
     };
     this.loadingSvc.addMessage('CreatePurchase', 'Creating Purchase...');

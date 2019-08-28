@@ -58,6 +58,12 @@ export class PurchasequeueComponent implements OnInit, AfterViewInit {
     });
   }
 
+  resetCancel() {
+    this.itemname = '';
+    this.customername = '';
+    this.cancelcomments = '';
+  }
+
   openCancelModal(_purch: Purchase) {
     this.itemname = _purch.itemname;
     this.customername = _purch.customername;
@@ -71,12 +77,14 @@ export class PurchasequeueComponent implements OnInit, AfterViewInit {
         buttonOperation: () => {
           this.cancelOrder(_purch._id, this.cancelcomments);
           this.modalSvc.hideModal(CONSTANTS.MODAL_PURCHASE_CANCEL);
+          this.resetCancel();
         }
       }, {
         buttonText: 'Nevermind',
         buttonClass: 'btn-primary',
         buttonOperation: () => {
           this.modalSvc.hideModal(CONSTANTS.MODAL_PURCHASE_CANCEL);
+          this.resetCancel();
         }
       }
     ];

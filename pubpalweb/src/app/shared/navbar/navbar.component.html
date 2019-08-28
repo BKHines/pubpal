@@ -11,6 +11,12 @@
                     <span class="sr-only"></span>
                 </a>
             </li>
+            <li class="nav-item" *ngIf="userSvc.user && showuserlinks">
+                <a class="nav-link" [routerLink]="['/purchasehistory']">
+                    View Purchases
+                    <span class="sr-only"></span>
+                </a>
+            </li>
             <li class="nav-item" *ngIf="sellerSvc.seller && showuserlinks">
                 <a class="nav-link" [routerLink]="['/purchasequeue']">
                     View Purchases

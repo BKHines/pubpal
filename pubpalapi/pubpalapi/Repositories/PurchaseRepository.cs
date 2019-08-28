@@ -97,6 +97,7 @@ namespace pubpalapi.Repositories
                 purchaseHistory = purchase.purchasehistory.ToList();
             }
             purchaseHistory.Add(new PurchaseHistory() { purchasestatus = status, statusdate = DateTime.Now.ToString(), message = message });
+            purchase.purchasehistory = purchaseHistory.ToArray();
             var purchaseupdated = purchaseDA.UpdatePurchase(purchase);
             return purchaseupdated;
         }
