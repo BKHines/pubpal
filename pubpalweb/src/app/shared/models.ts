@@ -41,6 +41,7 @@ export interface Ingredient {
     ingredient: string;
     description?: string;
     upcharge: number;
+    category: string;
 }
 
 export interface PurchasableItemModel {
@@ -49,7 +50,7 @@ export interface PurchasableItemModel {
     description?: string;
     price: number;
     baseingredient: string;
-    requireingredients: boolean;
+    category?: string;
     ingredients?: Ingredient[];
 }
 

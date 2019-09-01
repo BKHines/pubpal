@@ -16,9 +16,8 @@ namespace pubpalapi.Models
         public decimal price { get; set; }
         [Required]
         public string baseingredient { get; set; }
-        [Required]
-        public bool requireingredients { get; set; }
-
+        
+        public string category { get; set; }
         public IngredientModel[] ingredients { get; set; }
     }
 
@@ -28,8 +27,11 @@ namespace pubpalapi.Models
         public int id { get; set; }
         [Required]
         public string ingredient { get; set; }
-        public string description { get; set; }
         [Required]
         public decimal upcharge { get; set; }
+        [Required]
+        public string category { get; set; }
+
+        public string description { get; set; }
     }
 }

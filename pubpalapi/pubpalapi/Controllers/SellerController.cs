@@ -122,6 +122,26 @@ namespace pubpalapi.Controllers
             }
         }
 
+        [HttpGet("GetSellerCategories", Name = "GetSellerCategories")]
+        [Authorize(AuthenticationSchemes = Constants.SchemesNamesConst)]
+        public IActionResult GetSellerCategories(string id)
+        {
+            try
+            {
+                var repo = new SellerRepository(dbName, storeName);
+                var sellerCats = repo.GetSellerCategories(id);
+                if (sellerCats == null)
+                {
+                    return NotFound();
+                }
+                return Ok(sellerCats);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex);
+            }
+        }
+
         [HttpPost]
         public IActionResult Post([FromBody] SellerModel Seller)
         {

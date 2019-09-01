@@ -1,10 +1,12 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule } from '@angular/forms';
 import { NgModule } from '@angular/core';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { ModalModule } from 'ngx-bootstrap/modal';
-import { NgxMaskModule, IConfig } from 'ngx-mask';
+import { TypeaheadModule } from 'ngx-bootstrap/typeahead';
+import { NgxMaskModule } from 'ngx-mask';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -25,6 +27,7 @@ import { PurchasestatusComponent } from './features/user/purchasestatus/purchase
 import { PurchasehistoryComponent } from './features/user/purchasehistory/purchasehistory.component';
 import { PurchaseoptionsComponent } from './features/user/purchaseoptions/purchaseoptions.component';
 import { PurchasequeueComponent } from './features/seller/purchasequeue/purchasequeue.component';
+import { ArraybypropertyPipe } from './shared/pipes/arraybyproperty.pipe';
 
 @NgModule({
   declarations: [
@@ -44,16 +47,19 @@ import { PurchasequeueComponent } from './features/seller/purchasequeue/purchase
     PurchasestatusComponent,
     PurchasehistoryComponent,
     PurchaseoptionsComponent,
-    PurchasequeueComponent
+    PurchasequeueComponent,
+    ArraybypropertyPipe
   ],
   imports: [
     BrowserModule,
     FormsModule,
     HttpClientModule,
+    BrowserAnimationsModule,
     AppRoutingModule,
     FontAwesomeModule, // free font awesome icons: https://fontawesome.com/icons?d=gallery
     ModalModule.forRoot(),
-    NgxMaskModule.forRoot()
+    NgxMaskModule.forRoot(),
+    TypeaheadModule.forRoot()
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: PubpalinterceptorService, multi: true }

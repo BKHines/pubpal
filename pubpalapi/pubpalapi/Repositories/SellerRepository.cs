@@ -59,6 +59,13 @@ namespace pubpalapi.Repositories
             return _sellers.ToArray();
         }
 
+        public string[] GetSellerCategories(string id)
+        {
+            var seller = sellerDA.GetPersonById(id);
+            var sellerCategories = seller.items?.Select(a => a.category);
+            return sellerCategories != null ? sellerCategories.ToArray() : new List<String>() { String.Empty }.ToArray();
+        }
+
         public PurchasableItemModel[] GetSellersOptions(string sellerId)
         {
             var seller = sellerDA.GetPersonById(sellerId);

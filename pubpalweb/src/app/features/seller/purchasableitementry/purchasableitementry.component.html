@@ -45,6 +45,14 @@
                                     class="field-error-message alert alert-danger text-muted">Price is required.</div>
                             </div>
                         </div>
+                        <div class="row form-group mb-0">
+                            <label for="inputCategory" class="col-lg-2 col-form-label font-weight-bold">Category</label>
+                            <div class="col-lg-10">
+                                <input type="text" class="form-control" id="inputCategory" name="category"
+                                    placeholder="Cocktail/Mixed Drink/Beer/Wine" [(ngModel)]="newPI.category"
+                                    [typeaheadAsync]="true" [typeahead]="dataSource" [typeaheadOptionsLimit]="7">
+                            </div>
+                        </div>
                     </form>
                     <form #ingForm="ngForm">
                         <div class="row form-group mb-1">
@@ -65,17 +73,25 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr *ngFor="let ing of newPI.ingredients">
-                                        <td>{{ ing.ingredient }}</td>
-                                        <td>{{ ing.description }}</td>
-                                        <td>{{ ing.upcharge | currency }}</td>
-                                        <td>
-                                            <button type="button" class="btn btn-danger btn-sm ml-2 float-right"
-                                                (click)="ingDeleteHandler(ing.id)">
-                                                X
-                                            </button>
-                                        </td>
-                                    </tr>
+                                    <ng-template ngFor [ngForOf]="ingCategoryGroups" let-category>
+                                        <tr *ngIf="newPI.ingredients && newPI.ingredients.length > 0 
+                                            && (newPI.ingredients | arraybyproperty: 'category': category).length > 0">
+                                            <td colspan="4">
+                                                <span style="font-weight: bold">{{ category }}</span>
+                                            </td>
+                                        </tr>
+                                        <tr *ngFor="let ing of newPI.ingredients | arraybyproperty: 'category': category">
+                                            <td>{{ ing.ingredient }}</td>
+                                            <td>{{ ing.description }}</td>
+                                            <td>{{ ing.upcharge | currency }}</td>
+                                            <td>
+                                                <button type="button" class="btn btn-danger btn-sm ml-2 float-right"
+                                                    (click)="ingDeleteHandler(ing.id)">
+                                                    X
+                                                </button>
+                                            </td>
+                                        </tr>
+                                    </ng-template>
                                     <tr>
                                         <td>
                                             <input type="text" class="form-control" id="inputIngredient"
@@ -93,10 +109,22 @@
                                         </td>
                                         <td>
                                             <input type="text" class="form-control" id="inputIngPrice" name="ingprice"
-                                                placeholder="10.00" mask="comma_separator.2" #ingpriceentry
+                                                placeholder="10.00" mask="comma_separator.2"
                                                 [(ngModel)]="newIngredient.upcharge" #entryingprice="ngModel" required
                                                 [class.field-error]="entryingprice.touched && entryingprice.invalid">
                                             <div [hidden]="!entryingprice.touched || entryingprice.valid"
+                                                class="field-error-message alert alert-danger text-muted">Required.
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <select name="ingcat" [(ngModel)]="newIngredient.category"
+                                                class="form-control" required #entryingcat="ngModel"
+                                                [class.field-error]="entryingcat.touched && entryingcat.invalid">
+                                                <option [ngValue]="null"></option>
+                                                <option *ngFor="let catType of categoryTypes" [ngValue]="catType">
+                                                    {{ catType }}</option>
+                                            </select>
+                                            <div [hidden]="!entryingcat.touched || entryingcat.valid"
                                                 class="field-error-message alert alert-danger text-muted">Required.
                                             </div>
                                         </td>

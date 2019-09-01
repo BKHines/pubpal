@@ -1,10 +1,12 @@
 import { Component, OnInit, ViewChild, ElementRef, Input } from '@angular/core';
-import { PurchasableItemModel, Ingredient } from 'src/app/shared/models';
+import { PurchasableItemModel, Ingredient, APIResponse } from 'src/app/shared/models';
 import { SellerService } from 'src/app/providers/seller.service';
 import { ModalService } from 'src/app/providers/modal.service';
 import { CONSTANTS } from 'src/app/shared/constants';
 import { NgForm } from '@angular/forms';
 import { LoadingService } from 'src/app/providers/loading.service';
+import { Observable, of } from 'rxjs';
+import { mergeMap } from 'rxjs/operators';
 
 @Component({
   selector: 'app-purchasableitementry',
@@ -17,19 +19,62 @@ export class PurchasableitementryComponent implements OnInit {
   newIngredient: Ingredient;
 
   newPI: PurchasableItemModel;
+  categoryTypes: string[];
+  categories: string[];
+  ingCategoryGroups: string[];
 
   @ViewChild('ingentry', { static: false }) entryingredient: ElementRef;
-  @ViewChild('ingpriceentry', { static: true }) entryingprice: ElementRef;
+
+  typeaheadLoading: boolean;
+  typeaheadNoResults: boolean;
+  dataSource: Observable<any>;
 
   constructor(private sellerSvc: SellerService, private modalSvc: ModalService, private loadingSvc: LoadingService) { }
 
   ngOnInit() {
+    this.categoryTypes = CONSTANTS.categorytypes;
+
+    this.sellerSvc.getSellerCategories(this.sellerSvc.seller._id).subscribe((res: APIResponse) => {
+      this.categories = res.result as string[];
+    });
+
+    this.dataSource = Observable.create((observer: any) => {
+      // Runs on every search
+      observer.next(this.newPI.category);
+    }).pipe(
+      mergeMap((token: string) => this.getSellerCategories(token))
+    );
+
     if (this.piId) {
       this.newPI = JSON.parse(JSON.stringify(this.sellerSvc.seller.items.find(a => a.id === this.piId)));
+      if (!this.ingCategoryGroups) {
+        this.ingCategoryGroups = [];
+      }
+
+      this.newPI.ingredients.map((a) => {
+        if (this.ingCategoryGroups.filter(b => b === a.category).length === 0) {
+          this.ingCategoryGroups.push(a.category);
+        }
+      });
+
     } else {
       this.resetNewPI();
     }
     this.resetIng();
+  }
+
+  getSellerCategories(token: string): Observable<any> {
+    const query = new RegExp(token, 'i');
+
+    if (this.newPI) {
+      return of(
+        this.categories.filter(a => {
+          return query.test(a);
+        })
+      );
+    } else {
+      return of([]);
+    }
   }
 
   resetNewPI() {
@@ -38,8 +83,7 @@ export class PurchasableitementryComponent implements OnInit {
       baseingredient: '',
       description: '',
       name: '',
-      price: null,
-      requireingredients: false
+      price: null
     };
   }
 
@@ -48,7 +92,8 @@ export class PurchasableitementryComponent implements OnInit {
       id: null,
       ingredient: '',
       description: '',
-      upcharge: null
+      upcharge: null,
+      category: ''
     };
   }
 
@@ -63,6 +108,15 @@ export class PurchasableitementryComponent implements OnInit {
     });
     this.newIngredient.id = this.newPI.ingredients.length;
     this.newPI.ingredients.push(this.newIngredient);
+
+    if (!this.ingCategoryGroups) {
+      this.ingCategoryGroups = [];
+    }
+
+    if (this.ingCategoryGroups.filter(a => a === this.newIngredient.category).length === 0) {
+      this.ingCategoryGroups.push(this.newIngredient.category);
+    }
+
     this.resetIng();
     this.entryingredient.nativeElement.focus();
     this.resetForm(entryForm);

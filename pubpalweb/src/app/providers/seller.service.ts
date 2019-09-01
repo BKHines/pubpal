@@ -153,4 +153,11 @@ export class SellerService {
 
     return this.http.put<APIResponse>(`api/seller/cancelpurchasebyseller`, changeStatusReq, { params });
   }
+
+  getSellerCategories(id: string) {
+    const params: HttpParams = new HttpParams()
+      .set('id', id);
+
+    return this.http.get<APIResponse>(`api/seller/getsellercategories`, { params });
+  }
 }
