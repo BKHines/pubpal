@@ -33,13 +33,14 @@ export class PurchaseentryComponent implements OnInit {
 
   purchase: Purchase;
   purchasableItem: PurchasableItemModel;
+  categories: string[];
   selectedOptions: Ingredient[];
   instructions: string;
 
   faSquare = faSquare;
   faCheckSquare = faCheckSquare;
 
-  optionselected = (item: Ingredient) => this.selectedOptions && this.selectedOptions.some(a => a.id === item.id);
+  isoptionselected = (item: Ingredient) => this.selectedOptions && this.selectedOptions.some(a => a.id === item.id);
 
   constructor(private userSvc: UserService, private modalSvc: ModalService, private loadingSvc: LoadingService) { }
 
@@ -54,6 +55,12 @@ export class PurchaseentryComponent implements OnInit {
       this.loadingSvc.addMessage('GetSellerOptions', 'Getting Items...');
       this.userSvc.getSellerOptionByIds(this.sellerId, this.optionId).subscribe((res: APIResponse) => {
         this.purchasableItem = res.result;
+        this.categories = [];
+        this.purchasableItem.ingredients.forEach((a) => {
+          if (!this.categories.includes(a.category)) {
+            this.categories.push(a.category);
+          }
+        });
         this.totalPrice = this.purchasableItem.price;
         this.setTipAmount('20%');
         this.loadingSvc.removeMessage('GetSellerOptions');
@@ -61,9 +68,24 @@ export class PurchaseentryComponent implements OnInit {
     }
   }
 
-  setTotalPrice(item: Ingredient) {
-    this.selectedOptions = [item];
-    this.totalPrice = this.purchasableItem.price + (this.selectedOptions ? this.selectedOptions[0].upcharge : 0);
+  setOptionSelected(item: Ingredient) {
+    if (!this.selectedOptions) {
+      this.selectedOptions = [];
+    }
+    let _selectedCategoryIndex = this.selectedOptions ? this.selectedOptions.findIndex(a => a.category === item.category) : null;
+    if (_selectedCategoryIndex > -1) {
+      console.log('in replace', _selectedCategoryIndex);
+      this.selectedOptions.splice(_selectedCategoryIndex, 1, item);
+    } else {
+      console.log('in push', _selectedCategoryIndex);
+      this.selectedOptions.push(item);
+    }
+    this.setTotalPrice();
+  }
+
+  setTotalPrice() {
+    const _selectedOptionsUpcharge = this.selectedOptions ? this.selectedOptions.map(a => +a.upcharge).reduce((i) => +i, 0) : 0;
+    this.totalPrice = this.purchasableItem.price + _selectedOptionsUpcharge;
   }
 
   setTipAmount(_tipType: 'NT' | '5%' | '10%' | '15%' | '20%' | 'C') {

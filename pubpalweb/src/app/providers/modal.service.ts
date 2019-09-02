@@ -100,7 +100,7 @@ export class ModalService {
 
     const _bsModalRef = this.bsModalSvc.show(ModalcontainerComponent, _modalOptions);
     this.bsModalRefs.push({ key, modal: _bsModalRef });
-    console.log(this.bsModalRefs, key);
+    // console.log(this.bsModalRefs, key);
 
     return _bsModalRef;
   }
@@ -113,7 +113,7 @@ export class ModalService {
       _modalRef.modal.hide();
     }
     this.bsModalRefs.splice(_modalIndex, 1);
-    console.log(`${this.bsModalRefs.length}`, key, 'hideModal');
+    // console.log(`${this.bsModalRefs.length}`, key, 'hideModal');
   }
 
   showLoadingModal() {
