@@ -3,6 +3,7 @@ import { Purchase, APIResponse, ChangePurchaseStatusRequest } from 'src/app/shar
 import { ActivatedRoute, Router } from '@angular/router';
 import { UserService } from 'src/app/providers/user.service';
 import { LoadingService } from 'src/app/providers/loading.service';
+import { PurchaseService } from 'src/app/providers/purchase.service';
 
 @Component({
   selector: 'app-purchasestatus',
@@ -15,7 +16,12 @@ export class PurchasestatusComponent implements OnInit {
 
   cancelcomments: string;
 
-  constructor(private activeRoute: ActivatedRoute, private userSvc: UserService, private router: Router, private loadingSvc: LoadingService) { }
+  constructor(
+    private activeRoute: ActivatedRoute,
+    private userSvc: UserService,
+    private router: Router,
+    private loadingSvc: LoadingService,
+    private purchaseSvc: PurchaseService) { }
 
   ngOnInit() {
     this.purchaseid = this.activeRoute.snapshot.params['id'];
@@ -28,7 +34,7 @@ export class PurchasestatusComponent implements OnInit {
   loadData() {
     if (this.userSvc.user) {
       this.loadingSvc.addMessage('GettingPurchase', 'Getting purchase details...');
-      this.userSvc.getPurchaseById(this.purchaseid).subscribe((res: APIResponse) => {
+      this.purchaseSvc.getPurchaseForUserById(this.purchaseid).subscribe((res: APIResponse) => {
         this.purchase = res.result as Purchase;
         this.loadingSvc.removeMessage('GettingPurchase');
       });
@@ -42,7 +48,7 @@ export class PurchasestatusComponent implements OnInit {
       message: this.cancelcomments
     };
     this.loadingSvc.addMessage('CancelPurchase', 'Cancelling Purchase...');
-    this.userSvc.cancelPurchase(this.userSvc.user._id, cancelReq).subscribe((res: APIResponse) => {
+    this.purchaseSvc.cancelPurchaseByUser(this.userSvc.user._id, cancelReq).subscribe((res: APIResponse) => {
       this.router.navigate(['purchasehistory']);
       this.loadingSvc.removeMessage('CancelPurchase');
     });

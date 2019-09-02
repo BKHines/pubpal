@@ -5,6 +5,7 @@ import { ModalService } from 'src/app/providers/modal.service';
 import { CONSTANTS } from 'src/app/shared/constants';
 import { PurchaseentryComponent } from '../purchaseentry/purchaseentry.component';
 import { LoadingService } from 'src/app/providers/loading.service';
+import { PurchaseService } from 'src/app/providers/purchase.service';
 
 @Component({
   selector: 'app-purchaseoptions',
@@ -24,7 +25,11 @@ export class PurchaseoptionsComponent implements OnInit, AfterViewInit {
 
   purchaseOptions: PurchasableItemModel[];
 
-  constructor(private userSvc: UserService, private modalSvc: ModalService, private loadingSvc: LoadingService) { }
+  constructor(
+    private userSvc: UserService,
+    private modalSvc: ModalService,
+    private loadingSvc: LoadingService,
+    private purchaseSvc: PurchaseService) { }
 
   ngOnInit() {
     if (this.userSvc.user) {
@@ -52,7 +57,7 @@ export class PurchaseoptionsComponent implements OnInit, AfterViewInit {
 
   getSellerOptions() {
     this.loadingSvc.addMessage('GetOptions', 'Getting Menu...');
-    this.userSvc.getSellerOptionsById(this.selectedSellerId).subscribe((res: APIResponse) => {
+    this.purchaseSvc.getSellerOptionsById(this.selectedSellerId).subscribe((res: APIResponse) => {
       this.purchaseOptions = res.result;
       this.loadingSvc.removeMessage('GetOptions');
     });

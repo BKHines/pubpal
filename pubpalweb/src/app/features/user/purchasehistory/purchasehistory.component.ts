@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { UserService } from 'src/app/providers/user.service';
 import { APIResponse, Purchase } from 'src/app/shared/models';
+import { PurchaseService } from 'src/app/providers/purchase.service';
 
 @Component({
   selector: 'app-purchasehistory',
@@ -13,7 +14,9 @@ export class PurchasehistoryComponent implements OnInit {
   customername: string;
   cancelcomments: string;
 
-  constructor(private userSvc: UserService) { }
+  constructor(
+    private userSvc: UserService,
+    private purchaseSvc: PurchaseService) { }
 
   ngOnInit() {
     this.loadData();
@@ -24,7 +27,7 @@ export class PurchasehistoryComponent implements OnInit {
 
   loadData() {
     if (this.userSvc.user) {
-      this.userSvc.getPurchasesById(this.userSvc.user._id).subscribe((res: APIResponse) => {
+      this.purchaseSvc.getPurchasesByUserId(this.userSvc.user._id).subscribe((res: APIResponse) => {
         this.purchases = res.result as Purchase[];
       });
     }

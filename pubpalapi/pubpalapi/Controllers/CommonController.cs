@@ -45,7 +45,7 @@ namespace pubpalapi.Controllers
         }
 
         [HttpGet("GetFee", Name = "GetFee")]
-        [Authorize(AuthenticationSchemes = Constants.SchemesNamesConst)]
+        [Authorize(AuthenticationSchemes = Constants.SchemesNamesUserConst)]
         public IActionResult GetFee()
         {
             try

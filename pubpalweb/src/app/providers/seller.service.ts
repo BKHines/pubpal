@@ -125,39 +125,4 @@ export class SellerService {
     this.seller = null;
     this.tokenSvc.authToken = '';
   }
-
-  getPurchasesById(personid: string): Observable<APIResponse> {
-    const params: HttpParams = new HttpParams()
-      .set('personid', personid);
-
-    return this.http.get<APIResponse>(`api/seller/getpurchasesbysellerid`, { params });
-  }
-
-  getPurchaseById(purchaseid: string): Observable<APIResponse> {
-    const params: HttpParams = new HttpParams()
-      .set('id', purchaseid);
-
-    return this.http.get<APIResponse>(`api/seller/GetPurchaseForSellerById`, { params });
-  }
-
-  changePurchaseStatus(id: string, changeStatusReq: ChangePurchaseStatusRequest): Observable<APIResponse> {
-    const params: HttpParams = new HttpParams()
-      .set('id', id);
-
-    return this.http.put<APIResponse>(`api/seller/changepurchasestatusbyseller`, changeStatusReq, { params });
-  }
-
-  cancelPurchase(id: string, changeStatusReq: ChangePurchaseStatusRequest): Observable<APIResponse> {
-    const params: HttpParams = new HttpParams()
-      .set('id', id);
-
-    return this.http.put<APIResponse>(`api/seller/cancelpurchasebyseller`, changeStatusReq, { params });
-  }
-
-  getSellerCategories(id: string) {
-    const params: HttpParams = new HttpParams()
-      .set('id', id);
-
-    return this.http.get<APIResponse>(`api/seller/getsellercategories`, { params });
-  }
 }

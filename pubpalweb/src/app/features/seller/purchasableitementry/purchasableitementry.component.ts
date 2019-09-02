@@ -7,6 +7,7 @@ import { NgForm } from '@angular/forms';
 import { LoadingService } from 'src/app/providers/loading.service';
 import { Observable, of } from 'rxjs';
 import { mergeMap } from 'rxjs/operators';
+import { PurchaseService } from 'src/app/providers/purchase.service';
 
 @Component({
   selector: 'app-purchasableitementry',
@@ -29,12 +30,16 @@ export class PurchasableitementryComponent implements OnInit {
   typeaheadNoResults: boolean;
   dataSource: Observable<any>;
 
-  constructor(private sellerSvc: SellerService, private modalSvc: ModalService, private loadingSvc: LoadingService) { }
+  constructor(
+    private sellerSvc: SellerService,
+    private modalSvc: ModalService,
+    private loadingSvc: LoadingService,
+    private purchaseSvc: PurchaseService) { }
 
   ngOnInit() {
     this.categoryTypes = CONSTANTS.categorytypes;
 
-    this.sellerSvc.getSellerCategories(this.sellerSvc.seller._id).subscribe((res: APIResponse) => {
+    this.purchaseSvc.getSellerCategories(this.sellerSvc.seller._id).subscribe((res: APIResponse) => {
       this.categories = res.result as string[];
     });
 

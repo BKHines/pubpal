@@ -25,7 +25,9 @@ namespace pubpalapi
             services.AddAuthentication(o =>
             {
                 o.DefaultScheme = Constants.SchemesNamesConst;
-            }).AddScheme<TokenAuthenticationOptions, PubPalAuthenticationHandler>(Constants.SchemesNamesConst, o => { });
+            })
+            .AddScheme<TokenAuthenticationOptions, PubPalAuthenticationHandlerUser>(Constants.SchemesNamesUserConst, o => { })
+            .AddScheme<TokenAuthenticationOptions, PubPalAuthenticationHandlerSeller>(Constants.SchemesNamesSellerConst, o => { });
             services.AddAuthorization();
             services.AddCors(options =>
             {

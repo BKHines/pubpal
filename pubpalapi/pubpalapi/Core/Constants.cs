@@ -8,5 +8,7 @@ namespace pubpalapi.Core
     public static class Constants
     {
         public const string SchemesNamesConst = "TokenAuthenticationScheme";
+        public const string SchemesNamesUserConst = "TokenAuthenticationSchemeUser";
+        public const string SchemesNamesSellerConst = "TokenAuthenticationSchemeSeller";
     }
 }

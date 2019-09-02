@@ -6,6 +6,7 @@ import { ModalService } from 'src/app/providers/modal.service';
 import { CONSTANTS } from 'src/app/shared/constants';
 import { LoadingService } from 'src/app/providers/loading.service';
 import { CommonService } from 'src/app/providers/common.service';
+import { PurchaseService } from 'src/app/providers/purchase.service';
 
 @Component({
   selector: 'app-purchaseentry',
@@ -45,11 +46,16 @@ export class PurchaseentryComponent implements OnInit {
 
   isoptionselected = (item: Ingredient) => this.selectedOptions && this.selectedOptions.some(a => a.id === item.id);
 
-  constructor(public userSvc: UserService, private modalSvc: ModalService, private loadingSvc: LoadingService, private common: CommonService) { }
+  constructor(
+    public userSvc: UserService,
+    private modalSvc: ModalService,
+    private loadingSvc: LoadingService,
+    private common: CommonService,
+    private purchaseSvc: PurchaseService) { }
 
   ngOnInit() {
     if (this.purchaseId) {
-      this.userSvc.getPurchaseById(this.purchaseId).subscribe((res: APIResponse) => {
+      this.purchaseSvc.getPurchaseForUserById(this.purchaseId).subscribe((res: APIResponse) => {
         this.purchase = res.result;
       });
     }
@@ -59,7 +65,7 @@ export class PurchaseentryComponent implements OnInit {
       this.common.getFee().subscribe((feeres: APIResponse) => {
         this.fee = feeres.result as number;
 
-        this.userSvc.getSellerOptionByIds(this.sellerId, this.optionId).subscribe((res: APIResponse) => {
+        this.purchaseSvc.getSellerOptionByIds(this.sellerId, this.optionId).subscribe((res: APIResponse) => {
           this.purchasableItem = res.result;
           this.categories = [];
           this.purchasableItem.ingredients.forEach((a) => {
@@ -147,7 +153,7 @@ export class PurchaseentryComponent implements OnInit {
       }]
     };
     this.loadingSvc.addMessage('CreatePurchase', 'Creating Purchase...');
-    this.userSvc.createPurchase(this.purchase).subscribe((res: APIResponse) => {
+    this.purchaseSvc.createPurchase(this.purchase).subscribe((res: APIResponse) => {
       this.modalSvc.hideModal(CONSTANTS.MODAL_PURCHASE);
       this.purchase._id = res.result;
       this.loadingSvc.removeMessage('CreatePurchase');

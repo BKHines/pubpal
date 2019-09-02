@@ -20,16 +20,20 @@ namespace pubpalapi.Core
     {
         IHttpContextAccessor _httpContextAccessor = null;
         private readonly PubPalLogger _logger;
-        private readonly SettingsModel _settings;
+        public SettingsModel _settings;
+        public string _storeToUse;
 
-        public PubPalAuthenticationHandler(IOptionsMonitor<TokenAuthenticationOptions> options, ILoggerFactory logger, UrlEncoder encoder, ISystemClock clock, IHttpContextAccessor httpContextAccessor, IOptions<SettingsModel> settingsoptions)
+        public PubPalAuthenticationHandler(IOptionsMonitor<TokenAuthenticationOptions> options, 
+            ILoggerFactory logger, 
+            UrlEncoder encoder, 
+            ISystemClock clock, 
+            IHttpContextAccessor httpContextAccessor, 
+            IOptions<SettingsModel> settingsoptions)
         : base(options, logger, encoder, clock)
         {
             _httpContextAccessor = httpContextAccessor;
             var LOGGER = logger.CreateLogger("PubPalInterceptor");
             _logger = new PubPalLogger(LOGGER);
-
-            _settings = settingsoptions.Value;
         }
 
         protected override Task<AuthenticateResult> HandleAuthenticateAsync()
@@ -70,17 +74,7 @@ namespace pubpalapi.Core
                         ip = _httpContextAccessor.HttpContext.Features.Get<IHttpConnectionFeature>()?.RemoteIpAddress.ToString();
                     }
                     string dbName = _settings.Database;
-                    string userStore = _settings.UserStoreName;
-                    string sellerStore = _settings.SellerStoreName;
-
-                    string storeToUse = userStore;
-
-                    if (_httpContextAccessor.HttpContext.Request.Path.Value.Contains("api/seller"))
-                    {
-                        storeToUse = sellerStore;
-                    }
-
-                    return PubPalSecurityManager.IsTokenValid(tokenTrim, ip, dbName, storeToUse, _logger);
+                    return PubPalSecurityManager.IsTokenValid(tokenTrim, ip, dbName, _storeToUse, _logger);
                 }
                 catch
                 {

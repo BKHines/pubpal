@@ -39,7 +39,7 @@ namespace pubpalapi.Controllers
 
         #region Seller Methods
         [HttpGet]
-        [Authorize(AuthenticationSchemes = Constants.SchemesNamesConst)]
+        [Authorize(AuthenticationSchemes = Constants.SchemesNamesSellerConst)]
         public IActionResult Get()
         {
             try
@@ -60,7 +60,7 @@ namespace pubpalapi.Controllers
         }
 
         [HttpGet("GetSellerById", Name = "GetSellerById")]
-        [Authorize(AuthenticationSchemes = Constants.SchemesNamesConst)]
+        [Authorize(AuthenticationSchemes = Constants.SchemesNamesSellerConst)]
         public IActionResult GetById(string id)
         {
             try
@@ -81,7 +81,7 @@ namespace pubpalapi.Controllers
         }
 
         [HttpGet("GetSellerByEmail", Name = "GetSellerByEmail")]
-        [Authorize(AuthenticationSchemes = Constants.SchemesNamesConst)]
+        [Authorize(AuthenticationSchemes = Constants.SchemesNamesSellerConst)]
         public IActionResult GetByEmail(string email)
         {
             try
@@ -102,7 +102,7 @@ namespace pubpalapi.Controllers
         }
 
         [HttpGet("GetSellerByName", Name = "GetSellerByName")]
-        [Authorize(AuthenticationSchemes = Constants.SchemesNamesConst)]
+        [Authorize(AuthenticationSchemes = Constants.SchemesNamesSellerConst)]
         public IActionResult GetByName(string name)
         {
             try
@@ -123,7 +123,7 @@ namespace pubpalapi.Controllers
         }
 
         [HttpGet("GetSellerCategories", Name = "GetSellerCategories")]
-        [Authorize(AuthenticationSchemes = Constants.SchemesNamesConst)]
+        [Authorize(AuthenticationSchemes = Constants.SchemesNamesSellerConst)]
         public IActionResult GetSellerCategories(string id)
         {
             try
@@ -163,7 +163,7 @@ namespace pubpalapi.Controllers
         }
 
         [HttpPut]
-        [Authorize(AuthenticationSchemes = Constants.SchemesNamesConst)]
+        [Authorize(AuthenticationSchemes = Constants.SchemesNamesSellerConst)]
         public IActionResult Put([FromBody] SellerModel Seller)
         {
             if (!ModelState.IsValid || string.IsNullOrEmpty(Seller._id))
@@ -184,7 +184,7 @@ namespace pubpalapi.Controllers
         }
 
         [HttpPut("AddItem", Name = "AddItem")]
-        [Authorize(AuthenticationSchemes = Constants.SchemesNamesConst)]
+        [Authorize(AuthenticationSchemes = Constants.SchemesNamesSellerConst)]
         public IActionResult AddItem(string id, [FromBody] PurchasableItemModel item)
         {
             if (!ModelState.IsValid || string.IsNullOrEmpty(id))
@@ -205,7 +205,7 @@ namespace pubpalapi.Controllers
         }
 
         [HttpPut("UpdateItem", Name = "UpdateItem")]
-        [Authorize(AuthenticationSchemes = Constants.SchemesNamesConst)]
+        [Authorize(AuthenticationSchemes = Constants.SchemesNamesSellerConst)]
         public IActionResult UpdateItem(string id, [FromBody] PurchasableItemModel item)
         {
             if (!ModelState.IsValid || string.IsNullOrEmpty(id))
@@ -226,7 +226,7 @@ namespace pubpalapi.Controllers
         }
 
         [HttpPut("UpdatePassword", Name = "UpdateSellerPassword")]
-        [Authorize(AuthenticationSchemes = Constants.SchemesNamesConst)]
+        [Authorize(AuthenticationSchemes = Constants.SchemesNamesSellerConst)]
         public IActionResult UpdatePassword([FromBody] ChangePasswordRequest changePassword)
         {
             if (!ModelState.IsValid)
@@ -247,7 +247,7 @@ namespace pubpalapi.Controllers
         }
 
         [HttpPut("DeleteItem", Name = "DeleteItem")]
-        [Authorize(AuthenticationSchemes = Constants.SchemesNamesConst)]
+        [Authorize(AuthenticationSchemes = Constants.SchemesNamesSellerConst)]
         public IActionResult DeleteItem(string id, string itemid)
         {
             try
@@ -263,7 +263,7 @@ namespace pubpalapi.Controllers
         }
 
         [HttpPut("DeleteSeller", Name = "DeleteSeller")]
-        [Authorize(AuthenticationSchemes = Constants.SchemesNamesConst)]
+        [Authorize(AuthenticationSchemes = Constants.SchemesNamesSellerConst)]
         public IActionResult DeleteSeller(string deleteid)
         {
             try
@@ -279,7 +279,7 @@ namespace pubpalapi.Controllers
         }
 
         [HttpPut("DisableSeller/{id}", Name = "DisableSeller")]
-        [Authorize(AuthenticationSchemes = Constants.SchemesNamesConst)]
+        [Authorize(AuthenticationSchemes = Constants.SchemesNamesSellerConst)]
         public IActionResult DisableSeller(string disableid)
         {
             try
@@ -287,90 +287,6 @@ namespace pubpalapi.Controllers
                 var repo = new SellerRepository(dbName, storeName);
                 var Sellerdisabled = repo.DisableSeller(disableid);
                 return Ok(Sellerdisabled);
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(500, ex);
-            }
-        }
-        #endregion
-
-        #region Purchase Methods
-        [HttpGet("GetPurchasesBySellerId", Name = "GetPurchasesBySellerId")]
-        [Authorize(AuthenticationSchemes = Constants.SchemesNamesConst)]
-        public IActionResult GetPurchasesBySellerId(string personid)
-        {
-            try
-            {
-                var repo = new PurchaseRepository(dbName, purchaseStoreName);
-                var purchases = repo.GetPurchasesBySellerId(personid);
-                if (purchases == null)
-                {
-                    return NotFound();
-                }
-                return Ok(purchases);
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(500, ex);
-            }
-        }
-
-        [HttpGet("GetPurchaseForSellerById", Name = "GetPurchaseForSellerById")]
-        [Authorize(AuthenticationSchemes = Constants.SchemesNamesConst)]
-        public IActionResult GetPurchaseForSellerById(string id)
-        {
-            try
-            {
-                var repo = new PurchaseRepository(dbName, purchaseStoreName);
-                var purchase = repo.GetPurchaseById(id);
-                if (purchase == null)
-                {
-                    return NotFound();
-                }
-                return Ok(purchase);
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(500, ex);
-            }
-        }
-
-        [HttpPut("ChangePurchaseStatusBySeller", Name = "ChangePurchaseStatusBySeller")]
-        [Authorize(AuthenticationSchemes = Constants.SchemesNamesConst)]
-        public IActionResult ChangePurchaseStatusBySeller(string id, [FromBody] ChangePurchaseStatusRequest req)
-        {
-            if (!ModelState.IsValid || string.IsNullOrEmpty(id))
-            {
-                return BadRequest();
-            }
-
-            try
-            {
-                var repo = new PurchaseRepository(dbName, purchaseStoreName);
-                var purchaseStatusUpdated = repo.UpdatePurchaseStatus(id, req.purchaseid, req.status, req.message);
-                return Ok(purchaseStatusUpdated);
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(500, ex);
-            }
-        }
-
-        [HttpPut("CancelPurchaseBySeller", Name = "CancelPurchaseBySeller")]
-        [Authorize(AuthenticationSchemes = Constants.SchemesNamesConst)]
-        public IActionResult CancelPurchaseBySeller(string id, [FromBody] ChangePurchaseStatusRequest req)
-        {
-            if (!ModelState.IsValid || string.IsNullOrEmpty(id))
-            {
-                return BadRequest();
-            }
-
-            try
-            {
-                var repo = new PurchaseRepository(dbName, purchaseStoreName);
-                var purchaseStatusUpdated = repo.UpdatePurchaseStatus(id, req.purchaseid, req.status, req.message);
-                return Ok(purchaseStatusUpdated);
             }
             catch (Exception ex)
             {

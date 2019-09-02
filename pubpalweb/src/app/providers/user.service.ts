@@ -103,35 +103,6 @@ export class UserService {
     this.tokenSvc.authToken = '';
   }
 
-  getSellerOptionsById(sellerId: string): Observable<APIResponse> {
-    const params: HttpParams = new HttpParams()
-      .set('id', sellerId);
-
-    return this.http.get<APIResponse>(`api/user/getselleroptionsbyid`, { params });
-  }
-
-  getSellerOptionByIds(sellerId: string, optionId: string): Observable<APIResponse> {
-    const params: HttpParams = new HttpParams()
-      .set('id', sellerId)
-      .set('optionId', optionId);
-
-    return this.http.get<APIResponse>(`api/user/getselleroptionbyids`, { params });
-  }
-
-  getPurchasesById(personid: string): Observable<APIResponse> {
-    const params: HttpParams = new HttpParams()
-      .set('personid', personid);
-
-    return this.http.get<APIResponse>(`api/user/getpurchasesbyuserid`, { params });
-  }
-
-  getPurchaseById(purchaseid: string): Observable<APIResponse> {
-    const params: HttpParams = new HttpParams()
-      .set('id', purchaseid);
-
-    return this.http.get<APIResponse>(`api/user/GetPurchaseForUserById`, { params });
-  }
-
   getSellersNearMe(lat: number, lng: number, miles: number): Observable<APIResponse> {
     const params: HttpParams = new HttpParams()
       .set('lat', lat.toString())
@@ -139,20 +110,5 @@ export class UserService {
       .set('miles', miles.toString());
 
     return this.http.get<APIResponse>(`api/user/getsellersbylocation`, { params });
-  }
-
-  createPurchase(purchase: Purchase): Observable<APIResponse> {
-    return this.http.post<APIResponse>(`api/user/createpurchasebyuser`, purchase);
-  }
-
-  updatePurchase(purchase: Purchase): Observable<APIResponse> {
-    return this.http.put<APIResponse>(`api/user/updatepurchasebyuser`, purchase);
-  }
-
-  cancelPurchase(id: string, changeStatusReq: ChangePurchaseStatusRequest): Observable<APIResponse> {
-    const params: HttpParams = new HttpParams()
-      .set('id', id);
-
-    return this.http.put<APIResponse>(`api/user/cancelpurchasebyuser`, changeStatusReq, { params });
   }
 }
