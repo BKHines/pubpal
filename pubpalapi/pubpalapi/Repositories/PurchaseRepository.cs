@@ -10,10 +10,15 @@ namespace pubpalapi.Repositories
     public class PurchaseRepository
     {
         private PurchaseDA purchaseDA;
+        private UserRepository userRepo;
 
-        public PurchaseRepository(string dbName, string storeName)
+        public PurchaseRepository(string dbName, string storeName, string userStoreName = "")
         {
             purchaseDA = new PurchaseDA(dbName, storeName);
+            if (!string.IsNullOrWhiteSpace(userStoreName))
+            {
+                userRepo = new UserRepository(dbName, userStoreName);
+            }
         }
 
         public PurchaseModel GetPurchaseById(string id)
@@ -73,6 +78,12 @@ namespace pubpalapi.Repositories
         public string CreatePurchase(PurchaseModel newPurchase)
         {
             var purchaseid = purchaseDA.CreatePurchase(newPurchase);
+            var user = userRepo.GetUserById(newPurchase.userid);
+            if (user.waivedfeetokens > 0)
+            {
+                user.waivedfeetokens -= 1;
+                userRepo.UpdateUser(user);
+            }
             return purchaseid;
         }
 
@@ -99,6 +110,12 @@ namespace pubpalapi.Repositories
             purchaseHistory.Add(new PurchaseHistory() { purchasestatus = status, statusdate = DateTime.Now.ToString(), message = message });
             purchase.purchasehistory = purchaseHistory.ToArray();
             var purchaseupdated = purchaseDA.UpdatePurchase(purchase);
+            if (status == PurchaseStatus.cancelled && purchase.feewaived)
+            {
+                var user = userRepo.GetUserById(purchase.userid);
+                user.waivedfeetokens += 1;
+                userRepo.UpdateUser(user);
+            }
             return purchaseupdated;
         }
 

@@ -15,13 +15,21 @@ export class UserComponent implements OnInit {
   constructor(public userSvc: UserService, private router: Router) { }
 
   ngOnInit() {
+    this.loadData();
+    this.userSvc.userLoaded.subscribe(() => {
+      this.loadData();
+    });
+  }
+
+  loadData() {
     if (this.userSvc.user) {
       this.localUser = Object.assign({}, this.userSvc.user);
     } else {
       this.localUser = {
         email: '',
         firstname: '',
-        lastname: ''
+        lastname: '',
+        waivedfeetokens: 0
       };
     }
   }

@@ -19,7 +19,13 @@ export class SellerComponent implements OnInit {
 
   ngOnInit() {
     this.states = CONSTANTS.states;
+    this.loadData();
+    this.sellerSvc.sellerLoaded.subscribe(() => {
+      this.loadData();
+    });
+  }
 
+  loadData() {
     if (this.sellerSvc.seller) {
       this.localSeller = Object.assign({}, this.sellerSvc.seller);
     } else {

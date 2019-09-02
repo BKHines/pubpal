@@ -331,7 +331,7 @@ namespace pubpalapi.Controllers
 
             try
             {
-                var repo = new PurchaseRepository(dbName, purchaseStoreName);
+                var repo = new PurchaseRepository(dbName, purchaseStoreName, storeName);
                 var purchaseId = repo.CreatePurchase(purchase);
                 return Ok(purchaseId);
             }
@@ -373,7 +373,7 @@ namespace pubpalapi.Controllers
 
             try
             {
-                var repo = new PurchaseRepository(dbName, purchaseStoreName);
+                var repo = new PurchaseRepository(dbName, purchaseStoreName, storeName);
                 var purchaseStatusUpdated = repo.UpdatePurchaseStatus(id, req.purchaseid, req.status, req.message);
                 return Ok(purchaseStatusUpdated);
             }

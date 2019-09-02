@@ -10,7 +10,7 @@
                 <div class="card-body">
                     <div class="row form-group">
                         <div class="col-lg-12 h4">
-                            {{ purchasableItem.name }} ({{ purchasableItem.price | currency }})
+                            {{ purchasableItem.name }} ({{ purchasableItem.price | currency }}){{selectedOptionsUpcharge ? ' -> (' + ((purchasableItem.price + selectedOptionsUpcharge) | currency) + ')' : ''}}
                         </div>
                     </div>
                     <div class="row form-group">
@@ -110,6 +110,13 @@
                         </div>
                     </div>
                     <div class="row form-group">
+                        <div class="col-lg-12">
+                            <span style="font-weight: bold">PubPal Fee:</span>&nbsp;
+                            <span *ngIf="!userSvc.user.waivedfeetokens">{{ fee | currency }}</span>
+                            <span *ngIf="userSvc.user.waivedfeetokens && userSvc.user.waivedfeetokens > 0"><del>{{ fee | currency }}</del></span>
+                        </div>
+                    </div>
+                    <div class="row form-group">
                         <div class="col-lg-10">
                             <textarea class="form-control" rows="3" id="inputDescription" name="description"
                                 placeholder="Any Special Instructions?" [(ngModel)]="instructions"></textarea>
@@ -118,7 +125,7 @@
                     <div class="row form-group">
                         <div class="col-lg-12">
                             <h5>Total Price: </h5>
-                            {{ (totalPrice + tipAmount) | currency }}
+                            {{ (totalPrice + tipAmount + (!userSvc.user.waivedfeetokens ? fee : 0)) | currency }}
                         </div>
                     </div>
                 </div>

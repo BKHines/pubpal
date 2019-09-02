@@ -12,7 +12,7 @@ export class PubpalcryptoService {
   constructor(private http: HttpClient) { }
 
   getIp(): Observable<APIResponse> {
-    return this.http.get<APIResponse>('api/ip');
+    return this.http.get<APIResponse>('api/common/getip');
   }
 
   getKey(password: string): string {

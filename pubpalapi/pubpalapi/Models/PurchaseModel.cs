@@ -33,6 +33,8 @@ namespace pubpalapi.Models
         [Required]
         public decimal fee { get; set; }
         [Required]
+        public bool feewaived { get; set; }
+        [Required]
         public decimal tip { get; set; }
         public string instructions { get; set; }
         [BsonRepresentation(BsonType.String)]

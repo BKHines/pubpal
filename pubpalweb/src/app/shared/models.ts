@@ -6,7 +6,7 @@ export interface APIResponse {
     errormessage: any;
 }
 
-export interface UserModel {
+export interface PersonModel {
     _id?: string;
     email: string;
     enabled?: boolean;
@@ -14,7 +14,11 @@ export interface UserModel {
     lastname: string;
 }
 
-export interface SellerModel extends UserModel {
+export interface UserModel extends PersonModel {
+    waivedfeetokens: number;
+}
+
+export interface SellerModel extends PersonModel {
     place: PlaceModel;
     items?: PurchasableItemModel[];
 }
@@ -99,6 +103,7 @@ export interface Purchase {
     ingredients: string[];
     price: number;
     fee: number;
+    feewaived: boolean;
     tip: number;
     instructions?: string;
     currentstatus: StatusType;

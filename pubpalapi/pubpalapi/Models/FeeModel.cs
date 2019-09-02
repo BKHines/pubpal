@@ -8,9 +8,14 @@ using System.Threading.Tasks;
 
 namespace pubpalapi.Models
 {
-    public class UserModel : PersonModel
+    public class FeeModel
     {
+        [BsonId]
+        [BsonRepresentation(BsonType.ObjectId)]
+        public string _id { get; set; }
         [Required]
-        public int waivedfeetokens { get; set; }
+        public decimal fee { get; set; }
+        [Required]
+        public int feediscount { get; set; }
     }
 }

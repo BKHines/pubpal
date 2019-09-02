@@ -13,31 +13,40 @@
                             <label for="inputEmail" class="col-lg-2 col-form-label font-weight-bold">Email</label>
                             <div class="col-lg-10">
                                 <input type="email" class="form-control" id="inputEmail" name="email"
-                                    placeholder="address@email.com" [(ngModel)]="localUser.email" #entryemail="ngModel" required
-                                    [class.field-error]="entryemail.touched && entryemail.invalid">
+                                    placeholder="address@email.com" [(ngModel)]="localUser.email" #entryemail="ngModel"
+                                    required [class.field-error]="entryemail.touched && entryemail.invalid">
                                 <div [hidden]="!entryemail.touched || entryemail.valid"
                                     class="field-error-message alert alert-danger text-muted">Email is required</div>
                             </div>
                         </div>
                         <div class="row form-group">
-                            <label for="inputFirstName" class="col-lg-2 col-form-label font-weight-bold">First Name</label>
+                            <label for="inputFirstName" class="col-lg-2 col-form-label font-weight-bold">First
+                                Name</label>
                             <div class="col-lg-10">
                                 <input type="text" class="form-control" id="inputFirstName" name="firstname"
                                     placeholder="First Name" [(ngModel)]="localUser.firstname" #entryfirstname="ngModel"
                                     required [class.field-error]="entryfirstname.touched && entryfirstname.invalid">
                                 <div [hidden]="!entryfirstname.touched || entryfirstname.valid"
-                                    class="field-error-message alert alert-danger text-muted">First Name is required</div>
+                                    class="field-error-message alert alert-danger text-muted">First Name is required
+                                </div>
                             </div>
                         </div>
                         <div class="row form-group">
-                            <label for="inputLastName" class="col-lg-2 col-form-label font-weight-bold">Last Name</label>
+                            <label for="inputLastName" class="col-lg-2 col-form-label font-weight-bold">Last
+                                Name</label>
                             <div class="col-lg-10">
                                 <input type="text" class="form-control" id="inputLastName" name="lastname"
-                                    placeholder="Last Name" [(ngModel)]="localUser.lastname" #entrylastname="ngModel" required
-                                    [class.field-error]="entrylastname.touched && entrylastname.invalid">
+                                    placeholder="Last Name" [(ngModel)]="localUser.lastname" #entrylastname="ngModel"
+                                    required [class.field-error]="entrylastname.touched && entrylastname.invalid">
                                 <div [hidden]="!entrylastname.touched || entrylastname.valid"
-                                    class="field-error-message alert alert-danger text-muted">Last Name is required</div>
+                                    class="field-error-message alert alert-danger text-muted">Last Name is required
+                                </div>
                             </div>
+                        </div>
+                        <div class="row form-group">
+                            <label class="col-lg-2 col-form-label font-weight-bold">Fee Waivers</label>
+                            <label
+                                class="col-lg-10 col-form-label">{{ userSvc.user ? userSvc.user.waivedfeetokens : 0 }}</label>
                         </div>
                     </div>
                     <div class="card-footer bg-white">

@@ -1,12 +1,18 @@
 import { Injectable } from '@angular/core';
-import { StatusType, StatusText } from '../shared/models';
+import { StatusType, StatusText, APIResponse } from '../shared/models';
+import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class CommonService {
 
-  constructor() { }
+  constructor(private http: HttpClient) { }
+
+  getFee(): Observable<APIResponse> {
+    return this.http.get<APIResponse>(`api/common/getfee`);
+  }
 
   // 'ordered' | 'accepted' | 'inprogress' | 'ready' | 'pickedup' | 'cancelled'
   getNextStatusText(_currStatus: StatusType): StatusText {

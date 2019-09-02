@@ -48,7 +48,8 @@ export class RegistrationComponent implements OnInit {
       this.localUser = {
         email: '',
         firstname: '',
-        lastname: ''
+        lastname: '',
+        waivedfeetokens: 0
       };
     }
   }
