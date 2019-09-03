@@ -81,11 +81,4 @@ export class PurchaseService {
 
     return this.http.put<APIResponse>(`api/purchase/cancelpurchasebyseller`, changeStatusReq, { params });
   }
-
-  getSellerCategories(id: string) {
-    const params: HttpParams = new HttpParams()
-      .set('id', id);
-
-    return this.http.get<APIResponse>(`api/purchase/getsellercategories`, { params });
-  }
 }

@@ -129,7 +129,7 @@ namespace pubpalapi.Controllers
             try
             {
                 var repo = new SellerRepository(dbName, storeName);
-                var sellerCats = repo.GetSellerCategories(id);
+                var sellerCats = repo.GetSellerCategories(id).Distinct();
                 if (sellerCats == null)
                 {
                     return NotFound();

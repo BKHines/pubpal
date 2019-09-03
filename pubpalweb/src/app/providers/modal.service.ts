@@ -106,7 +106,7 @@ export class ModalService {
   }
 
   hideModal(key: string) {
-    console.log(`${this.bsModalRefs.length}`, key, 'hideModal');
+    // console.log(`${this.bsModalRefs.length}`, key, 'hideModal');
     const _modalIndex = this.bsModalRefs.findIndex(a => a.key === key);
     const _modalRef = this.bsModalRefs.find(a => a.key === key);
     if (_modalRef) {

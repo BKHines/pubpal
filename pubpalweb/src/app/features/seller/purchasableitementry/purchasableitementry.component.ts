@@ -33,13 +33,12 @@ export class PurchasableitementryComponent implements OnInit {
   constructor(
     private sellerSvc: SellerService,
     private modalSvc: ModalService,
-    private loadingSvc: LoadingService,
-    private purchaseSvc: PurchaseService) { }
+    private loadingSvc: LoadingService) { }
 
   ngOnInit() {
     this.categoryTypes = CONSTANTS.categorytypes;
 
-    this.purchaseSvc.getSellerCategories(this.sellerSvc.seller._id).subscribe((res: APIResponse) => {
+    this.sellerSvc.getSellerCategories(this.sellerSvc.seller._id).subscribe((res: APIResponse) => {
       this.categories = res.result as string[];
     });
 

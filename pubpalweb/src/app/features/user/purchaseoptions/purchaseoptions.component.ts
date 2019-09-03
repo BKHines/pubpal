@@ -44,7 +44,7 @@ export class PurchaseoptionsComponent implements OnInit, AfterViewInit {
   }
 
   loadData() {
-    this.userSvc.getSellersNearMe(-1, -1, 1).subscribe((res: APIResponse) => {
+    this.userSvc.getSellersNearMe(39.344, -84.537, 10).subscribe((res: APIResponse) => {
       this.sellers = res.result;
     });
   }

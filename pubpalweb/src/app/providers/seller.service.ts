@@ -131,4 +131,11 @@ export class SellerService {
     this.seller = null;
     this.tokenSvc.authToken = '';
   }
+
+  getSellerCategories(id: string) {
+    const params: HttpParams = new HttpParams()
+      .set('id', id);
+
+    return this.http.get<APIResponse>(`api/seller/getsellercategories`, { params });
+  }
 }
