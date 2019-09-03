@@ -2,7 +2,7 @@
     <div class="flex-container">
         <div>
             <form #sellerForm="ngForm">
-                <div class="card fullscreen-card">
+                <div class="card fullscreen-card" *ngIf="localSeller">
                     <div class="card-header bg-primary text-white text-uppercase">
                         <h3>
                             Seller Information
@@ -108,22 +108,21 @@
                             </div>
                         </div>
                         <div class="row form-group">
-                            <label for="inputPlaceLat" class="col-lg-2 col-form-label font-weight-bold">Latitude</label>
-                            <div class="col-lg-3">
-                                <input type="text" class="form-control" id="inputPlaceLat" name="placelat"
-                                    placeholder="Latitude" [(ngModel)]="localSeller.place.address.latitude"
-                                    #entryplacelat="ngModel" required
-                                    [class.field-error]="entryplacelat.touched && entryplacelat.invalid">
-                                <div [hidden]="!entryplacelat.touched || entryplacelat.valid"
-                                    class="field-error-message alert alert-danger text-muted">Latitude is
-                                    required
+                            <div class="col-lg-12">
+                                <div *ngIf="(entryplacezip.touched && entryplacezip.invalid) || 
+                                                        (entryplacestate.touched && entryplacestate.invalid) || 
+                                                        (entryplacecity.touched && entryplacecity.invalid)"
+                                    class="field-error-message alert alert-danger text-muted">
+                                    Seller City/State/Zip (5-digit) is required
                                 </div>
                             </div>
+                        </div>
+                        <div class="row form-group">
                             <label for="inputPlaceLong"
                                 class="col-lg-2 col-form-label font-weight-bold">Longitude</label>
                             <div class="col-lg-3">
                                 <input type="text" class="form-control" id="inputPlaceLong" name="placelong"
-                                    placeholder="Longitude" [(ngModel)]="localSeller.place.address.longitude"
+                                    placeholder="Longitude" [(ngModel)]="localSeller.place.location.coordinates[0]"
                                     #entryplacelong="ngModel" required
                                     [class.field-error]="entryplacelong.touched && entryplacelong.invalid">
                                 <div [hidden]="!entryplacelong.touched || entryplacelong.valid"
@@ -131,14 +130,15 @@
                                     required
                                 </div>
                             </div>
-                        </div>
-                        <div class="row form-group">
-                            <div class="col-lg-12">
-                                <div *ngIf="(entryplacezip.touched && entryplacezip.invalid) || 
-                                                        (entryplacestate.touched && entryplacestate.invalid) || 
-                                                        (entryplacecity.touched && entryplacecity.invalid)"
-                                    class="field-error-message alert alert-danger text-muted">
-                                    Seller City/State/Zip (5-digit) is required
+                            <label for="inputPlaceLat" class="col-lg-2 col-form-label font-weight-bold">Latitude</label>
+                            <div class="col-lg-3">
+                                <input type="text" class="form-control" id="inputPlaceLat" name="placelat"
+                                    placeholder="Latitude" [(ngModel)]="localSeller.place.location.coordinates[1]"
+                                    #entryplacelat="ngModel" required
+                                    [class.field-error]="entryplacelat.touched && entryplacelat.invalid">
+                                <div [hidden]="!entryplacelat.touched || entryplacelat.valid"
+                                    class="field-error-message alert alert-danger text-muted">Latitude is
+                                    required
                                 </div>
                             </div>
                         </div>

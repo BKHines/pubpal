@@ -12,7 +12,17 @@ namespace pubpalapi.Models
         public string name { get; set; }
         [Required]
         public AddressModel address { get; set; }
+        [Required]
+        public LocationModel location { get; set; }
 
         public string description { get; set; }
+    }
+
+    public class LocationModel
+    {
+        [Required]
+        public string type { get; set; }
+        [Required]
+        public float[] coordinates { get; set; }
     }
 }

@@ -36,20 +36,24 @@
                                 <label for="inputEmail" class="col-lg-2 col-form-label font-weight-bold">Email</label>
                                 <div class="col-lg-10">
                                     <input type="email" class="form-control" id="inputEmail" name="email"
-                                        placeholder="address@email.com" [(ngModel)]="localUser.email" #entryemail="ngModel"
-                                        required [class.field-error]="entryemail.touched && entryemail.invalid">
+                                        placeholder="address@email.com" [(ngModel)]="localUser.email"
+                                        #entryemail="ngModel" required
+                                        [class.field-error]="entryemail.touched && entryemail.invalid">
                                     <div [hidden]="!entryemail.touched || entryemail.valid"
-                                        class="field-error-message alert alert-danger text-muted">Email is required</div>
+                                        class="field-error-message alert alert-danger text-muted">Email is required
+                                    </div>
                                 </div>
                             </div>
                             <div class="row form-group">
-                                <label for="inputPassword" class="col-lg-2 col-form-label font-weight-bold">Password</label>
+                                <label for="inputPassword"
+                                    class="col-lg-2 col-form-label font-weight-bold">Password</label>
                                 <div class="col-lg-10">
                                     <input type="password" class="form-control" id="inputPassword" name="password"
                                         placeholder="Password" [(ngModel)]="password" #entrypass="ngModel" required
                                         [class.field-error]="entrypass.touched && entrypass.invalid">
                                     <div [hidden]="!entrypass.touched || entrypass.valid"
-                                        class="field-error-message alert alert-danger text-muted">Password is required</div>
+                                        class="field-error-message alert alert-danger text-muted">Password is required
+                                    </div>
                                 </div>
                             </div>
                             <div class="row form-group">
@@ -57,8 +61,9 @@
                                     Name</label>
                                 <div class="col-lg-10">
                                     <input type="text" class="form-control" id="inputFirstName" name="firstname"
-                                        placeholder="First Name" [(ngModel)]="localUser.firstname" #entryfirstname="ngModel"
-                                        required [class.field-error]="entryfirstname.touched && entryfirstname.invalid">
+                                        placeholder="First Name" [(ngModel)]="localUser.firstname"
+                                        #entryfirstname="ngModel" required
+                                        [class.field-error]="entryfirstname.touched && entryfirstname.invalid">
                                     <div [hidden]="!entryfirstname.touched || entryfirstname.valid"
                                         class="field-error-message alert alert-danger text-muted">First Name is required
                                     </div>
@@ -69,8 +74,9 @@
                                     Name</label>
                                 <div class="col-lg-10">
                                     <input type="text" class="form-control" id="inputLastName" name="lastname"
-                                        placeholder="Last Name" [(ngModel)]="localUser.lastname" #entrylastname="ngModel"
-                                        required [class.field-error]="entrylastname.touched && entrylastname.invalid">
+                                        placeholder="Last Name" [(ngModel)]="localUser.lastname"
+                                        #entrylastname="ngModel" required
+                                        [class.field-error]="entrylastname.touched && entrylastname.invalid">
                                     <div [hidden]="!entrylastname.touched || entrylastname.valid"
                                         class="field-error-message alert alert-danger text-muted">Last Name is required
                                     </div>
@@ -86,17 +92,20 @@
                                         #entryemail="ngModel" required
                                         [class.field-error]="entryemail.touched && entryemail.invalid">
                                     <div [hidden]="!entryemail.touched || entryemail.valid"
-                                        class="field-error-message alert alert-danger text-muted">Email is required</div>
+                                        class="field-error-message alert alert-danger text-muted">Email is required
+                                    </div>
                                 </div>
                             </div>
                             <div class="row form-group">
-                                <label for="inputPassword" class="col-lg-2 col-form-label font-weight-bold">Password</label>
+                                <label for="inputPassword"
+                                    class="col-lg-2 col-form-label font-weight-bold">Password</label>
                                 <div class="col-lg-10">
                                     <input type="password" class="form-control" id="inputPassword" name="password"
                                         placeholder="Password" [(ngModel)]="password" #entrypass="ngModel" required
                                         [class.field-error]="entrypass.touched && entrypass.invalid">
                                     <div [hidden]="!entrypass.touched || entrypass.valid"
-                                        class="field-error-message alert alert-danger text-muted">Password is required</div>
+                                        class="field-error-message alert alert-danger text-muted">Password is required
+                                    </div>
                                 </div>
                             </div>
                             <div class="row form-group">
@@ -117,8 +126,9 @@
                                     Name</label>
                                 <div class="col-lg-10">
                                     <input type="text" class="form-control" id="inputLastName" name="lastname"
-                                        placeholder="Last Name" [(ngModel)]="localSeller.lastname" #entrylastname="ngModel"
-                                        required [class.field-error]="entrylastname.touched && entrylastname.invalid">
+                                        placeholder="Last Name" [(ngModel)]="localSeller.lastname"
+                                        #entrylastname="ngModel" required
+                                        [class.field-error]="entrylastname.touched && entrylastname.invalid">
                                     <div [hidden]="!entrylastname.touched || entrylastname.valid"
                                         class="field-error-message alert alert-danger text-muted">Last Name is required
                                     </div>
@@ -162,14 +172,16 @@
                                 </div>
                             </div>
                             <div class="row form-group">
-                                <label for="inputPlaceCity" class="col-lg-2 col-form-label font-weight-bold">City</label>
+                                <label for="inputPlaceCity"
+                                    class="col-lg-2 col-form-label font-weight-bold">City</label>
                                 <div class="col-lg-4">
                                     <input type="text" class="form-control" id="inputPlaceCity" name="placecity"
                                         placeholder="City" [(ngModel)]="localSeller.place.address.city"
                                         #entryplacecity="ngModel" required
                                         [class.field-error]="entryplacecity.touched && entryplacecity.invalid">
                                 </div>
-                                <label for="inputPlaceState" class="col-lg-1 col-form-label font-weight-bold">State</label>
+                                <label for="inputPlaceState"
+                                    class="col-lg-1 col-form-label font-weight-bold">State</label>
                                 <div class="col-lg-2">
                                     <select name="entryplacestate" [(ngModel)]="localSeller.place.address.state"
                                         class="form-control" required #entryplacestate="ngModel"
@@ -196,10 +208,37 @@
                                     </div>
                                 </div>
                             </div>
+                            <div class="row form-group">
+                                <label for="inputPlaceLong"
+                                    class="col-lg-2 col-form-label font-weight-bold">Longitude</label>
+                                <div class="col-lg-3">
+                                    <input type="text" class="form-control" id="inputPlaceLong" name="placelong"
+                                        placeholder="Longitude" [(ngModel)]="localSeller.place.location.coordinates[0]"
+                                        #entryplacelong="ngModel" required
+                                        [class.field-error]="entryplacelong.touched && entryplacelong.invalid">
+                                    <div [hidden]="!entryplacelong.touched || entryplacelong.valid"
+                                        class="field-error-message alert alert-danger text-muted">Longitude is
+                                        required
+                                    </div>
+                                </div>
+                                <label for="inputPlaceLat"
+                                    class="col-lg-2 col-form-label font-weight-bold">Latitude</label>
+                                <div class="col-lg-3">
+                                    <input type="text" class="form-control" id="inputPlaceLat" name="placelat"
+                                        placeholder="Latitude" [(ngModel)]="localSeller.place.location.coordinates[1]"
+                                        #entryplacelat="ngModel" required
+                                        [class.field-error]="entryplacelat.touched && entryplacelat.invalid">
+                                    <div [hidden]="!entryplacelat.touched || entryplacelat.valid"
+                                        class="field-error-message alert alert-danger text-muted">Latitude is
+                                        required
+                                    </div>
+                                </div>
+                            </div>
                         </ng-template>
                         <div class="row" *ngIf="registrationFailed">
                             <div class="col-md-12">
-                                <div class="field-error-message alert alert-danger text-muted">Registration Failed! Please
+                                <div class="field-error-message alert alert-danger text-muted">Registration Failed!
+                                    Please
                                     try again.</div>
                             </div>
                         </div>

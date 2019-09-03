@@ -28,16 +28,20 @@ export interface AddressModel {
     city: string;
     state: string;
     zip: string;
-    latitude: number;
-    longitude: number;
     county?: string;
     country?: string;
+}
+
+export interface LocationModel {
+    type: string;
+    coordinates: number[];
 }
 
 export interface PlaceModel {
     name: string;
     description?: string;
     address: AddressModel;
+    location: LocationModel;
 }
 
 export interface Ingredient {

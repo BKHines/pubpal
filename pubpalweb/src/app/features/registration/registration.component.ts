@@ -73,8 +73,10 @@ export class RegistrationComponent implements OnInit {
             city: '',
             state: '',
             zip: '',
-            latitude: 0.0,
-            longitude: 0.0
+          },
+          location: {
+            type: 'Point',
+            coordinates: [0, 0]
           }
         }
       };

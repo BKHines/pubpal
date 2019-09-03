@@ -17,19 +17,10 @@ namespace pubpalapi.DataAccess
 
         public IEnumerable<SellerModel> GetSellersByLocation(float lat, float lng, int miles)
         {
-            if (_mongoDatabase != null)
-            {
-                var users = _mongoDatabase.GetCollection<SellerModel>(storeName);
-                var result = users.Find(a => true).ToEnumerable();
-                return result;
-            }
+            var queryText = $"{{'place.location': {{ $geoWithin: {{ $centerSphere: [ [ {lng}, {lat} ], {miles / 3963.2} ] }} }} }}";
+            var sellers = GetFromStore(queryText);
 
-            return null;
-
-            // TODO: find a way to query geo properties within miles or pull them back and do it in LINQ (probably too slow)
-            //var queryText = $"{{ }}";
-            //var sellers = GetFromStore(queryText);
-            //return sellers != null ? sellers.Cast<SellerModel>().ToArray() : null;
+            return sellers;
         }
 
         public new bool UpdatePerson(SellerModel updatedSeller, bool updatePassword)
