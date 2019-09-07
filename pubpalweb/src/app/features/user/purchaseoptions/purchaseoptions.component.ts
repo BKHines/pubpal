@@ -6,6 +6,8 @@ import { CONSTANTS } from 'src/app/shared/constants';
 import { PurchaseentryComponent } from '../purchaseentry/purchaseentry.component';
 import { LoadingService } from 'src/app/providers/loading.service';
 import { PurchaseService } from 'src/app/providers/purchase.service';
+import { faStar as farStar } from '@fortawesome/free-regular-svg-icons';
+import { faStar as fasStar, fas } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'app-purchaseoptions',
@@ -20,8 +22,15 @@ export class PurchaseoptionsComponent implements OnInit, AfterViewInit {
   }
   set selectedSellerId(value: string) {
     this._selectedSellerId = value;
+    if (this.isSellerFavorite(this._selectedSellerId)) {
+      this.faFavorite = fasStar;
+    } else {
+      this.faFavorite = farStar;
+    }
     this.getSellerOptions();
   }
+
+  faFavorite = farStar;
 
   purchaseOptions: PurchasableItemModel[];
 
@@ -49,6 +58,16 @@ export class PurchaseoptionsComponent implements OnInit, AfterViewInit {
     });
   }
 
+  isSellerFavorite(sellerid: string): boolean {
+    let _isSellerFavorite = false;
+
+    if (this.userSvc.user.favorites && this.userSvc.user.favorites.length > 0) {
+      _isSellerFavorite = this.userSvc.user.favorites.filter(a => a === sellerid).length > 0;
+    }
+
+    return _isSellerFavorite;
+  }
+
   openPurchaseModal(optionId: string) {
     const _modHeader = this.modalSvc.createHeader('Make Purchase', () => { this.modalSvc.hideModal(CONSTANTS.MODAL_PURCHASE); });
     const _modBody = this.modalSvc.createBody(PurchaseentryComponent, { optionId, sellerId: this.selectedSellerId }, 'xl');
@@ -60,6 +79,33 @@ export class PurchaseoptionsComponent implements OnInit, AfterViewInit {
     this.purchaseSvc.getSellerOptionsById(this.selectedSellerId).subscribe((res: APIResponse) => {
       this.purchaseOptions = res.result;
       this.loadingSvc.removeMessage('GetOptions');
+    });
+  }
+
+  toggleFavorite() {
+    if (this.isSellerFavorite(this.selectedSellerId)) {
+      this.removeFavorite();
+    } else {
+      this.addFavorite();
+    }
+  }
+
+  addFavorite() {
+    this.userSvc.addFavorite(this.userSvc.user._id, this.selectedSellerId).subscribe((res: APIResponse) => {
+      this.faFavorite = fasStar;
+      if (!this.userSvc.user.favorites) {
+        this.userSvc.user.favorites = [];
+      }
+
+      this.userSvc.user.favorites.push(this.selectedSellerId);
+    });
+  }
+
+  removeFavorite() {
+    this.userSvc.removeFavorite(this.userSvc.user._id, this.selectedSellerId).subscribe((res: APIResponse) => {
+      this.faFavorite = farStar;
+
+      this.userSvc.user.favorites.splice(this.userSvc.user.favorites.findIndex(a => a === this.selectedSellerId), 1);
     });
   }
 }

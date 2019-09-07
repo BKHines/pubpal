@@ -71,8 +71,30 @@ namespace pubpalapi.Repositories
             {
                 user.password = changePassword.newpassword;
             }
-            var sellerupdated = userDA.UpdatePerson(user, true);
-            return sellerupdated;
+            var userupdated = userDA.UpdatePerson(user, true);
+            return userupdated;
+        }
+
+        public bool AddFavorite(string userid, string sellerid)
+        {
+            var user = userDA.GetPersonById(userid);
+            if (user.favorites == null)
+            {
+                user.favorites = new List<string>().ToArray();
+            }
+            var _favorites = user.favorites.ToList();
+            _favorites.Add(sellerid);
+            user.favorites = _favorites.ToArray();
+            var userupdated = userDA.UpdatePerson(user, false);
+            return userupdated;
+        }
+
+        public bool RemoveFavorite(string userid, string sellerid)
+        {
+            var user = userDA.GetPersonById(userid);
+            user.favorites = user.favorites?.ToList().Where(a => !string.Equals(a, sellerid, StringComparison.InvariantCultureIgnoreCase)).ToArray();
+            var userupdated = userDA.UpdatePerson(user, false);
+            return userupdated;
         }
 
         public bool DeleteUser(string id)

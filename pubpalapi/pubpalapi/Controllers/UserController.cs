@@ -206,6 +206,38 @@ namespace pubpalapi.Controllers
             }
         }
 
+        [HttpPut("AddFavorite", Name = "AddFavorite")]
+        [Authorize(AuthenticationSchemes = Constants.SchemesNamesUserConst)]
+        public IActionResult AddFavorite(string userid, string sellerid)
+        {
+            try
+            {
+                var repo = new UserRepository(dbName, storeName);
+                var userUpdated = repo.AddFavorite(userid, sellerid);
+                return Ok(userUpdated);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex);
+            }
+        }
+
+        [HttpPut("RemoveFavorite", Name = "RemoveFavorite")]
+        [Authorize(AuthenticationSchemes = Constants.SchemesNamesUserConst)]
+        public IActionResult RemoveFavorite(string userid, string sellerid)
+        {
+            try
+            {
+                var repo = new UserRepository(dbName, storeName);
+                var userUpdated = repo.RemoveFavorite(userid, sellerid);
+                return Ok(userUpdated);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex);
+            }
+        }
+
         [HttpPut("DeleteUser", Name = "DeleteUser")]
         [Authorize(AuthenticationSchemes = Constants.SchemesNamesUserConst)]
         public IActionResult DeleteUser(string deleteid)

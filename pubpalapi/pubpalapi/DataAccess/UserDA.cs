@@ -30,6 +30,7 @@ namespace pubpalapi.DataAccess
                 _user.firstname = updatedUser.firstname;
                 _user.lastname = updatedUser.lastname;
                 _user.waivedfeetokens = updatedUser.waivedfeetokens;
+                _user.favorites = updatedUser.favorites;
 
                 coll.ReplaceOne(a => a._id == updatedUser._id, _user);
                 return true;

@@ -111,4 +111,20 @@ export class UserService {
 
     return this.http.get<APIResponse>(`api/user/getsellersbylocation`, { params });
   }
+
+  addFavorite(userid: string, sellerid: string): Observable<APIResponse> {
+    const params: HttpParams = new HttpParams()
+      .set('userid', userid)
+      .set('sellerid', sellerid);
+
+    return this.http.put<APIResponse>(`api/user/addfavorite`, null, { params });
+  }
+
+  removeFavorite(userid: string, sellerid: string): Observable<APIResponse> {
+    const params: HttpParams = new HttpParams()
+      .set('userid', userid)
+      .set('sellerid', sellerid);
+
+    return this.http.put<APIResponse>(`api/user/removefavorite`, null, { params });
+  }
 }

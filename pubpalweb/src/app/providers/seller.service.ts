@@ -18,13 +18,15 @@ export class SellerService {
 
   set seller(value: SellerModel) {
     this._seller = value;
-    if (!this.seller.place.location) {
-      this.seller.place.location = {
-        type: 'Point',
-        coordinates: [0, 0]
-      };
+    if (value) {
+      if (!this.seller.place.location) {
+        this.seller.place.location = {
+          type: 'Point',
+          coordinates: [0, 0]
+        };
+        this.sellerLoaded.emit();
+      }
     }
-    this.sellerLoaded.emit();
   }
 
   sellerLoaded: EventEmitter<void> = new EventEmitter<void>();

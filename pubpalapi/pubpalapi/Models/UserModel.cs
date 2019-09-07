@@ -12,5 +12,7 @@ namespace pubpalapi.Models
     {
         [Required]
         public int waivedfeetokens { get; set; }
+
+        public string[] favorites { get; set; }
     }
 }

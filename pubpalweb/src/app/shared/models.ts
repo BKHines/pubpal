@@ -16,6 +16,7 @@ export interface PersonModel {
 
 export interface UserModel extends PersonModel {
     waivedfeetokens: number;
+    favorites?: string[];
 }
 
 export interface SellerModel extends PersonModel {
