@@ -1,0 +1,29 @@
+.cancel-textbox-input {
+    input {
+        border-right: none;
+    }
+
+    input:focus {
+        border-right: none;
+        box-shadow: none;
+    }
+
+    .input-group-append {
+        border-top: 1px solid #ced4da;
+        border-bottom: 1px solid #ced4da;
+    }
+
+    .input-group-append.last-button {
+        border-right: 1px solid #ced4da;
+    }
+
+    input:focus~.input-group-append {
+        border-top: 1px solid #80bdff;
+        border-bottom: 1px solid #80bdff;
+        transition: border-color .15s ease-in-out, box-shadow .15s ease-in-out;
+    }
+}
+
+.cancel-textbox-input:focus-within {
+    box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, .25);
+}

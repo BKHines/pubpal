@@ -1,0 +1,18 @@
+<form #tagForm="ngForm">
+    <div class="input-group cancel-textbox-input">
+        <input id="cancelTxtEntry" name="cancelTxtEntry" #ctentry type="text" class="form-control" [(ngModel)]="textValue"
+            placeholder="{{ placeholderText }}">
+        <div class="input-group-append">
+            <button class="btn btn-sm" type="submit" [disabled]="!textValue" (click)="triggerAccept()">
+                <fa-icon [icon]="faAccept" class="handCursor text-success">
+                </fa-icon>
+            </button>
+        </div>
+        <div class="input-group-append last-button">
+            <button class="btn btn-sm" type="button" [disabled]="!textValue" (click)="triggerCancel()">
+                <fa-icon [icon]="faClose" class="handCursor text-danger">
+                </fa-icon>
+            </button>
+        </div>
+    </div>
+</form>

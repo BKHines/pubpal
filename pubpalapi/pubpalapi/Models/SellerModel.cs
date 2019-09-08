@@ -11,5 +11,15 @@ namespace pubpalapi.Models
         [Required]
         public PlaceModel place { get; set; }
         public PurchasableItemModel[] items { get; set; }
+
+        public SellerTagModel[] tags { get; set; }
+    }
+
+    public class SellerTagModel
+    {
+        [Required]
+        public string tag { get; set; }
+        [Required]
+        public string userid { get; set; }
     }
 }

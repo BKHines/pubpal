@@ -1,5 +1,5 @@
 import { Component, OnInit, AfterViewInit } from '@angular/core';
-import { SellerModel, APIResponse, PurchasableItemModel } from 'src/app/shared/models';
+import { SellerModel, APIResponse, PurchasableItemModel, SellerTagModel } from 'src/app/shared/models';
 import { UserService } from 'src/app/providers/user.service';
 import { ModalService } from 'src/app/providers/modal.service';
 import { CONSTANTS } from 'src/app/shared/constants';
@@ -7,7 +7,7 @@ import { PurchaseentryComponent } from '../purchaseentry/purchaseentry.component
 import { LoadingService } from 'src/app/providers/loading.service';
 import { PurchaseService } from 'src/app/providers/purchase.service';
 import { faStar as farStar } from '@fortawesome/free-regular-svg-icons';
-import { faStar as fasStar, fas } from '@fortawesome/free-solid-svg-icons';
+import { faStar as fasStar, faTimesCircle } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'app-purchaseoptions',
@@ -27,10 +27,14 @@ export class PurchaseoptionsComponent implements OnInit, AfterViewInit {
     } else {
       this.faFavorite = farStar;
     }
-    this.getSellerOptions();
+    if (value) {
+      this.getSellerInformation();
+    }
   }
+  tags: SellerTagModel[];
 
   faFavorite = farStar;
+  faDeleteTag = faTimesCircle;
 
   purchaseOptions: PurchasableItemModel[];
 
@@ -74,11 +78,15 @@ export class PurchaseoptionsComponent implements OnInit, AfterViewInit {
     this.modalSvc.showModal(CONSTANTS.MODAL_PURCHASE, _modBody, _modHeader, null, true, false, 'modal-no-padding-body');
   }
 
-  getSellerOptions() {
-    this.loadingSvc.addMessage('GetOptions', 'Getting Menu...');
-    this.purchaseSvc.getSellerOptionsById(this.selectedSellerId).subscribe((res: APIResponse) => {
-      this.purchaseOptions = res.result;
-      this.loadingSvc.removeMessage('GetOptions');
+  getSellerInformation() {
+    this.loadingSvc.addMessage('GetInfo', 'Getting Menu...');
+    this.userSvc.getSellerTags(this.userSvc.user._id, this.selectedSellerId).subscribe((tagres: APIResponse) => {
+      this.tags = tagres.result ? tagres.result as SellerTagModel[] : [];
+
+      this.purchaseSvc.getSellerOptionsById(this.selectedSellerId).subscribe((res: APIResponse) => {
+        this.purchaseOptions = res.result;
+        this.loadingSvc.removeMessage('GetInfo');
+      });
     });
   }
 
@@ -91,6 +99,7 @@ export class PurchaseoptionsComponent implements OnInit, AfterViewInit {
   }
 
   addFavorite() {
+    this.loadingSvc.addMessage('AddFavorite', 'Adding Favorite...');
     this.userSvc.addFavorite(this.userSvc.user._id, this.selectedSellerId).subscribe((res: APIResponse) => {
       this.faFavorite = fasStar;
       if (!this.userSvc.user.favorites) {
@@ -98,14 +107,34 @@ export class PurchaseoptionsComponent implements OnInit, AfterViewInit {
       }
 
       this.userSvc.user.favorites.push(this.selectedSellerId);
+      this.loadingSvc.removeMessage('AddFavorite');
     });
   }
 
   removeFavorite() {
+    this.loadingSvc.addMessage('RemoveFavorite', 'Removing Favorite...');
     this.userSvc.removeFavorite(this.userSvc.user._id, this.selectedSellerId).subscribe((res: APIResponse) => {
       this.faFavorite = farStar;
 
       this.userSvc.user.favorites.splice(this.userSvc.user.favorites.findIndex(a => a === this.selectedSellerId), 1);
+      this.loadingSvc.removeMessage('RemoveFavorite');
+    });
+  }
+
+  addTag(tagText: string) {
+    this.loadingSvc.addMessage('AddTag', 'Adding Tag...');
+    const _newTag: SellerTagModel = { tag: tagText, userid: this.userSvc.user._id };
+    this.userSvc.addTag(this.selectedSellerId, _newTag).subscribe((res: APIResponse) => {
+      this.getSellerInformation();
+      this.loadingSvc.removeMessage('AddTag');
+    });
+  }
+
+  removeTag(tag: SellerTagModel) {
+    this.loadingSvc.addMessage('RemoveTag', 'Removing Tag...');
+    this.userSvc.removeTag(this.selectedSellerId, tag).subscribe((res: APIResponse) => {
+      this.getSellerInformation();
+      this.loadingSvc.removeMessage('RemoveTag');
     });
   }
 }

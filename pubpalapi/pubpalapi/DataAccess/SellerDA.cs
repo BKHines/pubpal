@@ -23,6 +23,14 @@ namespace pubpalapi.DataAccess
             return sellers;
         }
 
+        public IEnumerable<SellerModel> GetSellersByTags(string searchText)
+        {
+            var queryText = $"{{'tags.tag': {{ $regex: '{searchText}', $options: 'i' }} }}";
+            var sellers = GetFromStore(queryText);
+
+            return sellers;
+        }
+
         public new bool UpdatePerson(SellerModel updatedSeller, bool updatePassword)
         {
             if (_mongoDatabase != null)
@@ -39,6 +47,7 @@ namespace pubpalapi.DataAccess
                 _seller.lastname = updatedSeller.lastname;
                 _seller.place = updatedSeller.place;
                 _seller.items = updatedSeller.items;
+                _seller.tags = updatedSeller.tags;
 
                 coll.ReplaceOne(a => a._id == updatedSeller._id, _seller);
                 return true;

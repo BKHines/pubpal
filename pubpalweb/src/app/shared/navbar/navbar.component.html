@@ -6,10 +6,18 @@
     <div class="navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav ml-auto item-right">
             <li class="nav-item" *ngIf="userSvc.user && showuserlinks">
-                <a class="nav-link" [routerLink]="['/purchase/options']">
-                    Make Purchase
-                    <span class="sr-only"></span>
-                </a>
+                <div class="btn-group">
+                    <button type="button" class="btn bg-primary text-white dropdown-toggle" data-toggle="dropdown"
+                        aria-haspopup="true" aria-expanded="false">
+                        Make Purchase
+                    </button>
+                    <div class="dropdown-menu bg-primary">
+                        <a *ngIf="userSvc.user" class="dropdown-item bg-primary text-white"
+                            [routerLink]="['/purchase/options']">Select Seller</a>
+                        <a *ngIf="userSvc.user" class="dropdown-item bg-primary text-white"
+                            [routerLink]="['/sellersearch']">Search Seller</a>
+                    </div>
+                </div>
             </li>
             <li class="nav-item" *ngIf="userSvc.user && showuserlinks">
                 <a class="nav-link" [routerLink]="['/purchasehistory']">

@@ -1,7 +1,7 @@
 import { Injectable, EventEmitter } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
-import { APIResponse, UserModel, ChangePasswordRequest, Purchase, ChangePurchaseStatusRequest } from '../shared/models';
+import { APIResponse, UserModel, ChangePasswordRequest, Purchase, ChangePurchaseStatusRequest, SellerTagModel } from '../shared/models';
 import { PubpalcryptoService } from './pubpalcrypto.service';
 import { LocalstoreService } from './localstore.service';
 import { CONSTANTS } from '../shared/constants';
@@ -126,5 +126,39 @@ export class UserService {
       .set('sellerid', sellerid);
 
     return this.http.put<APIResponse>(`api/user/removefavorite`, null, { params });
+  }
+
+  addTag(sellerid: string, tag: SellerTagModel): Observable<APIResponse> {
+    const params: HttpParams = new HttpParams()
+      .set('sellerid', sellerid);
+
+    return this.http.put<APIResponse>(`api/user/addsellertagbyuser`, tag, { params });
+  }
+
+  removeTag(sellerid: string, tag: SellerTagModel): Observable<APIResponse> {
+    const params: HttpParams = new HttpParams()
+      .set('sellerid', sellerid);
+
+    return this.http.put<APIResponse>(`api/user/removesellertagbyuser`, tag, { params });
+  }
+
+  getSellerTags(userid: string, sellerid: string): Observable<APIResponse> {
+    const params: HttpParams = new HttpParams()
+      .set('userid', userid)
+      .set('sellerid', sellerid);
+
+    return this.http.get<APIResponse>(`api/user/getsellertagsforuser`, { params });
+  }
+
+  getSellersByTagSearch(searchText: string, lat?: number, lng?: number): Observable<APIResponse> {
+    let params: HttpParams = new HttpParams();
+
+    if (lat && lng) {
+      params = new HttpParams().set('tagSearchText', searchText).set('lat', lat.toString()).set('lng', lng.toString());
+    } else {
+      params = new HttpParams().set('tagSearchText', searchText);
+    }
+
+    return this.http.get<APIResponse>(`api/user/getsellersbytagsearch`, { params });
   }
 }

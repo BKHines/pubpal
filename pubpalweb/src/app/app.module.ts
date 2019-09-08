@@ -28,6 +28,8 @@ import { PurchasehistoryComponent } from './features/user/purchasehistory/purcha
 import { PurchaseoptionsComponent } from './features/user/purchaseoptions/purchaseoptions.component';
 import { PurchasequeueComponent } from './features/seller/purchasequeue/purchasequeue.component';
 import { ArraybypropertyPipe } from './shared/pipes/arraybyproperty.pipe';
+import { SellersearchComponent } from './features/user/sellersearch/sellersearch.component';
+import { CanceltextboxComponent } from './shared/canceltextbox/canceltextbox.component';
 
 @NgModule({
   declarations: [
@@ -48,7 +50,9 @@ import { ArraybypropertyPipe } from './shared/pipes/arraybyproperty.pipe';
     PurchasehistoryComponent,
     PurchaseoptionsComponent,
     PurchasequeueComponent,
-    ArraybypropertyPipe
+    ArraybypropertyPipe,
+    SellersearchComponent,
+    CanceltextboxComponent
   ],
   imports: [
     BrowserModule,
@@ -80,7 +84,8 @@ import { ArraybypropertyPipe } from './shared/pipes/arraybyproperty.pipe';
     PurchasestatusComponent,
     PurchasehistoryComponent,
     PurchaseoptionsComponent,
-    PurchasequeueComponent
+    PurchasequeueComponent,
+    SellersearchComponent
   ]
 })
 export class AppModule { }

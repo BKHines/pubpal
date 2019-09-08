@@ -7,7 +7,6 @@ import { NgForm } from '@angular/forms';
 import { LoadingService } from 'src/app/providers/loading.service';
 import { Observable, of } from 'rxjs';
 import { mergeMap } from 'rxjs/operators';
-import { PurchaseService } from 'src/app/providers/purchase.service';
 
 @Component({
   selector: 'app-purchasableitementry',

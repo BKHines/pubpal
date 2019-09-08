@@ -88,3 +88,7 @@ textarea {
     overflow-y: auto;
     resize: none;
 }
+
+.btn-outline-primary:disabled {
+    background-color: lightgray;
+}

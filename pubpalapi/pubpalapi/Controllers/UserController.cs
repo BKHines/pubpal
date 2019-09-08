@@ -144,6 +144,38 @@ namespace pubpalapi.Controllers
             }
         }
 
+        [HttpGet("GetSellerTagsForUser", Name = "GetSellerTagsForUser")]
+        [Authorize(AuthenticationSchemes = Constants.SchemesNamesUserConst)]
+        public IActionResult GetSellerTagsForUser(string userid, string sellerid)
+        {
+            try
+            {
+                var repo = new SellerRepository(dbName, sellerStoreName);
+                var SellerTags = repo.GetSellerTagsByUser(sellerid, userid);
+                return Ok(SellerTags);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex);
+            }
+        }
+
+        [HttpGet("GetSellersByTagSearch", Name = "GetSellersByTagSearch")]
+        [Authorize(AuthenticationSchemes = Constants.SchemesNamesUserConst)]
+        public IActionResult GetSellersByTagSearch(string tagSearchText, float lat = 0, float lng = 0)
+        {
+            try
+            {
+                var repo = new SellerRepository(dbName, sellerStoreName);
+                var sellers = repo.GetSellersByTagSearch(tagSearchText, lat, lng);
+                return Ok(sellers);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex);
+            }
+        }
+
         [HttpPost]
         public IActionResult Post([FromBody] UserModel user)
         {
@@ -231,6 +263,48 @@ namespace pubpalapi.Controllers
                 var repo = new UserRepository(dbName, storeName);
                 var userUpdated = repo.RemoveFavorite(userid, sellerid);
                 return Ok(userUpdated);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex);
+            }
+        }
+
+        [HttpPut("AddSellerTagByUser", Name = "AddSellerTagByUser")]
+        [Authorize(AuthenticationSchemes = Constants.SchemesNamesUserConst)]
+        public IActionResult AddTag(string sellerid, SellerTagModel tag)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest();
+            }
+
+            try
+            {
+                var repo = new SellerRepository(dbName, sellerStoreName);
+                var tagadded = repo.AddTag(sellerid, tag);
+                return Ok(tagadded);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex);
+            }
+        }
+
+        [HttpPut("RemoveSellerTagByUser", Name = "RemoveSellerTagByUser")]
+        [Authorize(AuthenticationSchemes = Constants.SchemesNamesUserConst)]
+        public IActionResult RemoveTag(string sellerid, SellerTagModel tag)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest();
+            }
+
+            try
+            {
+                var repo = new SellerRepository(dbName, sellerStoreName);
+                var tagadded = repo.RemoveTag(sellerid, tag);
+                return Ok(tagadded);
             }
             catch (Exception ex)
             {

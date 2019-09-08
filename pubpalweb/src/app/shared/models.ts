@@ -22,7 +22,14 @@ export interface UserModel extends PersonModel {
 export interface SellerModel extends PersonModel {
     place: PlaceModel;
     items?: PurchasableItemModel[];
+    tags?: SellerTagModel[];
 }
+
+export interface SellerTagModel {
+    tag: string;
+    userid: string;
+}
+
 
 export interface AddressModel {
     address: string;

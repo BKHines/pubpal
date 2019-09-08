@@ -22,11 +22,22 @@
                         </div>
                     </div>
                     <div class="row" *ngIf="selectedSellerId">
-                        <div class="col-lg-12">
+                        <div class="col-lg-2">
                             <span (click)="toggleFavorite()" class="handCursor">
                                 <fa-icon [icon]="faFavorite" class="handCursor">
                                 </fa-icon>
                                 Favorite
+                            </span>
+                        </div>
+                        <div class="col-lg-4">
+                            <app-canceltextbox [focusonaccept]="true" [clearonaccept]="true" [placeholderText]="'Add a tag'"
+                                (acceptTriggered)="addTag($event)"></app-canceltextbox>
+                        </div>
+                        <div class="col-lg-6">
+                            <span class="seller-tag" *ngFor="let tag of tags">
+                                {{ tag.tag }}
+                                <fa-icon [icon]="faDeleteTag" class="handCursor seller-delete" (click)="removeTag(tag)">
+                                </fa-icon>
                             </span>
                         </div>
                     </div>

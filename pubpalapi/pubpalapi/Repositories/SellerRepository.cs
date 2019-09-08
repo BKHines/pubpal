@@ -78,6 +78,29 @@ namespace pubpalapi.Repositories
             return seller.items.FirstOrDefault(a => a.id == purchaseId);
         }
 
+        public SellerTagModel[] GetSellerTagsByUser(string sellerid, string userid)
+        {
+            var seller = sellerDA.GetPersonById(sellerid);
+            return seller.tags != null ? seller.tags.Where(a => string.Equals(a.userid, userid)).ToArray() : new List<SellerTagModel>().ToArray();
+        }
+
+        public SellerModel[] GetSellersByTagSearch(string searchText, float lat = 0, float lng = 0)
+        {
+            IEnumerable<SellerModel> sellers;
+            var _sellers = sellerDA.GetSellersByTags(searchText);
+
+            if (lat != 0 && lng != 0)
+            {
+                sellers = _sellers.OrderBy(a => GetDistance(lat, lng, a.place.location.coordinates[1], a.place.location.coordinates[0]));
+            }
+            else
+            {
+                sellers = _sellers;
+            }
+
+            return sellers.ToArray();
+        }
+
         public string CreateSeller(SellerModel seller)
         {
             if (seller.items != null)
@@ -153,6 +176,36 @@ namespace pubpalapi.Repositories
             return sellerupdated;
         }
 
+        public bool AddTag(string id, SellerTagModel tag)
+        {
+            var seller = sellerDA.GetPersonById(id);
+            if (seller.tags == null)
+            {
+                seller.tags = new List<SellerTagModel>().ToArray();
+            }
+
+            if (!seller.tags.Any(a => string.Equals(a.tag, tag.tag, StringComparison.InvariantCultureIgnoreCase)
+                                        && string.Equals(a.userid, tag.userid)))
+            {
+                var _tags = seller.tags.ToList();
+                _tags.Add(tag);
+                seller.tags = _tags.ToArray();
+            }
+
+            var sellerupdated = sellerDA.UpdatePerson(seller, false);
+            return sellerupdated;
+        }
+
+        public bool RemoveTag(string id, SellerTagModel tag)
+        {
+            var seller = sellerDA.GetPersonById(id);
+
+            seller.tags = seller.tags.Where(a => !(string.Equals(a.userid, tag.userid) && string.Equals(a.tag, tag.tag, StringComparison.InvariantCultureIgnoreCase))).ToArray();
+
+            var sellerupdated = sellerDA.UpdatePerson(seller, false);
+            return sellerupdated;
+        }
+
         public bool DeleteSeller(string id)
         {
             var sellerdeleted = sellerDA.DeletePerson(id);
@@ -167,5 +220,12 @@ namespace pubpalapi.Repositories
             return sellerupdated;
         }
 
+        private double GetDistance(float userlat, float userlng, float sellerlat, float sellerlng)
+        {
+            var p = Math.PI / 180;
+            var a = 0.5 - Math.Cos((userlat - sellerlat) * p) / 2 + Math.Cos(sellerlat * p) * Math.Cos((userlat) * p) * (1 - Math.Cos(((userlng - sellerlng) * p))) / 2;
+            var dis = (12742 * Math.Asin(Math.Sqrt(a))) * 0.621371; // 2 * R; R = 6371 km
+            return dis;
+        }
     }
 }
