@@ -8,7 +8,7 @@
                     </h3>
                 </div>
                 <div class="card-body">
-                    <div class="row form-group">
+                    <div class="row form-group" *ngIf="showSelect">
                         <label for="sellerSelect" class="col-lg-3 col-form-label font-weight-bold">Select Your
                             Seller:</label>
                         <div class="col-lg-9">
@@ -34,9 +34,9 @@
                                 (acceptTriggered)="addTag($event)"></app-canceltextbox>
                         </div>
                         <div class="col-lg-6">
-                            <span class="seller-tag" *ngFor="let tag of tags">
+                            <span class="tag-description" *ngFor="let tag of tags">
                                 {{ tag.tag }}
-                                <fa-icon [icon]="faDeleteTag" class="handCursor seller-delete" (click)="removeTag(tag)">
+                                <fa-icon [icon]="faDeleteTag" class="handCursor tag-delete" (click)="removeTag(tag)">
                                 </fa-icon>
                             </span>
                         </div>

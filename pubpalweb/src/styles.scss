@@ -92,3 +92,15 @@ textarea {
 .btn-outline-primary:disabled {
     background-color: lightgray;
 }
+
+.tag-description {
+    background-color: lightgray;
+    color: black;
+    border-radius: 5px;
+    font-size: .85rem;
+    padding: 3px;
+
+    .tag-delete {
+        color: lightslategray;
+    }
+}

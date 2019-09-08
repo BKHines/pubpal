@@ -8,6 +8,7 @@ import { LoadingService } from 'src/app/providers/loading.service';
 import { PurchaseService } from 'src/app/providers/purchase.service';
 import { faStar as farStar } from '@fortawesome/free-regular-svg-icons';
 import { faStar as fasStar, faTimesCircle } from '@fortawesome/free-solid-svg-icons';
+import { Router, ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-purchaseoptions',
@@ -31,6 +32,7 @@ export class PurchaseoptionsComponent implements OnInit, AfterViewInit {
       this.getSellerInformation();
     }
   }
+  showSelect: boolean;
   tags: SellerTagModel[];
 
   faFavorite = farStar;
@@ -42,11 +44,17 @@ export class PurchaseoptionsComponent implements OnInit, AfterViewInit {
     private userSvc: UserService,
     private modalSvc: ModalService,
     private loadingSvc: LoadingService,
-    private purchaseSvc: PurchaseService) { }
+    private purchaseSvc: PurchaseService,
+    private route: ActivatedRoute) { }
 
   ngOnInit() {
-    if (this.userSvc.user) {
-      this.loadData();
+    if (this.route.snapshot.params['id']) {
+      this.selectedSellerId = this.route.snapshot.params['id'];
+      this.showSelect = false;
+    } else {
+      if (this.userSvc.user) {
+        this.loadData();
+      }
     }
   }
 

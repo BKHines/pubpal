@@ -35,6 +35,7 @@ export class CanceltextboxComponent implements OnInit {
   }
 
   triggerCancel() {
+    this.textValue = '';
     this.cancelTriggered.emit();
   }
 }

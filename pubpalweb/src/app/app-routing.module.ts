@@ -25,6 +25,7 @@ const routes: Routes = [
   { path: 'changepassword', component: ChangepasswordComponent, canActivate: [AuthGuard] },
   { path: 'purchitem', component: PurchasableitemsComponent, canActivate: [AuthGuard, AuthsellerGuard] },
   { path: 'purchase/options', component: PurchaseoptionsComponent, canActivate: [AuthGuard, AuthuserGuard] },
+  { path: 'purchase/options/:id', component: PurchaseoptionsComponent, canActivate: [AuthGuard, AuthuserGuard] },
   { path: 'sellersearch', component: SellersearchComponent, canActivate: [AuthGuard, AuthuserGuard] },
   { path: 'purchasequeue', component: PurchasequeueComponent, canActivate: [AuthGuard, AuthsellerGuard] },
   { path: 'purchasehistory', component: PurchasehistoryComponent, canActivate: [AuthGuard, AuthuserGuard] },

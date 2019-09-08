@@ -12,8 +12,19 @@
                         [placeholderText]="'Search by seller tags'" (acceptTriggered)="searchSeller($event)">
                     </app-canceltextbox>
                     <div class="row" *ngFor="let seller of sellers">
-                        <div class="col-lg-12">
-                            {{ seller.place.name }}
+                        <div class="col-lg-2">
+                            <h5>
+                                <a [routerLink]="['/purchase/options', seller._id]">{{ seller.place.name }}</a>
+                            </h5>
+                        </div>
+                        <div class="col-lg-4">
+                            {{ seller.place.address.address }} {{ seller.place.address.city }},
+                            {{ seller.place.address.state }} {{ seller.place.address.zip }}
+                        </div>
+                        <div class="col-lg-6">
+                            <span class="tag-description" *ngFor="let tag of seller.tags">
+                                {{ tag.tag }}
+                            </span>
                         </div>
                     </div>
                 </div>
