@@ -111,19 +111,19 @@ export class PurchaseentryComponent implements OnInit {
         break;
       case '5%':
         this.customTip = null;
-        this.tipAmount = this.totalPrice * .05;
+        this.tipAmount = +((this.totalPrice * .05).toFixed(2));
         break;
       case '10%':
         this.customTip = null;
-        this.tipAmount = this.totalPrice * .1;
+        this.tipAmount = +((this.totalPrice * .1).toFixed(2));
         break;
       case '15%':
         this.customTip = null;
-        this.tipAmount = this.totalPrice * .15;
+        this.tipAmount = +((this.totalPrice * .15).toFixed(2));
         break;
       case '20%':
         this.customTip = null;
-        this.tipAmount = this.totalPrice * .2;
+        this.tipAmount = +((this.totalPrice * .2).toFixed(2));
         break;
       case 'C':
         if (!this.customTip) {

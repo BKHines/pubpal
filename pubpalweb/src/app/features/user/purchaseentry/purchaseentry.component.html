@@ -125,7 +125,7 @@
                     <div class="row form-group">
                         <div class="col-lg-12">
                             <h5>Total Price: </h5>
-                            {{ (totalPrice + (+(tipAmount.toFixed(2))) + (!userSvc.user.waivedfeetokens ? (fee * (userSvc.user.feediscount ? ((100 - userSvc.user.feediscount) / 100.0) : 1.0)) : 0)) | currency }}
+                            {{ (totalPrice + tipAmount + (!userSvc.user.waivedfeetokens ? (fee * (userSvc.user.feediscount ? ((100 - userSvc.user.feediscount) / 100.0) : 1.0)) : 0)) | currency }}
                         </div>
                     </div>
                 </div>
