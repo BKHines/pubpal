@@ -112,8 +112,8 @@
                     <div class="row form-group">
                         <div class="col-lg-12">
                             <span style="font-weight: bold">PubPal Fee:</span>&nbsp;
-                            <span *ngIf="!userSvc.user.waivedfeetokens">{{ fee | currency }}</span>
-                            <span *ngIf="userSvc.user.waivedfeetokens && userSvc.user.waivedfeetokens > 0"><del>{{ fee | currency }}</del></span>
+                            <span *ngIf="!userSvc.user.waivedfeetokens">{{ (fee * (userSvc.user.feediscount ? ((100 - userSvc.user.feediscount) / 100.0) : 1.0)) | currency }}</span>
+                            <span *ngIf="userSvc.user.waivedfeetokens && userSvc.user.waivedfeetokens > 0"><del>{{ (fee * (userSvc.user.feediscount ? ((100 - userSvc.user.feediscount) / 100.0) : 1.0)) | currency }}</del></span>
                         </div>
                     </div>
                     <div class="row form-group">
@@ -125,7 +125,7 @@
                     <div class="row form-group">
                         <div class="col-lg-12">
                             <h5>Total Price: </h5>
-                            {{ (totalPrice + tipAmount + (!userSvc.user.waivedfeetokens ? fee : 0)) | currency }}
+                            {{ (totalPrice + tipAmount + (!userSvc.user.waivedfeetokens ? (fee * (userSvc.user.feediscount ? ((100 - userSvc.user.feediscount) / 100.0) : 1.0)) : 0)) | currency }}
                         </div>
                     </div>
                 </div>
@@ -133,7 +133,8 @@
                     <button type="reset" class="btn btn-success ml-2 float-right" (click)="cancel()">
                         Cancel
                     </button>
-                    <button type="submit" class="btn btn-success ml-2 float-right" (click)="addPurchase()">
+                    <button type="submit" class="btn btn-success ml-2 float-right" (click)="addPurchase()" 
+                        [disabled]="!allGroupsSelected">
                         Purchase
                     </button>
                 </div>

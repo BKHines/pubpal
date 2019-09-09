@@ -49,7 +49,8 @@ export class RegistrationComponent implements OnInit {
         email: '',
         firstname: '',
         lastname: '',
-        waivedfeetokens: 0
+        waivedfeetokens: 0,
+        feediscount: 1
       };
     }
   }

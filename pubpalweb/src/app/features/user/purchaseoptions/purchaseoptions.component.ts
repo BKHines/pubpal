@@ -8,7 +8,7 @@ import { LoadingService } from 'src/app/providers/loading.service';
 import { PurchaseService } from 'src/app/providers/purchase.service';
 import { faStar as farStar } from '@fortawesome/free-regular-svg-icons';
 import { faStar as fasStar, faTimesCircle } from '@fortawesome/free-solid-svg-icons';
-import { Router, ActivatedRoute } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-purchaseoptions',
@@ -52,10 +52,18 @@ export class PurchaseoptionsComponent implements OnInit, AfterViewInit {
       this.selectedSellerId = this.route.snapshot.params['id'];
       this.showSelect = false;
     } else {
+      this.showSelect = true;
       if (this.userSvc.user) {
         this.loadData();
       }
     }
+
+    this.userSvc.userLoaded.subscribe(() => {
+      if (this.route.snapshot.params['id']) {
+        this.selectedSellerId = this.route.snapshot.params['id'];
+        this.showSelect = false;
+      }
+    });
   }
 
   ngAfterViewInit() {
@@ -73,7 +81,7 @@ export class PurchaseoptionsComponent implements OnInit, AfterViewInit {
   isSellerFavorite(sellerid: string): boolean {
     let _isSellerFavorite = false;
 
-    if (this.userSvc.user.favorites && this.userSvc.user.favorites.length > 0) {
+    if (this.userSvc.user && this.userSvc.user.favorites && this.userSvc.user.favorites.length > 0) {
       _isSellerFavorite = this.userSvc.user.favorites.filter(a => a === sellerid).length > 0;
     }
 
@@ -87,15 +95,17 @@ export class PurchaseoptionsComponent implements OnInit, AfterViewInit {
   }
 
   getSellerInformation() {
-    this.loadingSvc.addMessage('GetInfo', 'Getting Menu...');
-    this.userSvc.getSellerTags(this.userSvc.user._id, this.selectedSellerId).subscribe((tagres: APIResponse) => {
-      this.tags = tagres.result ? tagres.result as SellerTagModel[] : [];
+    if (this.userSvc.user) {
+      this.loadingSvc.addMessage('GetInfo', 'Getting Menu...');
+      this.userSvc.getSellerTags(this.userSvc.user._id, this.selectedSellerId).subscribe((tagres: APIResponse) => {
+        this.tags = tagres.result ? tagres.result as SellerTagModel[] : [];
 
-      this.purchaseSvc.getSellerOptionsById(this.selectedSellerId).subscribe((res: APIResponse) => {
-        this.purchaseOptions = res.result;
-        this.loadingSvc.removeMessage('GetInfo');
+        this.purchaseSvc.getSellerOptionsById(this.selectedSellerId).subscribe((res: APIResponse) => {
+          this.purchaseOptions = res.result;
+          this.loadingSvc.removeMessage('GetInfo');
+        });
       });
-    });
+    }
   }
 
   toggleFavorite() {

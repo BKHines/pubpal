@@ -13,6 +13,7 @@ namespace pubpalapi.Models
         [Required]
         public int waivedfeetokens { get; set; }
 
+        public int feediscount { get; set; }
         public string[] favorites { get; set; }
     }
 }

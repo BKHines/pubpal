@@ -10,6 +10,8 @@ namespace pubpalapi.Models
     {
         [Required]
         public PlaceModel place { get; set; }
+        
+        public decimal fee { get; set; }
         public PurchasableItemModel[] items { get; set; }
 
         public SellerTagModel[] tags { get; set; }

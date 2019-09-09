@@ -16,11 +16,13 @@ export interface PersonModel {
 
 export interface UserModel extends PersonModel {
     waivedfeetokens: number;
+    feediscount: number;
     favorites?: string[];
 }
 
 export interface SellerModel extends PersonModel {
     place: PlaceModel;
+    fee?: number;
     items?: PurchasableItemModel[];
     tags?: SellerTagModel[];
 }

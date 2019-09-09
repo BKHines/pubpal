@@ -39,6 +39,7 @@ export class PurchaseentryComponent implements OnInit {
   purchasableItem: PurchasableItemModel;
   categories: string[];
   selectedOptions: Ingredient[];
+  allGroupsSelected: boolean;
   instructions: string;
 
   faSquare = faSquare;
@@ -91,6 +92,8 @@ export class PurchaseentryComponent implements OnInit {
     } else {
       this.selectedOptions.push(item);
     }
+    this.allGroupsSelected = this.getUniqueOptionCategories() === this.getUniqueSelectedOptionCategories();
+
     this.setTotalPrice();
   }
 
@@ -142,7 +145,7 @@ export class PurchaseentryComponent implements OnInit {
       itemname: this.purchasableItem.name,
       ingredients: this.selectedOptions.map(a => a.ingredient),
       price: +(this.totalPrice.toFixed(2)),
-      fee: this.fee,
+      fee: this.fee * (this.userSvc.user.feediscount ? ((100 - this.userSvc.user.feediscount) / 100.0) : 1.0),
       feewaived: this.userSvc.user.waivedfeetokens > 0,
       tip: +(this.tipAmount.toFixed(2)),
       instructions: this.instructions,
@@ -158,5 +161,27 @@ export class PurchaseentryComponent implements OnInit {
       this.purchase._id = res.result;
       this.loadingSvc.removeMessage('CreatePurchase');
     });
+  }
+
+  private getUniqueSelectedOptionCategories() {
+    let _uniqueSelectedOptions: Ingredient[] = [];
+    this.selectedOptions.forEach((a) => {
+      if (!_uniqueSelectedOptions.find(b => b.category === a.category)) {
+        _uniqueSelectedOptions.push(a);
+      }
+    });
+    return _uniqueSelectedOptions.length;
+  }
+
+  private getUniqueOptionCategories() {
+    let _uniqueIngredients: Ingredient[] = [];
+    if (this.purchasableItem && this.purchasableItem.ingredients) {
+      this.purchasableItem.ingredients.forEach((a) => {
+        if (!_uniqueIngredients.find(b => b.category === a.category)) {
+          _uniqueIngredients.push(a);
+        }
+      });
+    }
+    return _uniqueIngredients.length;
   }
 }
