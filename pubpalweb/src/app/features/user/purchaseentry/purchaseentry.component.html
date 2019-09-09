@@ -66,25 +66,25 @@
                         <div class="col-lg-4 handCursor" (click)="setTipAmount('5%')">
                             <fa-icon [icon]="tipType === '5%' ? faCheckSquare : faSquare">
                             </fa-icon>
-                            {{ totalPrice * .05 | currency }}
+                            {{ (totalPrice * .05).toFixed(2) | currency }}
                             (5%)
                         </div>
                         <div class="col-lg-4 handCursor" (click)="setTipAmount('10%')">
                             <fa-icon [icon]="tipType === '10%' ? faCheckSquare : faSquare">
                             </fa-icon>
-                            {{ totalPrice * .1 | currency }}
+                            {{ (totalPrice * .1).toFixed(2) | currency }}
                             (10%)
                         </div>
                         <div class="col-lg-4 handCursor" (click)="setTipAmount('15%')">
                             <fa-icon [icon]="tipType === '15%' ? faCheckSquare : faSquare">
                             </fa-icon>
-                            {{ totalPrice * .15 | currency }}
+                            {{ (totalPrice * .15).toFixed(2) | currency }}
                             (15%)
                         </div>
                         <div class="col-lg-4 handCursor" (click)="setTipAmount('20%')">
                             <fa-icon [icon]="tipType === '20%' ? faCheckSquare : faSquare">
                             </fa-icon>
-                            {{ totalPrice * .2 | currency }}
+                            {{ (totalPrice * .2).toFixed(2) | currency }}
                             (20%)
                         </div>
                         <div class="col-lg-4 handCursor" (click)="setTipAmount('C')">
@@ -125,7 +125,7 @@
                     <div class="row form-group">
                         <div class="col-lg-12">
                             <h5>Total Price: </h5>
-                            {{ (totalPrice + tipAmount + (!userSvc.user.waivedfeetokens ? (fee * (userSvc.user.feediscount ? ((100 - userSvc.user.feediscount) / 100.0) : 1.0)) : 0)) | currency }}
+                            {{ (totalPrice + (+(tipAmount.toFixed(2))) + (!userSvc.user.waivedfeetokens ? (fee * (userSvc.user.feediscount ? ((100 - userSvc.user.feediscount) / 100.0) : 1.0)) : 0)) | currency }}
                         </div>
                     </div>
                 </div>
