@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, EventEmitter } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { APIResponse, Cart, CartPurchase } from '../shared/models';
@@ -7,8 +7,17 @@ import { APIResponse, Cart, CartPurchase } from '../shared/models';
   providedIn: 'root'
 })
 export class CartService {
+  cart: Cart;
+  cartLoaded: EventEmitter<void> = new EventEmitter<void>();
 
   constructor(private http: HttpClient) { }
+
+  loadCart(userid: string) {
+    this.getCartByUserId(userid).subscribe((res: APIResponse) => {
+      this.cart = res.result as Cart;
+      this.cartLoaded.emit(res.result);
+    });
+  }
 
   getCartById(id: string): Observable<APIResponse> {
     const params: HttpParams = new HttpParams()

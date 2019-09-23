@@ -137,3 +137,8 @@ export interface ChangePurchaseStatusRequest {
     status: StatusType;
     message?: string;
 }
+
+export interface SellerName {
+    name: string;
+    sellerid: string;
+}

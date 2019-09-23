@@ -9,6 +9,7 @@ import { BsModalRef } from 'ngx-bootstrap/modal/public_api';
 import { LoginComponent } from './features/login/login.component';
 import { TokenService } from './providers/token.service';
 import { SellerService } from './providers/seller.service';
+import { CartService } from './providers/cart.service';
 
 @Component({
   selector: 'app-root',
@@ -27,6 +28,7 @@ export class AppComponent implements OnInit {
     private userSvc: UserService,
     private sellerSvc: SellerService,
     private tokenSvc: TokenService,
+    private cartSvc: CartService,
     private pubpalCryptoSvc: PubpalcryptoService) { }
 
   ngOnInit() {
@@ -53,6 +55,7 @@ export class AppComponent implements OnInit {
             this.userSvc.getUserByEmail(storedEmail).subscribe((userres) => {
               this.userSvc.user = userres.result;
               this.localStorageChecked = true;
+              this.cartSvc.loadCart(this.userSvc.user._id);
             }, (err) => {
               this.userSvc.logout();
               this.localStoreSvc.removeMultiple([CONSTANTS.KEY_STORE_KEY, CONSTANTS.KEY_STORE_USEREMAIL, CONSTANTS.KEY_STORE_USERTYPE]);

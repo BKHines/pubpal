@@ -126,6 +126,26 @@ namespace pubpalapi.Controllers
             }
         }
 
+        [HttpPut("GetSellerNamesByIds", Name = "GetSellerNamesByIds")]
+        [Authorize(AuthenticationSchemes = Constants.SchemesNamesUserConst)]
+        public IActionResult GetSellerNamesByIds([FromBody] string[] sellerids)
+        {
+            try
+            {
+                var repo = new SellerRepository(dbName, sellerStoreName);
+                var sellerNames = repo.GetSellerNamesByIds(sellerids);
+                if (sellerNames == null)
+                {
+                    return NotFound();
+                }
+                return Ok(sellerNames);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex);
+            }
+        }
+
         [HttpGet("GetSellersByLocation", Name ="GetSellersByLocation")]
         [Authorize(AuthenticationSchemes = Constants.SchemesNamesUserConst)]
         public IActionResult GetSellersByLocation(float lat, float lng, int miles)

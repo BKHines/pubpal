@@ -34,6 +34,18 @@ namespace pubpalapi.Repositories
             return seller;
         }
 
+        public IEnumerable<object> GetSellerNamesByIds(string[] ids)
+        {
+            var sellers = new List<SellerModel>();
+            foreach (var id in ids)
+            {
+                var seller = sellerDA.GetPersonById(id);
+                sellers.Add(seller);
+            }
+
+            return sellers.Select(a => new { name = a.place.name, sellerid = a._id });
+        }
+
         public SellerModel GetSellerByEmail(string email)
         {
             var seller = sellerDA.GetPersonByEmail(email);

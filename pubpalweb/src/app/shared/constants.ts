@@ -12,5 +12,6 @@ export const CONSTANTS = {
     MODAL_PURCHASEITEM_ENTRY: 'menuitementry',
     MODAL_PURCHASE: 'menuitempurchase',
     MODAL_PURCHASE_CANCEL: 'cancelpurchase',
-    MODAL_LOADING: 'loading'
+    MODAL_LOADING: 'loading',
+    MODAL_CART_VIEWER: 'cartviewer'
 };

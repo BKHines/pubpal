@@ -64,4 +64,8 @@
             </li>
         </ul>
     </div>
+    <a class="navbar-brand handCursor" *ngIf="cartSvc.cart" (click)="openCartViewer()">
+        <fa-icon [icon]="faShoppingCart"></fa-icon>
+        <span class="cart-counter">{{ cartSvc.cart.purchases.length }}</span>
+    </a>
 </nav>

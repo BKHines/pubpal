@@ -195,6 +195,7 @@ export class PurchaseentryComponent implements OnInit {
       this.cartSvc.addPurchaseToCart(this.cartId, _purchase).subscribe((res: APIResponse) => {
         this.modalSvc.hideModal(CONSTANTS.MODAL_PURCHASE);
         this.loadingSvc.removeMessage('AddToCart');
+        this.cartSvc.loadCart(this.userSvc.user._id);
       });
     } else {
       let _purchase: CartPurchase = {
@@ -223,6 +224,7 @@ export class PurchaseentryComponent implements OnInit {
         this.modalSvc.hideModal(CONSTANTS.MODAL_PURCHASE);
         this.cartId = res.result;
         this.loadingSvc.removeMessage('AddToCart');
+        this.cartSvc.loadCart(this.userSvc.user._id);
       });
     }
   }
