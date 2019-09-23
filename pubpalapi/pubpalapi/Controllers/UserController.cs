@@ -25,8 +25,9 @@ namespace pubpalapi.Controllers
         private readonly SettingsModel _settings;
         private readonly string dbName;
         private readonly string storeName;
-        private readonly string purchaseStoreName;
         private readonly string sellerStoreName;
+        private readonly string cartStoreName;
+        private readonly string purchaseStoreName;
         private readonly PubPalLogger _logger;
 
         public UserController(IOptions<SettingsModel> options, ILogger<UserController> logger)
@@ -34,8 +35,9 @@ namespace pubpalapi.Controllers
             _settings = options.Value;
             dbName = _settings.Database;
             storeName = _settings.UserStoreName;
-            purchaseStoreName = _settings.PurchaseStoreName;
             sellerStoreName = _settings.SellerStoreName;
+            cartStoreName = _settings.CartStoreName;
+            purchaseStoreName = _settings.PurchaseStoreName;
             _logger = new PubPalLogger(logger);
         }
 

@@ -56,6 +56,11 @@ namespace pubpalapi.Models
         public string message { get; set; }
     }
 
+    public class CartPurchaseModel : PurchaseModel
+    {
+        public string cartid { get; set; }
+    }
+
     public enum PurchaseStatus
     {
         ordered,

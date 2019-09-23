@@ -50,6 +50,7 @@ namespace pubpalapi
                 options.SellerStoreName = Configuration.GetSection("Settings").GetValue<string>("SellerStoreName");
                 options.PurchaseStoreName = Configuration.GetSection("Settings").GetValue<string>("PurchaseStoreName");
                 options.FeeStoreName = Configuration.GetSection("Settings").GetValue<string>("FeeStoreName");
+                options.CartStoreName = Configuration.GetSection("Settings").GetValue<string>("CartStoreName");
             });
 
             // Register the Swagger services

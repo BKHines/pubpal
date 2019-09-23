@@ -1,12 +1,13 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { UserService } from 'src/app/providers/user.service';
-import { PurchasableItemModel, APIResponse, Purchase, Ingredient } from 'src/app/shared/models';
+import { PurchasableItemModel, APIResponse, Purchase, Ingredient, Cart, CartPurchase } from 'src/app/shared/models';
 import { faCheckSquare, faSquare } from '@fortawesome/free-regular-svg-icons';
 import { ModalService } from 'src/app/providers/modal.service';
 import { CONSTANTS } from 'src/app/shared/constants';
 import { LoadingService } from 'src/app/providers/loading.service';
 import { CommonService } from 'src/app/providers/common.service';
 import { PurchaseService } from 'src/app/providers/purchase.service';
+import { CartService } from 'src/app/providers/cart.service';
 
 @Component({
   selector: 'app-purchaseentry',
@@ -37,6 +38,7 @@ export class PurchaseentryComponent implements OnInit {
 
   purchase: Purchase;
   purchasableItem: PurchasableItemModel;
+  cartId: string;
   categories: string[];
   selectedOptions: Ingredient[];
   allGroupsSelected: boolean;
@@ -52,7 +54,8 @@ export class PurchaseentryComponent implements OnInit {
     private modalSvc: ModalService,
     private loadingSvc: LoadingService,
     private common: CommonService,
-    private purchaseSvc: PurchaseService) { }
+    private purchaseSvc: PurchaseService,
+    private cartSvc: CartService) { }
 
   ngOnInit() {
     if (this.purchaseId) {
@@ -60,6 +63,12 @@ export class PurchaseentryComponent implements OnInit {
         this.purchase = res.result;
       });
     }
+
+    this.cartSvc.getCartByUserId(this.userSvc.user._id).subscribe((res: APIResponse) => {
+      if (res && res.result && res.result._id) {
+        this.cartId = res.result._id as string;
+      }
+    });
 
     if (this.optionId) {
       this.loadingSvc.addMessage('GetSellerOptions', 'Getting Items...');
@@ -148,7 +157,7 @@ export class PurchaseentryComponent implements OnInit {
       fee: this.fee * (this.userSvc.user.feediscount ? ((100 - this.userSvc.user.feediscount) / 100.0) : 1.0),
       feewaived: this.userSvc.user.waivedfeetokens > 0,
       tip: +(this.tipAmount.toFixed(2)),
-      instructions: this.instructions,
+      instructions: this.instructions ? this.instructions : '',
       currentstatus: 'ordered',
       purchasehistory: [{
         purchasestatus: 'ordered',
@@ -161,6 +170,61 @@ export class PurchaseentryComponent implements OnInit {
       this.purchase._id = res.result;
       this.loadingSvc.removeMessage('CreatePurchase');
     });
+  }
+
+  addPurchaseToCart() {
+    if (this.cartId) {
+      let _purchase: CartPurchase = {
+        userid: this.userSvc.user._id,
+        customername: this.userSvc.user.firstname + ' ' + this.userSvc.user.lastname.substring(0, 1),
+        sellerid: this.sellerId,
+        itemname: this.purchasableItem.name,
+        ingredients: this.selectedOptions.map(a => a.ingredient),
+        price: +(this.totalPrice.toFixed(2)),
+        fee: this.fee * (this.userSvc.user.feediscount ? ((100 - this.userSvc.user.feediscount) / 100.0) : 1.0),
+        feewaived: this.userSvc.user.waivedfeetokens > 0,
+        tip: +(this.tipAmount.toFixed(2)),
+        instructions: this.instructions ? this.instructions : '',
+        currentstatus: 'ordered',
+        purchasehistory: [{
+          purchasestatus: 'ordered',
+          statusdate: `${new Date().toLocaleDateString()} ${new Date().toLocaleTimeString()}`
+        }]
+      };
+      this.loadingSvc.addMessage('AddToCart', 'Adding Purchase To Cart...');
+      this.cartSvc.addPurchaseToCart(this.cartId, _purchase).subscribe((res: APIResponse) => {
+        this.modalSvc.hideModal(CONSTANTS.MODAL_PURCHASE);
+        this.loadingSvc.removeMessage('AddToCart');
+      });
+    } else {
+      let _purchase: CartPurchase = {
+        userid: this.userSvc.user._id,
+        customername: this.userSvc.user.firstname + ' ' + this.userSvc.user.lastname.substring(0, 1),
+        sellerid: this.sellerId,
+        itemname: this.purchasableItem.name,
+        ingredients: this.selectedOptions.map(a => a.ingredient),
+        price: +(this.totalPrice.toFixed(2)),
+        fee: this.fee * (this.userSvc.user.feediscount ? ((100 - this.userSvc.user.feediscount) / 100.0) : 1.0),
+        feewaived: this.userSvc.user.waivedfeetokens > 0,
+        tip: +(this.tipAmount.toFixed(2)),
+        instructions: this.instructions ? this.instructions : '',
+        currentstatus: 'ordered',
+        purchasehistory: [{
+          purchasestatus: 'ordered',
+          statusdate: `${new Date().toLocaleDateString()} ${new Date().toLocaleTimeString()}`
+        }]
+      };
+      let _cart: Cart = {
+        purchases: [_purchase]
+      };
+
+      this.loadingSvc.addMessage('AddToCart', 'Adding Purchase To Cart...');
+      this.cartSvc.createCart(_cart).subscribe((res: APIResponse) => {
+        this.modalSvc.hideModal(CONSTANTS.MODAL_PURCHASE);
+        this.cartId = res.result;
+        this.loadingSvc.removeMessage('AddToCart');
+      });
+    }
   }
 
   private getUniqueSelectedOptionCategories() {

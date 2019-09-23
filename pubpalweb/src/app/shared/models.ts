@@ -32,7 +32,6 @@ export interface SellerTagModel {
     userid: string;
 }
 
-
 export interface AddressModel {
     address: string;
     city: string;
@@ -122,6 +121,15 @@ export interface Purchase {
     instructions?: string;
     currentstatus: StatusType;
     purchasehistory: PurchaseHistory[];
+}
+
+export interface CartPurchase extends Purchase {
+    cartid?: string;
+}
+
+export interface Cart {
+    _id?: string;
+    purchases: CartPurchase[];
 }
 
 export interface ChangePurchaseStatusRequest {

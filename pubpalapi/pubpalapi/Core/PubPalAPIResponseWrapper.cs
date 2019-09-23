@@ -87,10 +87,10 @@ namespace pubpalapi.Core
                     }//dispose of output stream
                 }
                 // Exceptions handled elsewhere but if something is failing to reach requests, turn this on to troubleshoot
-                //catch (Exception ex)
-                //{
-                //    var msg = ex.Message;
-                //}
+                catch (Exception ex)
+                {
+                    var msg = ex.Message;
+                }
                 finally
                 {
                     //and finally, reset the stream for downstream calls
