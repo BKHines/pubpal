@@ -80,7 +80,7 @@ namespace pubpalapi.DataAccess
             if (_mongoDatabase != null)
             {
                 var coll = _mongoDatabase.GetCollection<CartModel>(storeName);
-                coll.DeleteOne(a => GetIdFromObject(a) == id);
+                coll.DeleteOne(a => a._id == id);
 
                 return true;
             }

@@ -26,6 +26,7 @@ namespace pubpalapi.Controllers
         private readonly string dbName;
         private readonly string storeName;
         private readonly string purchaseStoreName;
+        private readonly string userStoreName;
         private readonly PubPalLogger _logger;
 
         public CartController(IOptions<SettingsModel> options, ILogger<UserController> logger)
@@ -34,6 +35,7 @@ namespace pubpalapi.Controllers
             dbName = _settings.Database;
             storeName = _settings.CartStoreName;
             purchaseStoreName = _settings.PurchaseStoreName;
+            userStoreName = _settings.UserStoreName;
             _logger = new PubPalLogger(logger);
         }
 
@@ -173,7 +175,7 @@ namespace pubpalapi.Controllers
         {
             try
             {
-                var repo = new CartRepository(dbName, storeName, purchaseStoreName);
+                var repo = new CartRepository(dbName, storeName, purchaseStoreName, userStoreName);
                 var purchasesMade = repo.MakePurchases(id);
                 return Ok(purchasesMade);
             }

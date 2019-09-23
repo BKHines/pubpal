@@ -51,11 +51,12 @@ export class CartviewerComponent implements OnInit {
     });
   }
 
-  makePurchase() {
+  makePurchases() {
     this.loadingSvc.addMessage('MakePurchase', 'Making Purchases...');
     this.cartSvc.makePurchase(this.cartSvc.cart._id).subscribe((res: APIResponse) => {
       this.loadingSvc.removeMessage('MakePurchase');
       this.modalSvc.hideModal(CONSTANTS.MODAL_CART_VIEWER);
+      this.cartSvc.loadCart(this.userSvc.user._id);
     });
   }
 
@@ -64,6 +65,7 @@ export class CartviewerComponent implements OnInit {
     this.cartSvc.deleteCart(this.cartSvc.cart._id).subscribe((res: APIResponse) => {
       this.loadingSvc.removeMessage('ClearCart');
       this.modalSvc.hideModal(CONSTANTS.MODAL_CART_VIEWER);
+      this.cartSvc.loadCart(this.userSvc.user._id);
     });
   }
 }

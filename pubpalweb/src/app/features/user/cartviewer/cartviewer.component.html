@@ -1,28 +1,40 @@
 <ng-template [ngIf]="cartSvc.cart">
-    <table class="table table-striped table-sm">
-        <thead>
-            <tr>
-                <th scope="col">Name</th>
-                <th scope="col">Ingredients</th>
-                <th scope="col">Seller</th>
-                <th scope="col">Price</th>
-                <th scope="col"></th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr *ngFor="let purch of cartSvc.cart.purchases">
-                <td>{{ purch.itemname }}</td>
-                <td>{{ purch.ingredients.join(',') }}</td>
-                <td>{{ purch['sellername'] }}</td>
-                <td>{{ (purch.price + purch.tip + (!userSvc.user.waivedfeetokens ? (purch.fee * (userSvc.user.feediscount ? ((100 - userSvc.user.feediscount) / 100.0) : 1.0)) : 0)) | currency }}
-                </td>
-                <td>
-                    <button type="reset" class="btn btn-danger btn-sm ml-2 float-right"
-                        (click)="deletePurchase(purch.cartid)">
-                        X
-                    </button>
-                </td>
-            </tr>
-        </tbody>
-    </table>
+    <div class="card">
+        <div class="card-body">
+            <table class="table table-striped table-sm">
+                <thead>
+                    <tr>
+                        <th scope="col">Name</th>
+                        <th scope="col">Ingredients</th>
+                        <th scope="col">Seller</th>
+                        <th scope="col">Price</th>
+                        <th scope="col"></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let purch of cartSvc.cart.purchases">
+                        <td>{{ purch.itemname }}</td>
+                        <td>{{ purch.ingredients.join(', ') }}</td>
+                        <td>{{ purch['sellername'] }}</td>
+                        <td>{{ (purch.price + purch.tip + (!userSvc.user.waivedfeetokens ? (purch.fee * (userSvc.user.feediscount ? ((100 - userSvc.user.feediscount) / 100.0) : 1.0)) : 0)) | currency }}
+                        </td>
+                        <td>
+                            <button type="reset" class="btn btn-danger btn-sm ml-2 float-right"
+                                (click)="deletePurchase(purch.cartid)">
+                                X
+                            </button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="card-footer">
+            <button type="reset" class="btn btn-danger ml-2 float-right" (click)="clearCart()">
+                Clear Cart
+            </button>
+            <button type="submit" class="btn btn-success ml-2 float-right" (click)="makePurchases()">
+                Make Purchases
+            </button>
+        </div>
+    </div>
 </ng-template>

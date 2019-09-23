@@ -12,12 +12,12 @@ namespace pubpalapi.Repositories
         private CartDA cartDA;
         private PurchaseRepository purchaseRepo;
 
-        public CartRepository(string dbName, string storeName, string purchaseStoreName = "")
+        public CartRepository(string dbName, string storeName, string purchaseStoreName = "", string userStoreName = "")
         {
             cartDA = new CartDA(dbName, storeName);
             if (!string.IsNullOrWhiteSpace(purchaseStoreName))
             {
-                purchaseRepo = new PurchaseRepository(dbName, storeName);
+                purchaseRepo = new PurchaseRepository(dbName, purchaseStoreName, userStoreName);
             }
         }
 

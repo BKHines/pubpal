@@ -14,8 +14,8 @@ export class CartService {
 
   loadCart(userid: string) {
     this.getCartByUserId(userid).subscribe((res: APIResponse) => {
-      this.cart = res.result as Cart;
-      this.cartLoaded.emit(res.result);
+      this.cart = res ? res.result as Cart : null;
+      this.cartLoaded.emit();
     });
   }
 
