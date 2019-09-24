@@ -5,6 +5,8 @@ import { ModalService } from 'src/app/providers/modal.service';
 import { LoadingService } from 'src/app/providers/loading.service';
 import { SellerService } from 'src/app/providers/seller.service';
 import { faCheckSquare, faSquare } from '@fortawesome/free-regular-svg-icons';
+import { CONSTANTS } from 'src/app/shared/constants';
+import { ResetpasswordComponent } from '../resetpassword/resetpassword.component';
 
 @Component({
   selector: 'app-login',
@@ -44,7 +46,7 @@ export class LoginComponent implements OnInit {
     this.email = '';
     this.password = '';
     // this.router.navigate(['']);
-    this.modalSvc.hideModal('login');
+    this.modalSvc.hideModal(CONSTANTS.MODAL_LOGIN);
   }
 
   login() {
@@ -57,7 +59,7 @@ export class LoginComponent implements OnInit {
         this.loadingSvc.removeMessage('StartLogin');
         if (status) {
           // this.router.navigate(['']);
-          this.modalSvc.hideModal('login');
+          this.modalSvc.hideModal(CONSTANTS.MODAL_LOGIN);
         } else {
           this.loginFailed = true;
         }
@@ -71,7 +73,7 @@ export class LoginComponent implements OnInit {
         this.loadingSvc.removeMessage('StartLogin');
         if (status) {
           // this.router.navigate(['']);
-          this.modalSvc.hideModal('login');
+          this.modalSvc.hideModal(CONSTANTS.MODAL_LOGIN);
         } else {
           this.loginFailed = true;
         }
@@ -80,5 +82,12 @@ export class LoginComponent implements OnInit {
         sellerlogin$.unsubscribe();
       });
     }
+  }
+
+  showForgotMyPassword() {
+    this.modalSvc.hideModal(CONSTANTS.MODAL_LOGIN);
+    const _modHeader = this.modalSvc.createHeader('Reset Password', () => { this.modalSvc.hideModal(CONSTANTS.MODAL_FORGOT_PASSWORD); });
+    const _modBody = this.modalSvc.createBody(ResetpasswordComponent, null, 'md');
+    this.modalSvc.showModal(CONSTANTS.MODAL_FORGOT_PASSWORD, _modBody, _modHeader);
   }
 }

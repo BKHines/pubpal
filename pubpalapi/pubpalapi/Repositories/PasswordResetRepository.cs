@@ -67,11 +67,11 @@ namespace pubpalapi.Repositories
             var mailMsg = new MailMessage(from, to);
             mailMsg.Subject = "Your PubPal password has been reset";
             mailMsg.Body = $@"A temporary password has been generated for your account: {pwReset.temporarypassword}.  
-Copy the temporary password above and click here to set your new password: https://pubpal.dynu.net/resetpassword?id={pwResetId}.
-If you did not request your password reset, please report this activity by cancelling this request: https://pubpal.dynu.net/cancelreset?id={pwResetId}.";
+Copy the temporary password above and click here to set your new password: https://localhost:4200/resetpasswordupdate/{pwResetId}/{email}.
+If you did not request your password reset, please report this activity by cancelling this request: https://localhost:4200/cancelreset/{pwResetId}.";
             var client = new SmtpClient("smtp.gmail.com", 587);
             client.UseDefaultCredentials = false;
-            client.Credentials = new NetworkCredential("bigsimpleproductions@gmail.com", "INSERT PASSWORD HERE");
+            client.Credentials = new NetworkCredential("bigsimpleproductions@gmail.com", "Big$imp1e");
             client.EnableSsl = true;
             client.Send(mailMsg);
         }

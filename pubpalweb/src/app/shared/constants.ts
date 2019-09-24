@@ -13,5 +13,6 @@ export const CONSTANTS = {
     MODAL_PURCHASE: 'menuitempurchase',
     MODAL_PURCHASE_CANCEL: 'cancelpurchase',
     MODAL_LOADING: 'loading',
-    MODAL_CART_VIEWER: 'cartviewer'
+    MODAL_CART_VIEWER: 'cartviewer',
+    MODAL_FORGOT_PASSWORD: 'forgotpassword'
 };

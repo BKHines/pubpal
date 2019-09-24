@@ -31,6 +31,9 @@ import { ArraybypropertyPipe } from './shared/pipes/arraybyproperty.pipe';
 import { SellersearchComponent } from './features/user/sellersearch/sellersearch.component';
 import { CanceltextboxComponent } from './shared/canceltextbox/canceltextbox.component';
 import { CartviewerComponent } from './features/user/cartviewer/cartviewer.component';
+import { ResetpasswordComponent } from './features/resetpassword/resetpassword.component';
+import { ResetpasswordupdateComponent } from './features/resetpasswordupdate/resetpasswordupdate.component';
+import { ResetpasswordcancelComponent } from './features/resetpasswordcancel/resetpasswordcancel.component';
 
 @NgModule({
   declarations: [
@@ -54,7 +57,10 @@ import { CartviewerComponent } from './features/user/cartviewer/cartviewer.compo
     ArraybypropertyPipe,
     SellersearchComponent,
     CanceltextboxComponent,
-    CartviewerComponent
+    CartviewerComponent,
+    ResetpasswordComponent,
+    ResetpasswordupdateComponent,
+    ResetpasswordcancelComponent
   ],
   imports: [
     BrowserModule,

@@ -98,6 +98,14 @@ export interface ChangePasswordRequest {
     confirmpassword: string;
 }
 
+export interface ChangePasswordResetRequest {
+    email: string;
+    newpassword: string;
+    confirmpassword: string;
+    resetid: string;
+    ip: string;
+}
+
 export type StatusType = 'ordered' | 'accepted' | 'inprogress' | 'ready' | 'pickedup' | 'cancelled';
 export type StatusText = 'Accept' | 'In Progress' | 'Ready' | 'Picked Up' | 'Complete' | 'Unknown';
 

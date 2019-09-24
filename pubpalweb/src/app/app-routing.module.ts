@@ -15,6 +15,9 @@ import { PurchasequeueComponent } from './features/seller/purchasequeue/purchase
 import { PurchasehistoryComponent } from './features/user/purchasehistory/purchasehistory.component';
 import { PurchasestatusComponent } from './features/user/purchasestatus/purchasestatus.component';
 import { SellersearchComponent } from './features/user/sellersearch/sellersearch.component';
+import { ResetpasswordupdateComponent } from './features/resetpasswordupdate/resetpasswordupdate.component';
+import { ResetpasswordComponent } from './features/resetpassword/resetpassword.component';
+import { ResetpasswordcancelComponent } from './features/resetpasswordcancel/resetpasswordcancel.component';
 
 const routes: Routes = [
   { path: '', component: HomeComponent },
@@ -23,6 +26,9 @@ const routes: Routes = [
   { path: 'user', component: UserComponent, canActivate: [AuthGuard, AuthuserGuard] },
   { path: 'seller', component: SellerComponent, canActivate: [AuthGuard, AuthsellerGuard] },
   { path: 'changepassword', component: ChangepasswordComponent, canActivate: [AuthGuard] },
+  { path: 'resetpassword', component: ResetpasswordComponent },
+  { path: 'resetpasswordupdate/:id/:email', component: ResetpasswordupdateComponent },
+  { path: 'cancelreset/:id', component: ResetpasswordcancelComponent },
   { path: 'purchitem', component: PurchasableitemsComponent, canActivate: [AuthGuard, AuthsellerGuard] },
   { path: 'purchase/options', component: PurchaseoptionsComponent, canActivate: [AuthGuard, AuthuserGuard] },
   { path: 'purchase/options/:id', component: PurchaseoptionsComponent, canActivate: [AuthGuard, AuthuserGuard] },
