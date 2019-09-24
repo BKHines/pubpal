@@ -14,6 +14,7 @@ namespace PubPalAPI.Models
         public string PurchaseStoreName;
         public string FeeStoreName;
         public string CartStoreName;
+        public string PasswordResetStoreName;
         public bool IsDev;
     }
 }

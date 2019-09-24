@@ -241,15 +241,11 @@ namespace pubpalapi.Controllers
 
         [HttpPut("UpdatePassword", Name = "UpdateUserPassword")]
         [Authorize(AuthenticationSchemes = Constants.SchemesNamesUserConst)]
-        public IActionResult UpdatePassword([FromBody] ChangePasswordRequest changePassword)
+        public IActionResult UpdatePassword([FromBody] dynamic changeReq)
         {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest();
-            }
-
             try
             {
+                var changePassword = (ChangePasswordRequest)changeReq;
                 var repo = new UserRepository(dbName, storeName);
                 var Userupdated = repo.ChangePassword(changePassword);
                 return Ok(Userupdated);
