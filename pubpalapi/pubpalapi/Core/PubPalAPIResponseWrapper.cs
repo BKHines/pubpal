@@ -1,13 +1,12 @@
 ﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Http.Internal;
-using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Net;
 using System.Text;
+using System.Text.Json;
 using System.Threading.Tasks;
 
 namespace pubpalapi.Core
@@ -27,7 +26,7 @@ namespace pubpalapi.Core
             Stream originalBody = context.Response.Body;
             if (context.Request.Path.Value.StartsWith("/api"))
             {
-                context.Request.EnableRewind();
+                context.Request.EnableBuffering();
                 var origStatus = context.Response.StatusCode;
                 PubPalAPIResponse objResult;
 
@@ -47,7 +46,7 @@ namespace pubpalapi.Core
                         responseBody = new StreamReader(memStream).ReadToEnd();
                     }//dispose of previous memory stream.
                      //lets convert responseBody to something we can use
-                    var data = JsonConvert.DeserializeObject(responseBody);
+                    var data = String.IsNullOrWhiteSpace(responseBody) ? null : JsonSerializer.Deserialize(responseBody, typeof(object));
 
                     switch (context.Response.StatusCode)
                     {
@@ -80,7 +79,7 @@ namespace pubpalapi.Core
                             break;
                     }
 
-                    var buffer = Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(objResult));
+                    var buffer = Encoding.UTF8.GetBytes(JsonSerializer.Serialize(objResult));
                     using (var output = new MemoryStream(buffer))
                     {
                         await output.CopyToAsync(originalBody);
@@ -108,7 +107,7 @@ namespace pubpalapi.Core
             var body = request.Body;
 
             //This line allows us to set the reader for the request back at the beginning of its stream.
-            request.EnableRewind();
+            request.EnableBuffering();
 
             //We now need to read the request stream.  First, we create a new byte[] with the same length as the request stream...
             var buffer = new byte[Convert.ToInt32(request.ContentLength)];
@@ -136,9 +135,9 @@ namespace pubpalapi.Core
             //We need to reset the reader for the response so that the client can read it.
             response.Body.Seek(0, SeekOrigin.Begin);
 
-            var mpnResp = PubPalAPIResponse.Create((HttpStatusCode)response.StatusCode, JsonConvert.DeserializeObject(text), null);
+            var mpnResp = PubPalAPIResponse.Create((HttpStatusCode)response.StatusCode, JsonSerializer.Deserialize(text, typeof(object)), null);
             //Return the string for the response, including the status code (e.g. 200, 404, 401, etc.)
-            return $"{response.StatusCode}: {JsonConvert.SerializeObject(mpnResp)}";
+            return $"{response.StatusCode}: {JsonSerializer.Serialize(mpnResp)}";
         }
 
     }

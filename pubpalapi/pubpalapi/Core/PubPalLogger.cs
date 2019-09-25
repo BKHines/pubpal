@@ -1,8 +1,8 @@
 ﻿using Microsoft.Extensions.Logging;
-using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.Json;
 using System.Threading.Tasks;
 
 namespace pubpalapi.Core
@@ -104,7 +104,7 @@ namespace pubpalapi.Core
             _logger.LogInformation("----------------------------------------------------------------------------------------------------------------------");
             _logger.LogInformation($"{title}");
             _logger.LogInformation("----------------------------------------------------------------------------------------------------------------------");
-            objectsToLog?.ForEach((o) => { _logger.LogInformation($"{JsonConvert.SerializeObject(o)}"); });
+            objectsToLog?.ForEach((o) => { _logger.LogInformation($"{JsonSerializer.Serialize(o)}"); });
             if (objectsToLog != null && objectsToLog.Any())
             {
                 _logger.LogInformation("----------------------------------------------------------------------------------------------------------------------");

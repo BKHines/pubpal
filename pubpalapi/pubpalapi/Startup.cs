@@ -37,7 +37,7 @@ namespace pubpalapi
                                                             .AllowAnyHeader()
                                                             .AllowAnyMethod());
             });
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_3_0);
             services.AddScoped<PubPalInterceptor>();
             services.AddOptions();
 
@@ -59,22 +59,22 @@ namespace pubpalapi
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app)
         {
-            if (env.IsDevelopment())
-            {
-                app.UseDeveloperExceptionPage();
-            }
-
+            app.UseRouting();
+            app.UseStaticFiles();
             app.UseCors("PubPalCORS");
 
-            app.UseStaticFiles();
             app.UseMiddleware<PubPalAPIResponseWrapper>();
 
             // Register the Swagger generator and the Swagger UI middlewares
-            app.UseOpenApi();
-            app.UseSwaggerUi3();
-            app.UseMvc();
+            //app.UseOpenApi();
+            //app.UseSwaggerUi3();
+            app.UseAuthorization();
+            app.UseEndpoints(endpoints =>
+            {
+                endpoints.MapControllers();
+            });
         }
     }
 }
