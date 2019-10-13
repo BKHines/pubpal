@@ -5,7 +5,7 @@ import { APIResponse, UserModel, ChangePasswordRequest, SellerTagModel } from '.
 import { LocalstoreService } from './localstore.service';
 import { CONSTANTS } from '../shared/constants';
 import { TokenService } from './token.service';
-import { CartService } from './cart.service';
+// import { CartService } from './cart.service';
 
 @Injectable({
   providedIn: 'root'
@@ -27,7 +27,7 @@ export class UserService {
   constructor(
     private http: HttpClient,
     private tokenSvc: TokenService,
-    private cartSvc: CartService,
+    // private cartSvc: CartService,
     private localStoreSvc: LocalstoreService) { }
 
   login(email: string, password: string) {
@@ -43,7 +43,7 @@ export class UserService {
         this.localStoreSvc.set(CONSTANTS.KEY_STORE_KEY, KEY);
         this.localStoreSvc.set(CONSTANTS.KEY_STORE_USERTYPE, 'user');
         this.loginComplete.emit(true);
-        this.cartSvc.loadCart(this.user._id);
+        // this.cartSvc.loadCart(this.user._id);
       }, (err) => {
         this.loginComplete.emit(false);
       });

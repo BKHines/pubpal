@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import * as CryptoJS from 'crypto-js';
 import { HttpClient } from '@angular/common/http';
+import * as CryptoJS from 'crypto-js';
 import { Observable } from 'rxjs';
 import { APIResponse } from '../shared/models';
 import { CONSTANTS } from '../shared/constants';
@@ -8,7 +8,9 @@ import { CONSTANTS } from '../shared/constants';
 @Injectable({
   providedIn: 'root'
 })
-export class PubpalcryptoService {
+export class TokenService {
+  authToken: string;
+
   constructor(private http: HttpClient) { }
 
   getIp(): Observable<APIResponse> {

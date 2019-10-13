@@ -2,9 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { UserService } from 'src/app/providers/user.service';
 import { SellerService } from 'src/app/providers/seller.service';
-import { TokenService } from 'src/app/providers/token.service';
-import { ChangePasswordRequest, APIResponse } from 'src/app/shared/models';
-import { PubpalcryptoService } from 'src/app/providers/pubpalcrypto.service';
+import { ChangePasswordRequest } from 'src/app/shared/models';
 
 @Component({
   selector: 'app-changepassword',

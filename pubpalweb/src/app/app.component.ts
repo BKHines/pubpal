@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { LocalstoreService } from './providers/localstore.service';
 import { CONSTANTS } from './shared/constants';
 import { UserService } from './providers/user.service';
-import { PubpalcryptoService } from './providers/pubpalcrypto.service';
 import { APIResponse } from './shared/models';
 import { ModalService } from './providers/modal.service';
 import { BsModalRef } from 'ngx-bootstrap/modal/public_api';
@@ -28,8 +27,7 @@ export class AppComponent implements OnInit {
     private userSvc: UserService,
     private sellerSvc: SellerService,
     private tokenSvc: TokenService,
-    private cartSvc: CartService,
-    private pubpalCryptoSvc: PubpalcryptoService) { }
+    private cartSvc: CartService) { }
 
   ngOnInit() {
     const storedKey = this.localStoreSvc.get(CONSTANTS.KEY_STORE_KEY);
@@ -37,8 +35,8 @@ export class AppComponent implements OnInit {
     const storedType = this.localStoreSvc.get(CONSTANTS.KEY_STORE_USERTYPE);
 
     if (storedKey) {
-      this.pubpalCryptoSvc.getIp().subscribe((ipres: APIResponse) => {
-        this.tokenSvc.authToken = this.pubpalCryptoSvc.generateToken(storedEmail, storedKey, ipres.result);
+      this.tokenSvc.getIp().subscribe((ipres: APIResponse) => {
+        this.tokenSvc.authToken = this.tokenSvc.generateToken(storedEmail, storedKey, ipres.result);
 
         switch (storedType) {
           case 'seller':

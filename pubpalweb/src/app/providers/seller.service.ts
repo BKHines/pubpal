@@ -1,7 +1,6 @@
 import { Injectable, EventEmitter } from '@angular/core';
 import { SellerModel, APIResponse, PurchasableItemModel, ChangePasswordRequest, Purchase, ChangePurchaseStatusRequest } from '../shared/models';
 import { HttpClient, HttpParams } from '@angular/common/http';
-import { PubpalcryptoService } from './pubpalcrypto.service';
 import { LocalstoreService } from './localstore.service';
 import { CONSTANTS } from '../shared/constants';
 import { Observable } from 'rxjs';
@@ -36,15 +35,14 @@ export class SellerService {
   constructor(
     private http: HttpClient,
     private tokenSvc: TokenService,
-    private pubpalCryptoSvc: PubpalcryptoService,
     private localStoreSvc: LocalstoreService) { }
 
   login(email: string, password: string) {
-    this.pubpalCryptoSvc.getIp().subscribe((ipres: APIResponse) => {
+    this.tokenSvc.getIp().subscribe((ipres: APIResponse) => {
       const IP = ipres.result;
-      const KEY = this.pubpalCryptoSvc.getKey(password);
+      const KEY = this.tokenSvc.getKey(password);
 
-      this.tokenSvc.authToken = this.pubpalCryptoSvc.generateToken(email, KEY, IP);
+      this.tokenSvc.authToken = this.tokenSvc.generateToken(email, KEY, IP);
 
       this.getSellerByEmail(email).subscribe((sellerres) => {
         this.seller = sellerres.result;

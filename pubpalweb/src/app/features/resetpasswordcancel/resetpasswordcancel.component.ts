@@ -2,8 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { ResetpasswordService } from 'src/app/providers/resetpassword.service';
 import { ActivatedRoute } from '@angular/router';
 import { LoadingService } from 'src/app/providers/loading.service';
-import { PubpalcryptoService } from 'src/app/providers/pubpalcrypto.service';
 import { APIResponse } from 'src/app/shared/models';
+import { TokenService } from 'src/app/providers/token.service';
 
 @Component({
   selector: 'app-resetpasswordcancel',
@@ -20,7 +20,7 @@ export class ResetpasswordcancelComponent implements OnInit {
     private pwResetSvc: ResetpasswordService,
     private activeRoute: ActivatedRoute,
     private loadingSvc: LoadingService,
-    private pubpalCryptoSvc: PubpalcryptoService
+    private tokenSvc: TokenService
   ) { }
 
   ngOnInit() {
@@ -28,7 +28,7 @@ export class ResetpasswordcancelComponent implements OnInit {
 
     this.cancelling = true;
     this.loadingSvc.addMessage('CancelReset', 'Cancelling Password Reset...');
-    this.pubpalCryptoSvc.getIp().subscribe((ipres: APIResponse) => {
+    this.tokenSvc.getIp().subscribe((ipres: APIResponse) => {
       this.pwResetSvc.cancelPasswordReset(this.resetid, ipres.result as string).subscribe((res) => {
         this.loadingSvc.removeMessage('CancelReset');
         this.cancelSuccess = true;

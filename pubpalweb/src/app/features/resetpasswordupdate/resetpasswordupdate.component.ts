@@ -1,9 +1,9 @@
 import { Component, OnInit, EventEmitter } from '@angular/core';
-import { PubpalcryptoService } from 'src/app/providers/pubpalcrypto.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ResetpasswordService } from 'src/app/providers/resetpassword.service';
 import { LoadingService } from 'src/app/providers/loading.service';
 import { ChangePasswordResetRequest } from 'src/app/shared/models';
+import { TokenService } from 'src/app/providers/token.service';
 
 @Component({
   selector: 'app-resetpasswordupdate',
@@ -22,7 +22,7 @@ export class ResetpasswordupdateComponent implements OnInit {
 
   constructor(
     private resetPWSvc: ResetpasswordService,
-    private ppCrypto: PubpalcryptoService,
+    private tokenSvc: TokenService,
     private activeRoute: ActivatedRoute,
     private route: Router,
     private loadingSvc: LoadingService
@@ -31,7 +31,7 @@ export class ResetpasswordupdateComponent implements OnInit {
   ngOnInit() {
     this.resetid = this.activeRoute.snapshot.params['id'];
     this.email = this.activeRoute.snapshot.params['email'];
-    this.ppCrypto.getIp().subscribe((res) => {
+    this.tokenSvc.getIp().subscribe((res) => {
       this.ip = res.result as string;
     });
   }
