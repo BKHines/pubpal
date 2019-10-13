@@ -31,8 +31,8 @@ namespace pubpalapi
             services.AddAuthorization();
             services.AddCors(options =>
             {
-                options.AddPolicy("PubPalCORS", builder => builder.WithOrigins("http://localhost:4200",
-                                                                                "https://localhost:4200",
+                options.AddPolicy("PubPalCORS", builder => builder.WithOrigins("http://localhost:4200", "https://localhost:4200", 
+                                                                                "http://localhost:8100", "https://localhost:8100",
                                                                                 "https://pubpal.dynu.net")
                                                             .AllowAnyHeader()
                                                             .AllowAnyMethod());
