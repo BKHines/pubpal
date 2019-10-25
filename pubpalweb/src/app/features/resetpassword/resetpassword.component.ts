@@ -25,7 +25,7 @@ export class ResetpasswordComponent implements OnInit {
 
   resetPassword() {
     this.loadingSvc.addMessage('ResetPassword', 'Resetting Password...');
-    this.tokenSvc.getIp().subscribe((ipres: APIResponse) => {
+    this.tokenSvc.getIp().subscribe((ipres) => {
       this.pwResetSvc.createPasswordResetRequest(this.email, ipres.result as string).subscribe((res) => {
         this.resetStarted = true;
         this.loadingSvc.removeMessage('ResetPassword');

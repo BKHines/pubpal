@@ -1,8 +1,8 @@
 import { TemplateRef } from '@angular/core';
 
-export interface APIResponse {
+export interface APIResponse<T> {
     status: string;
-    result: any;
+    result: T;
     errormessage: any;
 }
 

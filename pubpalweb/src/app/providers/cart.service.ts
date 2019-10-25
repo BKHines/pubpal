@@ -13,64 +13,64 @@ export class CartService {
   constructor(private http: HttpClient) { }
 
   loadCart(userid: string) {
-    this.getCartByUserId(userid).subscribe((res: APIResponse) => {
-      this.cart = res ? res.result as Cart : null;
+    this.getCartByUserId(userid).subscribe((res) => {
+      this.cart = res.result;
       this.cartLoaded.emit();
     });
   }
 
-  getCartById(id: string): Observable<APIResponse> {
+  getCartById(id: string): Observable<APIResponse<Cart>> {
     const params: HttpParams = new HttpParams()
       .set('id', id);
 
-    return this.http.get<APIResponse>(`api/cart/getcartbyid`, { params });
+    return this.http.get<APIResponse<Cart>>(`api/cart/getcartbyid`, { params });
   }
 
-  getCartByUserId(userid: string): Observable<APIResponse> {
+  getCartByUserId(userid: string): Observable<APIResponse<Cart>> {
     const params: HttpParams = new HttpParams()
       .set('userid', userid);
 
-    return this.http.get<APIResponse>(`api/cart/getcartbyuserid`, { params });
+    return this.http.get<APIResponse<Cart>>(`api/cart/getcartbyuserid`, { params });
   }
 
-  getCartPurchaseByCartPurchaseId(id: string, cartpurchaseid: string): Observable<APIResponse> {
+  getCartPurchaseByCartPurchaseId(id: string, cartpurchaseid: string): Observable<APIResponse<CartPurchase>> {
     const params: HttpParams = new HttpParams()
       .set('id', id)
       .set('cartpurchaseid', cartpurchaseid);
 
-    return this.http.get<APIResponse>(`api/cart/getcartpurchasebycartpurchaseid`, { params });
+    return this.http.get<APIResponse<CartPurchase>>(`api/cart/getcartpurchasebycartpurchaseid`, { params });
   }
 
-  createCart(cart: Cart): Observable<APIResponse> {
-    return this.http.post<APIResponse>(`api/cart`, cart);
+  createCart(cart: Cart): Observable<APIResponse<string>> {
+    return this.http.post<APIResponse<string>>(`api/cart`, cart);
   }
 
-  addPurchaseToCart(id: string, cartPurchase: CartPurchase): Observable<APIResponse> {
+  addPurchaseToCart(id: string, cartPurchase: CartPurchase): Observable<APIResponse<boolean>> {
     const params: HttpParams = new HttpParams()
       .set('id', id);
 
-    return this.http.patch<APIResponse>(`api/cart/addpurchasetocart`, cartPurchase, { params });
+    return this.http.patch<APIResponse<boolean>>(`api/cart/addpurchasetocart`, cartPurchase, { params });
   }
 
-  removePurchaseFromCart(id: string, cartpurchaseid: string): Observable<APIResponse> {
+  removePurchaseFromCart(id: string, cartpurchaseid: string): Observable<APIResponse<boolean>> {
     const params: HttpParams = new HttpParams()
       .set('id', id)
       .set('cartpurchaseid', cartpurchaseid);
 
-    return this.http.patch<APIResponse>(`api/cart/removepurchasefromcart`, null, { params });
+    return this.http.patch<APIResponse<boolean>>(`api/cart/removepurchasefromcart`, null, { params });
   }
 
-  deleteCart(id: string): Observable<APIResponse> {
+  deleteCart(id: string): Observable<APIResponse<boolean>> {
     const params: HttpParams = new HttpParams()
       .set('id', id);
 
-    return this.http.put<APIResponse>(`api/cart/deletecart`, null, { params });
+    return this.http.put<APIResponse<boolean>>(`api/cart/deletecart`, null, { params });
   }
 
-  makePurchase(id: string): Observable<APIResponse> {
+  makePurchase(id: string): Observable<APIResponse<boolean>> {
     const params: HttpParams = new HttpParams()
       .set('id', id);
 
-    return this.http.put<APIResponse>(`api/cart/makepurchases`, null, { params });
+    return this.http.put<APIResponse<boolean>>(`api/cart/makepurchases`, null, { params });
   }
 }

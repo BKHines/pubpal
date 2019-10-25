@@ -59,12 +59,12 @@ export class PurchaseentryComponent implements OnInit {
 
   ngOnInit() {
     if (this.purchaseId) {
-      this.purchaseSvc.getPurchaseForUserById(this.purchaseId).subscribe((res: APIResponse) => {
+      this.purchaseSvc.getPurchaseForUserById(this.purchaseId).subscribe((res) => {
         this.purchase = res.result;
       });
     }
 
-    this.cartSvc.getCartByUserId(this.userSvc.user._id).subscribe((res: APIResponse) => {
+    this.cartSvc.getCartByUserId(this.userSvc.user._id).subscribe((res) => {
       if (res && res.result && res.result._id) {
         this.cartId = res.result._id as string;
       }
@@ -72,10 +72,10 @@ export class PurchaseentryComponent implements OnInit {
 
     if (this.optionId) {
       this.loadingSvc.addMessage('GetSellerOptions', 'Getting Items...');
-      this.common.getFee().subscribe((feeres: APIResponse) => {
+      this.common.getFee().subscribe((feeres) => {
         this.fee = feeres.result as number;
 
-        this.purchaseSvc.getSellerOptionByIds(this.sellerId, this.optionId).subscribe((res: APIResponse) => {
+        this.purchaseSvc.getSellerOptionByIds(this.sellerId, this.optionId).subscribe((res) => {
           this.purchasableItem = res.result;
           this.categories = [];
           this.purchasableItem.ingredients.forEach((a) => {
@@ -165,7 +165,7 @@ export class PurchaseentryComponent implements OnInit {
       }]
     };
     this.loadingSvc.addMessage('CreatePurchase', 'Creating Purchase...');
-    this.purchaseSvc.createPurchase(this.purchase).subscribe((res: APIResponse) => {
+    this.purchaseSvc.createPurchase(this.purchase).subscribe((res) => {
       this.modalSvc.hideModal(CONSTANTS.MODAL_PURCHASE);
       this.purchase._id = res.result;
       this.loadingSvc.removeMessage('CreatePurchase');
@@ -192,7 +192,7 @@ export class PurchaseentryComponent implements OnInit {
         }]
       };
       this.loadingSvc.addMessage('AddToCart', 'Adding Purchase To Cart...');
-      this.cartSvc.addPurchaseToCart(this.cartId, _purchase).subscribe((res: APIResponse) => {
+      this.cartSvc.addPurchaseToCart(this.cartId, _purchase).subscribe((res) => {
         this.modalSvc.hideModal(CONSTANTS.MODAL_PURCHASE);
         this.loadingSvc.removeMessage('AddToCart');
         this.cartSvc.loadCart(this.userSvc.user._id);
@@ -220,7 +220,7 @@ export class PurchaseentryComponent implements OnInit {
       };
 
       this.loadingSvc.addMessage('AddToCart', 'Adding Purchase To Cart...');
-      this.cartSvc.createCart(_cart).subscribe((res: APIResponse) => {
+      this.cartSvc.createCart(_cart).subscribe((res) => {
         this.modalSvc.hideModal(CONSTANTS.MODAL_PURCHASE);
         this.cartId = res.result;
         this.loadingSvc.removeMessage('AddToCart');

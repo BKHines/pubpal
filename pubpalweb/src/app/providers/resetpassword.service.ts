@@ -10,15 +10,15 @@ export class ResetpasswordService {
 
   constructor(private http: HttpClient) { }
 
-  createPasswordResetRequest(email: string, ip: string): Observable<APIResponse> {
-    return this.http.patch<APIResponse>(`api/passwordreset/CreatePasswordResetRequest`, { email, ip });
+  createPasswordResetRequest(email: string, ip: string): Observable<APIResponse<void>> {
+    return this.http.patch<APIResponse<void>>(`api/passwordreset/CreatePasswordResetRequest`, { email, ip });
   }
 
-  updatePasswordReset(cprr: ChangePasswordResetRequest): Observable<APIResponse> {
-    return this.http.patch<APIResponse>(`api/passwordreset/UpdatePasswordReset`, cprr);
+  updatePasswordReset(cprr: ChangePasswordResetRequest): Observable<APIResponse<boolean>> {
+    return this.http.patch<APIResponse<boolean>>(`api/passwordreset/UpdatePasswordReset`, cprr);
   }
 
-  cancelPasswordReset(id: string, ip: string): Observable<APIResponse> {
-    return this.http.patch<APIResponse>(`api/passwordreset/CancelPasswordReset`, { id, ip });
+  cancelPasswordReset(id: string, ip: string): Observable<APIResponse<void>> {
+    return this.http.patch<APIResponse<void>>(`api/passwordreset/CancelPasswordReset`, { id, ip });
   }
 }

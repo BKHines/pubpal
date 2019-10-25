@@ -28,7 +28,7 @@ export class ResetpasswordcancelComponent implements OnInit {
 
     this.cancelling = true;
     this.loadingSvc.addMessage('CancelReset', 'Cancelling Password Reset...');
-    this.tokenSvc.getIp().subscribe((ipres: APIResponse) => {
+    this.tokenSvc.getIp().subscribe((ipres) => {
       this.pwResetSvc.cancelPasswordReset(this.resetid, ipres.result as string).subscribe((res) => {
         this.loadingSvc.removeMessage('CancelReset');
         this.cancelSuccess = true;

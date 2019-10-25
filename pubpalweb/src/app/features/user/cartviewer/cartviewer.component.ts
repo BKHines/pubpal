@@ -31,7 +31,7 @@ export class CartviewerComponent implements OnInit {
 
     this.cartSvc.cartLoaded.subscribe(() => {
       let sellerIds = [...new Set(this.cartSvc.cart.purchases.map(a => a.sellerid))];
-      this.userSvc.getSellerNamesByIds(sellerIds).subscribe((sellernameres: APIResponse) => {
+      this.userSvc.getSellerNamesByIds(sellerIds).subscribe((sellernameres) => {
         let _sellernames = sellernameres.result as SellerName[];
         this.cartSvc.cart.purchases.forEach((a) => {
           a['sellername'] = _sellernames.filter(b => b.sellerid === a.sellerid)[0].name;
@@ -53,7 +53,7 @@ export class CartviewerComponent implements OnInit {
 
   makePurchases() {
     this.loadingSvc.addMessage('MakePurchase', 'Making Purchases...');
-    this.cartSvc.makePurchase(this.cartSvc.cart._id).subscribe((res: APIResponse) => {
+    this.cartSvc.makePurchase(this.cartSvc.cart._id).subscribe((res) => {
       this.loadingSvc.removeMessage('MakePurchase');
       this.modalSvc.hideModal(CONSTANTS.MODAL_CART_VIEWER);
       this.cartSvc.loadCart(this.userSvc.user._id);
@@ -62,7 +62,7 @@ export class CartviewerComponent implements OnInit {
 
   clearCart() {
     this.loadingSvc.addMessage('ClearCart', 'Clearing Cart...');
-    this.cartSvc.deleteCart(this.cartSvc.cart._id).subscribe((res: APIResponse) => {
+    this.cartSvc.deleteCart(this.cartSvc.cart._id).subscribe((res) => {
       this.loadingSvc.removeMessage('ClearCart');
       this.modalSvc.hideModal(CONSTANTS.MODAL_CART_VIEWER);
       this.cartSvc.loadCart(this.userSvc.user._id);

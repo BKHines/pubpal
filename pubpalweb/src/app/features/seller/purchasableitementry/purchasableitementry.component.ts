@@ -37,7 +37,7 @@ export class PurchasableitementryComponent implements OnInit {
   ngOnInit() {
     this.categoryTypes = CONSTANTS.categorytypes;
 
-    this.sellerSvc.getSellerCategories(this.sellerSvc.seller._id).subscribe((res: APIResponse) => {
+    this.sellerSvc.getSellerCategories(this.sellerSvc.seller._id).subscribe((res) => {
       this.categories = res.result as string[];
     });
 

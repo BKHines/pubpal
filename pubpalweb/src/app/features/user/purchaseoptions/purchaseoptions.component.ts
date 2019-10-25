@@ -73,7 +73,7 @@ export class PurchaseoptionsComponent implements OnInit, AfterViewInit {
   }
 
   loadData() {
-    this.userSvc.getSellersNearMe(39.344, -84.537, 10).subscribe((res: APIResponse) => {
+    this.userSvc.getSellersNearMe(39.344, -84.537, 10).subscribe((res) => {
       this.sellers = res.result;
     });
   }
@@ -97,10 +97,10 @@ export class PurchaseoptionsComponent implements OnInit, AfterViewInit {
   getSellerInformation() {
     if (this.userSvc.user) {
       this.loadingSvc.addMessage('GetInfo', 'Getting Menu...');
-      this.userSvc.getSellerTags(this.userSvc.user._id, this.selectedSellerId).subscribe((tagres: APIResponse) => {
+      this.userSvc.getSellerTags(this.userSvc.user._id, this.selectedSellerId).subscribe((tagres) => {
         this.tags = tagres.result ? tagres.result as SellerTagModel[] : [];
 
-        this.purchaseSvc.getSellerOptionsById(this.selectedSellerId).subscribe((res: APIResponse) => {
+        this.purchaseSvc.getSellerOptionsById(this.selectedSellerId).subscribe((res) => {
           this.purchaseOptions = res.result;
           this.loadingSvc.removeMessage('GetInfo');
         });
@@ -118,7 +118,7 @@ export class PurchaseoptionsComponent implements OnInit, AfterViewInit {
 
   addFavorite() {
     this.loadingSvc.addMessage('AddFavorite', 'Adding Favorite...');
-    this.userSvc.addFavorite(this.userSvc.user._id, this.selectedSellerId).subscribe((res: APIResponse) => {
+    this.userSvc.addFavorite(this.userSvc.user._id, this.selectedSellerId).subscribe((res) => {
       this.faFavorite = fasStar;
       if (!this.userSvc.user.favorites) {
         this.userSvc.user.favorites = [];
@@ -131,7 +131,7 @@ export class PurchaseoptionsComponent implements OnInit, AfterViewInit {
 
   removeFavorite() {
     this.loadingSvc.addMessage('RemoveFavorite', 'Removing Favorite...');
-    this.userSvc.removeFavorite(this.userSvc.user._id, this.selectedSellerId).subscribe((res: APIResponse) => {
+    this.userSvc.removeFavorite(this.userSvc.user._id, this.selectedSellerId).subscribe((res) => {
       this.faFavorite = farStar;
 
       this.userSvc.user.favorites.splice(this.userSvc.user.favorites.findIndex(a => a === this.selectedSellerId), 1);
@@ -142,7 +142,7 @@ export class PurchaseoptionsComponent implements OnInit, AfterViewInit {
   addTag(tagText: string) {
     this.loadingSvc.addMessage('AddTag', 'Adding Tag...');
     const _newTag: SellerTagModel = { tag: tagText, userid: this.userSvc.user._id };
-    this.userSvc.addTag(this.selectedSellerId, _newTag).subscribe((res: APIResponse) => {
+    this.userSvc.addTag(this.selectedSellerId, _newTag).subscribe((res) => {
       this.getSellerInformation();
       this.loadingSvc.removeMessage('AddTag');
     });
@@ -150,7 +150,7 @@ export class PurchaseoptionsComponent implements OnInit, AfterViewInit {
 
   removeTag(tag: SellerTagModel) {
     this.loadingSvc.addMessage('RemoveTag', 'Removing Tag...');
-    this.userSvc.removeTag(this.selectedSellerId, tag).subscribe((res: APIResponse) => {
+    this.userSvc.removeTag(this.selectedSellerId, tag).subscribe((res) => {
       this.getSellerInformation();
       this.loadingSvc.removeMessage('RemoveTag');
     });

@@ -27,7 +27,7 @@ export class PurchasehistoryComponent implements OnInit {
 
   loadData() {
     if (this.userSvc.user) {
-      this.purchaseSvc.getPurchasesByUserId(this.userSvc.user._id).subscribe((res: APIResponse) => {
+      this.purchaseSvc.getPurchasesByUserId(this.userSvc.user._id).subscribe((res) => {
         this.purchases = res.result as Purchase[];
       });
     }

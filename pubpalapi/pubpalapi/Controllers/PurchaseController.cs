@@ -153,8 +153,8 @@ namespace pubpalapi.Controllers
             try
             {
                 var repo = new PurchaseRepository(dbName, purchaseStoreName);
-                var purchaseId = repo.UpdatePurchase(purchase);
-                return Ok(purchaseId);
+                var purchased = repo.UpdatePurchase(purchase);
+                return Ok(purchased);
             }
             catch (Exception ex)
             {

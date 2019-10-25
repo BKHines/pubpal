@@ -41,7 +41,7 @@ export class PurchasequeueComponent implements OnInit, AfterViewInit {
   loadData() {
     if (this.sellerSvc.seller) {
       this.loadingSvc.addMessage('GettingPurchases', 'Checking Purchases...');
-      this.purchaseSvc.getPurchasesBySellerId(this.sellerSvc.seller._id).subscribe((res: APIResponse) => {
+      this.purchaseSvc.getPurchasesBySellerId(this.sellerSvc.seller._id).subscribe((res) => {
         this.purchases = res.result;
         this.purchases.map(a => {
           a['nextstatustext'] = this.common.getNextStatusText(a.currentstatus);
@@ -58,7 +58,7 @@ export class PurchasequeueComponent implements OnInit, AfterViewInit {
       purchaseid: _purchase._id
     };
     this.loadingSvc.addMessage('UpdateStatus', 'Updating Purchase Status...');
-    this.purchaseSvc.changePurchaseStatusBySeller(this.sellerSvc.seller._id, changeStatusReq).subscribe((res: APIResponse) => {
+    this.purchaseSvc.changePurchaseStatusBySeller(this.sellerSvc.seller._id, changeStatusReq).subscribe((res) => {
       this.loadData();
       this.loadingSvc.removeMessage('UpdateStatus');
     });
@@ -105,7 +105,7 @@ export class PurchasequeueComponent implements OnInit, AfterViewInit {
       message: comments
     };
     this.loadingSvc.addMessage('CancelPurchase', 'Cancelling Purchase...');
-    this.purchaseSvc.cancelPurchaseBySeller(this.sellerSvc.seller._id, cancelPurchaseRequest).subscribe((res: APIResponse) => {
+    this.purchaseSvc.cancelPurchaseBySeller(this.sellerSvc.seller._id, cancelPurchaseRequest).subscribe((res) => {
       this.loadData();
       this.loadingSvc.removeMessage('CancelPurchase');
     });

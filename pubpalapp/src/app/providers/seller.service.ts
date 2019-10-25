@@ -1,10 +1,10 @@
 import { Injectable, EventEmitter } from '@angular/core';
-import { SellerModel, APIResponse, PurchasableItemModel, ChangePasswordRequest, Purchase, ChangePurchaseStatusRequest } from '../shared/models';
+import { SellerModel, APIResponse, ChangePasswordRequest, PurchasableItemModel } from '../shared/models';
 import { HttpClient, HttpParams } from '@angular/common/http';
+import { TokenService } from './token.service';
 import { LocalstoreService } from './localstore.service';
 import { CONSTANTS } from '../shared/constants';
 import { Observable } from 'rxjs';
-import { TokenService } from './token.service';
 
 @Injectable({
   providedIn: 'root'

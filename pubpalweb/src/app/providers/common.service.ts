@@ -10,8 +10,8 @@ export class CommonService {
 
   constructor(private http: HttpClient) { }
 
-  getFee(): Observable<APIResponse> {
-    return this.http.get<APIResponse>(`api/common/getfee`);
+  getFee(): Observable<APIResponse<number>> {
+    return this.http.get<APIResponse<number>>(`api/common/getfee`);
   }
 
   // 'ordered' | 'accepted' | 'inprogress' | 'ready' | 'pickedup' | 'cancelled'

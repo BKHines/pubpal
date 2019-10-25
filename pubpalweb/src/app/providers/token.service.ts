@@ -13,8 +13,8 @@ export class TokenService {
 
   constructor(private http: HttpClient) { }
 
-  getIp(): Observable<APIResponse> {
-    return this.http.get<APIResponse>('api/common/getip');
+  getIp(): Observable<APIResponse<string>> {
+    return this.http.get<APIResponse<string>>('api/common/getip');
   }
 
   getKey(password: string): string {

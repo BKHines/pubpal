@@ -19,7 +19,7 @@ export class SellersearchComponent implements OnInit {
 
   searchSeller(searchtext: string) {
     this.loadingSvc.addMessage('SearchSellers', 'Searching for sellers...');
-    this.userSvc.getSellersByTagSearch(searchtext, 39.344, -84.537).subscribe((res: APIResponse) => {
+    this.userSvc.getSellersByTagSearch(searchtext, 39.344, -84.537).subscribe((res) => {
       this.sellers = res.result as SellerModel[];
       this.loadingSvc.removeMessage('SearchSellers');
     });

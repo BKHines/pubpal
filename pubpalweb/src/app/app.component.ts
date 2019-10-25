@@ -35,7 +35,7 @@ export class AppComponent implements OnInit {
     const storedType = this.localStoreSvc.get(CONSTANTS.KEY_STORE_USERTYPE);
 
     if (storedKey) {
-      this.tokenSvc.getIp().subscribe((ipres: APIResponse) => {
+      this.tokenSvc.getIp().subscribe((ipres) => {
         this.tokenSvc.authToken = this.tokenSvc.generateToken(storedEmail, storedKey, ipres.result);
 
         switch (storedType) {

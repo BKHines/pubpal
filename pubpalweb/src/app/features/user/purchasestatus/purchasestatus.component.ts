@@ -34,7 +34,7 @@ export class PurchasestatusComponent implements OnInit {
   loadData() {
     if (this.userSvc.user) {
       this.loadingSvc.addMessage('GettingPurchase', 'Getting purchase details...');
-      this.purchaseSvc.getPurchaseForUserById(this.purchaseid).subscribe((res: APIResponse) => {
+      this.purchaseSvc.getPurchaseForUserById(this.purchaseid).subscribe((res) => {
         this.purchase = res.result as Purchase;
         this.loadingSvc.removeMessage('GettingPurchase');
       });
@@ -48,7 +48,7 @@ export class PurchasestatusComponent implements OnInit {
       message: this.cancelcomments
     };
     this.loadingSvc.addMessage('CancelPurchase', 'Cancelling Purchase...');
-    this.purchaseSvc.cancelPurchaseByUser(this.userSvc.user._id, cancelReq).subscribe((res: APIResponse) => {
+    this.purchaseSvc.cancelPurchaseByUser(this.userSvc.user._id, cancelReq).subscribe((res) => {
       this.router.navigate(['purchasehistory']);
       this.loadingSvc.removeMessage('CancelPurchase');
     });
