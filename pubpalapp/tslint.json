@@ -72,6 +72,7 @@
     "one-variable-per-declaration": false,
     "component-class-suffix": [true, "Page", "Component"],
     "directive-class-suffix": true,
-    "variable-name": false
+    "variable-name": false,
+    "no-string-literal": false
   }
 }

@@ -1,0 +1,42 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Register New User</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <form #rform="ngForm" novalidate>
+    <ion-card>
+      <ion-item [class.pp-invalid]="valemail.touched && valemail.invalid">
+        <ion-label position="floating">Email</ion-label>
+        <ion-input inputmode="email" id="inputEmail" name="email" [(ngModel)]="localUser.email" required
+          #valemail="ngModel"></ion-input>
+      </ion-item>
+      <ion-item [class.pp-invalid]="valpass.touched && valpass.invalid">
+        <ion-label position="floating">Password</ion-label>
+        <ion-input type="password" id="inputPassword" name="password" [(ngModel)]="password" required
+          #valpass="ngModel"></ion-input>
+      </ion-item>
+      <ion-item [class.pp-invalid]="valfname.touched && valfname.invalid">
+        <ion-label position="floating">First Name</ion-label>
+        <ion-input inputmode="text" id="inputFName" name="fname" [(ngModel)]="localUser.firstname" required
+          #valfname="ngModel"></ion-input>
+      </ion-item>
+      <ion-item [class.pp-invalid]="vallname.touched && vallname.invalid">
+        <ion-label position="floating">Last Name</ion-label>
+        <ion-input inputmode="text" id="inputLName" name="lname" [(ngModel)]="localUser.lastname" required
+          #vallname="ngModel"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-button type="submit" (click)="register()" color="success" expand="full"
+          [disabled]="rform.untouched || rform.invalid">Register</ion-button>
+        <ion-button (click)="resetUser()" color="success" expand="full">Cancel</ion-button>
+      </ion-item>
+      <ion-item *ngIf="registrationFailed">
+        <ion-text color="danger">
+          <h4>Registration Failed. Please try again.</h4>
+        </ion-text>
+      </ion-item>
+    </ion-card>
+  </form>
+</ion-content>
