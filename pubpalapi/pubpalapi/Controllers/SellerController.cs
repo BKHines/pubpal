@@ -216,8 +216,8 @@ namespace pubpalapi.Controllers
             try
             {
                 var repo = new SellerRepository(dbName, storeName);
-                var purchasableItemId = repo.UpdatePurchasableItem(id, item);
-                return Ok(purchasableItemId);
+                var itemupdated = repo.UpdatePurchasableItem(id, item);
+                return Ok(itemupdated);
             }
             catch (Exception ex)
             {
