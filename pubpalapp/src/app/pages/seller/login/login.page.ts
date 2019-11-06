@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { UserService } from 'src/app/providers/user.service';
+import { SellerService } from 'src/app/providers/seller.service';
 
 @Component({
-  selector: 'app-userlogin',
+  selector: 'app-sellerlogin',
   templateUrl: './login.page.html',
   styleUrls: ['./login.page.scss'],
 })
@@ -14,7 +14,7 @@ export class LoginPage implements OnInit {
 
   constructor(
     private router: Router,
-    private userSvc: UserService
+    private sellerSvc: SellerService
   ) { }
 
   ngOnInit() {
@@ -28,16 +28,16 @@ export class LoginPage implements OnInit {
   login() {
     this.loginFailed = false;
 
-    this.userSvc.login(this.email, this.password);
-    let userlogin$ = this.userSvc.loginComplete.subscribe((status) => {
+    this.sellerSvc.login(this.email, this.password);
+    let sellerlogin$ = this.sellerSvc.loginComplete.subscribe((status) => {
       if (status) {
         this.router.navigate(['']);
       } else {
         this.loginFailed = true;
       }
-      userlogin$.unsubscribe();
+      sellerlogin$.unsubscribe();
     }, (usererr) => {
-      userlogin$.unsubscribe();
+      sellerlogin$.unsubscribe();
     });
   }
 }

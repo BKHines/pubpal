@@ -1,0 +1,32 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Login</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <form #rform="ngForm" novalidate>
+    <ion-card>
+      <ion-item [class.pp-invalid]="valemail.touched && valemail.invalid">
+        <ion-label position="floating">Email</ion-label>
+        <ion-input inputmode="email" id="inputEmail" name="email" [(ngModel)]="email" required #valemail="ngModel">
+        </ion-input>
+      </ion-item>
+      <ion-item [class.pp-invalid]="valpass.touched && valpass.invalid">
+        <ion-label position="floating">Password</ion-label>
+        <ion-input type="password" id="inputPassword" name="password" [(ngModel)]="password" required
+          #valpass="ngModel"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-button type="submit" (click)="login()" color="success" expand="full"
+          [disabled]="rform.untouched || rform.invalid">Login</ion-button>
+        <ion-button (click)="resetUser()" color="success" expand="full">Cancel</ion-button>
+      </ion-item>
+      <ion-item *ngIf="loginFailed">
+        <ion-text color="danger">
+          <h4>Login Failed. Please try again.</h4>
+        </ion-text>
+      </ion-item>
+    </ion-card>
+  </form>
+</ion-content>

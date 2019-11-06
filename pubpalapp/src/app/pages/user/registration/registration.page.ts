@@ -4,7 +4,7 @@ import { UserModel } from 'src/app/shared/models';
 import { Router } from '@angular/router';
 
 @Component({
-  selector: 'app-registration',
+  selector: 'app-userregistration',
   templateUrl: './registration.page.html',
   styleUrls: ['./registration.page.scss'],
 })
