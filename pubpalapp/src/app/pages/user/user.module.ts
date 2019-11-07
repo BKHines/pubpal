@@ -10,11 +10,13 @@ import { PubpalinterceptorService } from 'src/app/providers/pubpalinterceptor.se
 import { UserPage } from './user.page';
 import { RegistrationPage } from './registration/registration.page';
 import { LoginPage } from './login/login.page';
+import { AvailablesellersPage } from './availablesellers/availablesellers.page';
 
 const routes: Routes = [
   { path: '', component: UserPage },
   { path: 'registration', component: RegistrationPage },
-  { path: 'login', component: LoginPage }
+  { path: 'login', component: LoginPage },
+  { path: 'purchase/sellers', component: AvailablesellersPage }
 ];
 
 @NgModule({
@@ -28,6 +30,6 @@ const routes: Routes = [
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: PubpalinterceptorService, multi: true }
   ],
-  declarations: [UserPage, RegistrationPage, LoginPage]
+  declarations: [UserPage, RegistrationPage, LoginPage, AvailablesellersPage]
 })
-export class UserPageModule {}
+export class UserPageModule { }

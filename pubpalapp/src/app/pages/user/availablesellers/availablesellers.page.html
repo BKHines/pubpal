@@ -1,0 +1,27 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Available Sellers</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content *ngIf="sellers">
+  <ng-template ngFor [ngForOf]="sellers" let-seller>
+    <ion-item>
+      <ion-label slot="start">
+        {{ seller.place.name }}
+      </ion-label>
+      <ng-template #favoriteSeller>
+        <ion-button slot="end" color="medium" (click)="toggleFavorite(seller._id)">
+          <ion-icon name="star" slot="icon-only"></ion-icon>
+        </ion-button>
+      </ng-template>
+      <ng-template #notFavoriteSeller>
+        <ion-button slot="end" color="medium" fill="outline" (click)="toggleFavorite(seller._id)">
+          <ion-icon color="medium" name="star-outline" slot="icon-only"></ion-icon>
+        </ion-button>
+      </ng-template>
+      <ng-container [ngTemplateOutlet]="isSellerFavorite(seller._id) ? favoriteSeller : notFavoriteSeller">
+      </ng-container>
+    </ion-item>
+  </ng-template>
+</ion-content>

@@ -1,9 +1,11 @@
 <ion-header>
   <ion-toolbar>
-    <ion-title>user</ion-title>
+    <ion-title>{{ userSvc.user ? 'Welcome back ' + userSvc.user.firstname + '!': '' }}</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
-
+  <ion-item>
+    <a [routerLink]="['purchase/sellers']">Make a Purchase</a>
+  </ion-item>
 </ion-content>
