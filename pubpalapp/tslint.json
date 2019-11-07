@@ -73,6 +73,7 @@
     "component-class-suffix": [true, "Page", "Component"],
     "directive-class-suffix": true,
     "variable-name": false,
-    "no-string-literal": false
+    "no-string-literal": false,
+    "prefer-const": false
   }
 }
