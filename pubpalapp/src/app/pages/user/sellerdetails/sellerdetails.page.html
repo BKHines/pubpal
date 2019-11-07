@@ -1,0 +1,18 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>{{ purchSvc.sellerName }}</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ng-template ngFor [ngForOf]="purchaseOptions" let-po>
+    <ion-item>
+      <ion-label slot="start">
+        {{ po.name }}
+      </ion-label>
+      <ion-label slot="end">
+        {{ po.price | currency }}
+      </ion-label>
+    </ion-item>
+  </ng-template>
+</ion-content>

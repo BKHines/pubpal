@@ -1,6 +1,8 @@
 import { Component, OnInit, AfterViewInit } from '@angular/core';
 import { UserService } from 'src/app/providers/user.service';
 import { SellerModel } from 'src/app/shared/models';
+import { PurchaseService } from 'src/app/providers/purchase.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-availablesellers',
@@ -11,11 +13,20 @@ export class AvailablesellersPage implements OnInit, AfterViewInit {
   sellers: SellerModel[];
 
   constructor(
-    private userSvc: UserService
+    private userSvc: UserService,
+    private purchSvc: PurchaseService,
+    private router: Router
   ) { }
 
   ngOnInit() {
-    this.loadData();
+    if (this.userSvc.user) {
+      this.loadData();
+    } else {
+      let userLoaded$ = this.userSvc.userLoaded.subscribe(() => {
+        this.loadData();
+        userLoaded$.unsubscribe();
+      });
+    }
   }
 
   ngAfterViewInit() {
@@ -44,6 +55,11 @@ export class AvailablesellersPage implements OnInit, AfterViewInit {
     } else {
       this.addFavorite(sellerid);
     }
+  }
+
+  openSellerDetails(seller: SellerModel) {
+    this.purchSvc.sellerName = seller.place.name;
+    this.router.navigate(['user/purchase/seller', seller._id]);
   }
 
   addFavorite(sellerid: string) {

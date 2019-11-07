@@ -7,7 +7,7 @@
 <ion-content *ngIf="sellers">
   <ng-template ngFor [ngForOf]="sellers" let-seller>
     <ion-item>
-      <ion-label slot="start">
+      <ion-label slot="start" (click)="openSellerDetails(seller)">
         {{ seller.place.name }}
       </ion-label>
       <ng-template #favoriteSeller>
