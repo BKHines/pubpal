@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { UserService } from 'src/app/providers/user.service';
 import { PurchaseService } from 'src/app/providers/purchase.service';
 import { PurchasableItemModel } from 'src/app/shared/models';
@@ -15,6 +15,7 @@ export class SellerdetailsPage implements OnInit {
 
   constructor(
     private route: ActivatedRoute,
+    private router: Router,
     private userSvc: UserService,
     public purchSvc: PurchaseService
   ) { }
@@ -46,5 +47,9 @@ export class SellerdetailsPage implements OnInit {
         this.purchSvc.sellerName = res.result && res.result.length > 0 ? res.result[0].name : '';
       });
     }
+  }
+
+  openOption(option: PurchasableItemModel) {
+    this.router.navigate(['user/purchase/seller', this.sellerId, option.id]);
   }
 }

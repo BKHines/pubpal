@@ -12,7 +12,9 @@ import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { PubpalinterceptorService } from './providers/pubpalinterceptor.service';
 
 @NgModule({
-  declarations: [AppComponent],
+  declarations: [
+    AppComponent
+  ],
   entryComponents: [],
   imports: [
     BrowserModule,
@@ -28,4 +30,4 @@ import { PubpalinterceptorService } from './providers/pubpalinterceptor.service'
   ],
   bootstrap: [AppComponent]
 })
-export class AppModule {}
+export class AppModule { }

@@ -12,13 +12,16 @@ import { RegistrationPage } from './registration/registration.page';
 import { LoginPage } from './login/login.page';
 import { AvailablesellersPage } from './availablesellers/availablesellers.page';
 import { SellerdetailsPage } from './sellerdetails/sellerdetails.page';
+import { PurchaseoptionsPage } from './purchaseoptions/purchaseoptions.page';
+import { ArraybypropertyPipe } from 'src/app/shared/pipes/arraybyproperty.pipe';
 
 const routes: Routes = [
   { path: '', component: UserPage },
   { path: 'registration', component: RegistrationPage },
   { path: 'login', component: LoginPage },
   { path: 'purchase/sellers', component: AvailablesellersPage },
-  { path: 'purchase/seller/:id', component: SellerdetailsPage }
+  { path: 'purchase/seller/:id', component: SellerdetailsPage },
+  { path: 'purchase/seller/:id/:optionid', component: PurchaseoptionsPage }
 ];
 
 @NgModule({
@@ -33,11 +36,13 @@ const routes: Routes = [
     { provide: HTTP_INTERCEPTORS, useClass: PubpalinterceptorService, multi: true }
   ],
   declarations: [
+    ArraybypropertyPipe,
     UserPage,
     RegistrationPage,
     LoginPage,
     AvailablesellersPage,
-    SellerdetailsPage
+    SellerdetailsPage,
+    PurchaseoptionsPage
   ]
 })
 export class UserPageModule { }

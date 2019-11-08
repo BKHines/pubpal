@@ -6,7 +6,7 @@
 
 <ion-content>
   <ng-template ngFor [ngForOf]="purchaseOptions" let-po>
-    <ion-item>
+    <ion-item (click)="openOption(po);">
       <ion-label slot="start">
         {{ po.name }}
       </ion-label>

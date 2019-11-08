@@ -1,0 +1,121 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Make Purchase</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-item *ngIf="option">
+    <ion-label>
+      {{ option.name }}
+    </ion-label>
+    <ion-label>
+      ({{ option.price | currency }}){{ingredientUpcharge ? ' -> (' + ((option.price + ingredientUpcharge) | currency) + ')' : ''}}
+    </ion-label>
+  </ion-item>
+  <ng-template [ngIf]="categoryGroups && option">
+    <ng-template ngFor [ngForOf]="categoryGroups" let-category>
+      <ng-template #categoryTemplate>
+        <ion-item>
+          <ion-label>
+            <h3>Select from: {{ category }}</h3>
+          </ion-label>
+        </ion-item>
+        <ng-template ngFor [ngForOf]="option.ingredients | arraybyproperty: 'category': category" let-ing>
+          <ion-item (click)="selectIngredient(ing); setTipAmount(tipType)">
+            <ion-label>
+              {{ ing.ingredient }}
+            </ion-label>
+            <ion-label *ngIf="ing.upcharge > 0">
+              {{ ing.upcharge | currency }}
+            </ion-label>
+            <ion-label *ngIf="ing.upcharge === 0">
+              No Charge
+            </ion-label>
+          </ion-item>
+        </ng-template>
+      </ng-template>
+      <ng-template #categorySelectedTemplate>
+        <ion-item>
+          <ng-container *ngIf="getCategorySelection(category) as selection">
+            <ion-label>
+              {{ category }} selection:
+            </ion-label>
+            <ion-label>
+              {{ selection.ingredient }} ({{ selection.upcharge ? (selection.upcharge | currency) : 'No Charge' }})
+            </ion-label>
+          </ng-container>
+        </ion-item>
+      </ng-template>
+      <ng-container [ngTemplateOutlet]="isCategorySelected(category) ? categorySelectedTemplate : categoryTemplate">
+      </ng-container>
+    </ng-template>
+    <ion-grid class="tip-grid">
+      <ion-row>
+        <ion-col size="4">
+          <ion-button color="success" [fill]="tipType === 'NT' ? 'solid' : 'outline'" (click)="setTipAmount('NT')">
+            No Tip
+          </ion-button>
+        </ion-col>
+        <ion-col size="4">
+          <ion-button color="success" [fill]="tipType === '5%' ? 'solid' : 'outline'" (click)="setTipAmount('5%')">
+            {{ (totalPrice * .05).toFixed(2) | currency }} (5%)
+          </ion-button>
+        </ion-col>
+        <ion-col size="4">
+          <ion-button color="success" [fill]="tipType === '10%' ? 'solid' : 'outline'" (click)="setTipAmount('10%')">
+            {{ (totalPrice * .1).toFixed(2) | currency }} (10%)
+          </ion-button>
+        </ion-col>
+        <ion-col size="4">
+          <ion-button color="success" [fill]="tipType === '15%' ? 'solid' : 'outline'" (click)="setTipAmount('15%')">
+            {{ (totalPrice * .15).toFixed(2) | currency }} (15%)
+          </ion-button>
+        </ion-col>
+        <ion-col size="4">
+          <ion-button color="success" [fill]="tipType === '20%' ? 'solid' : 'outline'" (click)="setTipAmount('20%')">
+            {{ (totalPrice * .2).toFixed(2) | currency }} (20%)
+          </ion-button>
+        </ion-col>
+        <ion-col size="4">
+          <ion-button color="success" [fill]="tipType === 'C' ? 'solid' : 'outline'" (click)="setTipAmount('C')">
+            Custom
+          </ion-button>
+          <ion-input *ngIf="tipType === 'C'" class="right-align-input" inputmode="decimal" [(ngModel)]="customTip">
+          </ion-input>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+    <ion-item>
+      <ion-label position="floating">Any Special Instructions?</ion-label>
+      <ion-textarea rows="2" [(ngModel)]="instructions"></ion-textarea>
+    </ion-item>
+    <ng-container
+      *ngIf="fee * (userSvc.user.feediscount ? ((100 - userSvc.user.feediscount) / 100.0) : 1.0) as calcfee">
+      <ion-item>
+        <ion-label>PubPal Fee:</ion-label>
+        <ion-label *ngIf="!userSvc.user.waivedfeetokens">{{ calcfee | currency }}</ion-label>
+        <ion-label *ngIf="userSvc.user.waivedfeetokens && userSvc.user.waivedfeetokens > 0">
+          <del>{{ calcfee | currency }}</del></ion-label>
+      </ion-item>
+      <ion-item>
+        <ion-label>Total Price:</ion-label>
+        <ion-label>
+          {{ (totalPrice + tipAmount + (userSvc.user.waivedfeetokens && userSvc.user.waivedfeetokens > 0 ? 0 : calcfee)) | currency }}
+        </ion-label>
+      </ion-item>
+    </ng-container>
+    <ion-item>
+      <ion-button type="reset" color="success" fill="solid" (click)="cancel()">
+        Cancel
+      </ion-button>
+      <ion-button type="submit" color="success" fill="solid" (click)="addPurchase()" [disabled]="!allGroupsSelected">
+        Purchase
+      </ion-button>
+      <!-- <ion-button type="button" class="btn btn-success ml-2 float-right" (click)="addPurchaseToCart()" 
+            [disabled]="!allGroupsSelected">
+            Add To Cart
+        </ion-button> -->
+    </ion-item>
+  </ng-template>
+</ion-content>

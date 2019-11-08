@@ -16,3 +16,9 @@
         color: var(--ion-color-danger);
     }
 }
+
+.right-align-input {
+    input {
+        text-align: right !important;
+    }
+}
