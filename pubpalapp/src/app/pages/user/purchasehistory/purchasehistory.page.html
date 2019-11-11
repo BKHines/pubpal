@@ -1,0 +1,37 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Your Purchase History</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-segment>
+    <ion-segment-button (ionSelect)="showinactivepurchases = false;">
+      <ion-label>Active</ion-label>
+      <ion-badge *ngIf="activepurchases && activepurchases.length > 0">{{ activepurchases.length }}</ion-badge>
+    </ion-segment-button>
+    <ion-segment-button (ionSelect)="showinactivepurchases = true;">
+      <ion-label>Inactive</ion-label>
+      <ion-badge *ngIf="activepurchases && activepurchases.length > 0">{{ inactivepurchases.length }}</ion-badge>
+    </ion-segment-button>
+  </ion-segment>
+  <ng-template #tactivepurchases ngFor [ngForOf]="activepurchases" let-p>
+    <ion-grid *ngIf="p">
+      <ion-row>
+        <ion-col size="6">{{ p.itemname }}</ion-col>
+        <ion-col>{{ p.currentstatus }}</ion-col>
+        <ion-col>{{ p.price | currency }}</ion-col>
+      </ion-row>
+      <ion-row class="pl-5">
+        <ion-col *ngFor="let i of p.ingredients">{{ i }}</ion-col>
+      </ion-row>
+      <ion-row>{{ p.instructions }}</ion-row>
+    </ion-grid>
+  </ng-template>
+  <ng-template #tinactivepurchases>
+    <ion-item *ngFor="let p of inactivepurchases">
+      {{ p.itemname }}
+    </ion-item>
+  </ng-template>
+  <ng-container [ngTemplateOutlet]="showinactivepurchases ? tinactivepurchases : tactivepurchases"></ng-container>
+</ion-content>

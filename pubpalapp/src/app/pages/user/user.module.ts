@@ -15,6 +15,7 @@ import { SellerdetailsPage } from './sellerdetails/sellerdetails.page';
 import { PurchaseoptionsPage } from './purchaseoptions/purchaseoptions.page';
 import { ArraybypropertyPipe } from 'src/app/shared/pipes/arraybyproperty.pipe';
 import { ArraymaxdisplayPipe } from 'src/app/shared/pipes/arraymaxdisplay.pipe';
+import { PurchasehistoryPage } from './purchasehistory/purchasehistory.page';
 
 const routes: Routes = [
   { path: '', component: UserPage },
@@ -22,7 +23,8 @@ const routes: Routes = [
   { path: 'login', component: LoginPage },
   { path: 'purchase/sellers', component: AvailablesellersPage },
   { path: 'purchase/seller/:id', component: SellerdetailsPage },
-  { path: 'purchase/seller/:id/:optionid', component: PurchaseoptionsPage }
+  { path: 'purchase/seller/:id/:optionid', component: PurchaseoptionsPage },
+  { path: 'purchasehistory', component: PurchasehistoryPage }
 ];
 
 @NgModule({
@@ -44,7 +46,8 @@ const routes: Routes = [
     LoginPage,
     AvailablesellersPage,
     SellerdetailsPage,
-    PurchaseoptionsPage
+    PurchaseoptionsPage,
+    PurchasehistoryPage
   ]
 })
 export class UserPageModule { }
