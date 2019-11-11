@@ -23,5 +23,54 @@
       <ng-container [ngTemplateOutlet]="isSellerFavorite(seller._id) ? favoriteSeller : notFavoriteSeller">
       </ng-container>
     </ion-item>
+    <ion-item>
+      <ion-button *ngIf="!showTagAdd" slot="end" color="primary" fill="outline" (click)="showTagAdd = true">
+        <ion-label>Tag Pub</ion-label>
+        <ion-icon slot="icon-only" name="add"></ion-icon>
+      </ion-button>
+      <ng-template [ngIf]="showTagAdd">
+        <ion-label position="floating">New Tag</ion-label>
+        <ion-input inputmode="text" [(ngModel)]="newtag"></ion-input>
+        <ion-button slot="end" color="success" fill="solid" (click)="addTag(newtag, seller._id)">
+          <ion-icon name="paper-plane" slot="icon-only"></ion-icon>
+        </ion-button>
+        <ion-button slot="end" color="danger" fill="solid" (click)="showTagAdd = false;">
+          <ion-icon name="close" slot="icon-only"></ion-icon>
+        </ion-button>
+      </ng-template>
+    </ion-item>
+    <ion-grid *ngIf="seller.tags">
+      <ion-row>
+        <ng-template #filteredtags>
+          <ion-col *ngFor="let t of seller.tags | arraymaxdisplay: tagmax">
+            <ion-chip background="medium" outline="true">
+              <ion-label>
+                {{ t.tag }}
+              </ion-label>
+              <ion-icon *ngIf="userSvc.user._id === t.userid" name="close-circle" (click)="removeTag(t, seller._id)">
+              </ion-icon>
+            </ion-chip>
+          </ion-col>
+        </ng-template>
+        <ng-template #unfilteredtags>
+          <ion-col *ngFor="let t of seller.tags">
+            <ion-chip background="medium" outline="true">
+              <ion-label>
+                {{ t.tag }}
+              </ion-label>
+              <ion-icon *ngIf="userSvc.user._id === t.userid" name="close-circle" (click)="removeTag(t, seller._id)">
+              </ion-icon>
+            </ion-chip>
+          </ion-col>
+        </ng-template>
+        <ng-container [ngTemplateOutlet]="seller['showalltags'] ? unfilteredtags : filteredtags"></ng-container>
+        <ion-col *ngIf="seller.tags && seller.tags.length > tagmax && !seller['showalltags']">
+          <ion-icon name="arrow-dropdown" (click)="seller['showalltags'] = true;"></ion-icon>
+        </ion-col>
+        <ion-col *ngIf="seller.tags && seller.tags.length > tagmax && seller['showalltags']">
+          <ion-icon name="arrow-dropup" (click)="seller['showalltags'] = false;"></ion-icon>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
   </ng-template>
 </ion-content>

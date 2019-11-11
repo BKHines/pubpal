@@ -14,6 +14,7 @@ import { AvailablesellersPage } from './availablesellers/availablesellers.page';
 import { SellerdetailsPage } from './sellerdetails/sellerdetails.page';
 import { PurchaseoptionsPage } from './purchaseoptions/purchaseoptions.page';
 import { ArraybypropertyPipe } from 'src/app/shared/pipes/arraybyproperty.pipe';
+import { ArraymaxdisplayPipe } from 'src/app/shared/pipes/arraymaxdisplay.pipe';
 
 const routes: Routes = [
   { path: '', component: UserPage },
@@ -37,6 +38,7 @@ const routes: Routes = [
   ],
   declarations: [
     ArraybypropertyPipe,
+    ArraymaxdisplayPipe,
     UserPage,
     RegistrationPage,
     LoginPage,

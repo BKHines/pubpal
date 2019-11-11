@@ -1,6 +1,6 @@
 import { Component, OnInit, AfterViewInit } from '@angular/core';
 import { UserService } from 'src/app/providers/user.service';
-import { SellerModel } from 'src/app/shared/models';
+import { SellerModel, SellerTagModel } from 'src/app/shared/models';
 import { PurchaseService } from 'src/app/providers/purchase.service';
 import { Router } from '@angular/router';
 
@@ -11,14 +11,18 @@ import { Router } from '@angular/router';
 })
 export class AvailablesellersPage implements OnInit, AfterViewInit {
   sellers: SellerModel[];
+  showTagAdd: boolean;
+  newtag: string;
+  tagmax: number;
 
   constructor(
-    private userSvc: UserService,
+    public userSvc: UserService,
     private purchSvc: PurchaseService,
     private router: Router
   ) { }
 
   ngOnInit() {
+    this.tagmax = 10;
     if (this.userSvc.user) {
       this.loadData();
     } else {
@@ -75,6 +79,26 @@ export class AvailablesellersPage implements OnInit, AfterViewInit {
   removeFavorite(sellerid: string) {
     this.userSvc.removeFavorite(this.userSvc.user._id, sellerid).subscribe((res) => {
       this.userSvc.user.favorites.splice(this.userSvc.user.favorites.findIndex(a => a === sellerid), 1);
+    });
+  }
+
+  addTag(t: string, sellerId: string) {
+    this.userSvc.addTag(sellerId, { tag: t, userid: this.userSvc.user._id }).subscribe((res) => {
+      let _seller = this.sellers.find(a => a._id === sellerId);
+      if (!_seller.tags) {
+        _seller.tags = [];
+      }
+
+      _seller.tags.push({ tag: t, userid: this.userSvc.user._id });
+      this.showTagAdd = false;
+      this.newtag = '';
+    });
+  }
+
+  removeTag(t: SellerTagModel, sellerId: string) {
+    this.userSvc.removeTag(sellerId, t).subscribe((res) => {
+      let _seller = this.sellers.find(a => a._id === sellerId);
+      _seller.tags.splice(_seller.tags.findIndex(a => a.tag === t.tag && a.userid === t.userid), 1);
     });
   }
 }
