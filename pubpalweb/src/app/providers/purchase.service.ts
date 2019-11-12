@@ -47,11 +47,15 @@ export class PurchaseService {
     return this.http.put<APIResponse<boolean>>(`api/purchase/updatepurchasebyuser`, purchase);
   }
 
-  cancelPurchaseByUser(id: string, changeStatusReq: ChangePurchaseStatusRequest): Observable<APIResponse<boolean>> {
+  changePurchaseStatusByUser(id: string, changeStatusReq: ChangePurchaseStatusRequest): Observable<APIResponse<boolean>> {
     const params: HttpParams = new HttpParams()
       .set('id', id);
 
-    return this.http.put<APIResponse<boolean>>(`api/purchase/cancelpurchasebyuser`, changeStatusReq, { params });
+    if (changeStatusReq.status === 'cancelled') {
+      return this.http.put<APIResponse<boolean>>(`api/purchase/cancelpurchasebyuser`, changeStatusReq, { params });
+    } else {
+      return this.http.put<APIResponse<boolean>>(`api/purchase/pickeduppurchasebyuser`, changeStatusReq, { params });
+    }
   }
 
   getPurchasesBySellerId(personid: string): Observable<APIResponse<Purchase[]>> {
