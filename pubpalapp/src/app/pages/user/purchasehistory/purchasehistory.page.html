@@ -12,26 +12,54 @@
     </ion-segment-button>
     <ion-segment-button (ionSelect)="showinactivepurchases = true;">
       <ion-label>Inactive</ion-label>
-      <ion-badge *ngIf="activepurchases && activepurchases.length > 0">{{ inactivepurchases.length }}</ion-badge>
+      <ion-badge *ngIf="inactivepurchases && inactivepurchases.length > 0">{{ inactivepurchases.length }}</ion-badge>
     </ion-segment-button>
   </ion-segment>
-  <ng-template #tactivepurchases ngFor [ngForOf]="activepurchases" let-p>
-    <ion-grid *ngIf="p">
-      <ion-row>
-        <ion-col size="6">{{ p.itemname }}</ion-col>
-        <ion-col>{{ p.currentstatus }}</ion-col>
-        <ion-col>{{ p.price | currency }}</ion-col>
-      </ion-row>
-      <ion-row class="pl-5">
-        <ion-col *ngFor="let i of p.ingredients">{{ i }}</ion-col>
-      </ion-row>
-      <ion-row>{{ p.instructions }}</ion-row>
-    </ion-grid>
+  <ng-template #tactivepurchases>
+    <ng-template ngFor [ngForOf]="activepurchases" let-p>
+      <ion-grid *ngIf="p">
+        <ion-row>
+          <ion-col size="6">{{ p.itemname }}</ion-col>
+          <ion-col>{{ p.currentstatus }}</ion-col>
+          <ion-col>{{ p.price | currency }}</ion-col>
+        </ion-row>
+        <ion-row class="pl-5">
+          <ion-col *ngFor="let i of p.ingredients" class="p-0">{{ i }}</ion-col>
+        </ion-row>
+        <ion-row>{{ p.instructions }}</ion-row>
+        <ion-segment>
+          <ion-segment-button (ionSelect)="showCancelComments = true;">
+            <ion-label>Cancel</ion-label>
+          </ion-segment-button>
+          <ion-segment-button (ionSelect)="changeStatus(p, 'pickedup')">
+            <ion-label>Picked Up</ion-label>
+          </ion-segment-button>
+        </ion-segment>
+        <ion-item *ngIf="showCancelComments">
+          <ion-label position="floating">Cancel Comments</ion-label>
+          <ion-textarea id="ccommentsentry" name="ccommentsentry" rows="2" [(ngModel)]="cancelcomments"></ion-textarea>
+          <ion-button slot="end" color="danger" (click)="changeStatus(p, 'cancelled')"
+            [disabled]="!cancelcomments || cancelcomments.length < 5">
+            <ion-icon slot="icon-only" name="close"></ion-icon>
+          </ion-button>
+        </ion-item>
+      </ion-grid>
+    </ng-template>
   </ng-template>
   <ng-template #tinactivepurchases>
-    <ion-item *ngFor="let p of inactivepurchases">
-      {{ p.itemname }}
-    </ion-item>
+    <ng-template ngFor [ngForOf]="inactivepurchases" let-p>
+      <ion-grid *ngIf="p">
+        <ion-row>
+          <ion-col size="6">{{ p.itemname }}</ion-col>
+          <ion-col>{{ p.currentstatus }}</ion-col>
+          <ion-col>{{ p.price | currency }}</ion-col>
+        </ion-row>
+        <ion-row class="pl-5">
+          <ion-col *ngFor="let i of p.ingredients" class="p-0">{{ i }}</ion-col>
+        </ion-row>
+        <ion-row>{{ p.instructions }}</ion-row>
+      </ion-grid>
+    </ng-template>
   </ng-template>
   <ng-container [ngTemplateOutlet]="showinactivepurchases ? tinactivepurchases : tactivepurchases"></ng-container>
 </ion-content>

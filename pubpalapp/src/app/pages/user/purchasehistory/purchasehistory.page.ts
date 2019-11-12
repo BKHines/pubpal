@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Purchase } from 'src/app/shared/models';
+import { Purchase, ChangePurchaseStatusRequest } from 'src/app/shared/models';
 import { UserService } from 'src/app/providers/user.service';
 import { PurchaseService } from 'src/app/providers/purchase.service';
 
@@ -14,6 +14,7 @@ export class PurchasehistoryPage implements OnInit {
   showinactivepurchases: boolean;
   itemname: string;
   customername: string;
+  showCancelComments: boolean;
   cancelcomments: string;
 
   constructor(
@@ -34,14 +35,27 @@ export class PurchasehistoryPage implements OnInit {
         this.activepurchases = [];
         this.inactivepurchases = [];
         res.result.forEach((p) => {
-          if (!/cancelled|pickedup/i.test(p.currentstatus)) {
-            this.activepurchases.push(p);
-          } else {
+          if (/cancelled|pickedup/i.test(p.currentstatus)) {
             this.inactivepurchases.push(p);
+          } else {
+            this.activepurchases.push(p);
           }
         });
       });
     }
+  }
+
+  changeStatus(purchase: Purchase, newstatus: 'cancelled' | 'pickedup') {
+    const _changestatusreq: ChangePurchaseStatusRequest = {
+      purchaseid: purchase._id,
+      message: this.cancelcomments,
+      status: newstatus
+    };
+    this.purchSvc.changePurchaseStatusByUser(this.userSvc.user._id, _changestatusreq).subscribe((res) => {
+      if (res.result) {
+        this.loadData();
+      }
+    });
   }
 
 }

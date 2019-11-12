@@ -48,7 +48,7 @@ export class PurchasestatusComponent implements OnInit {
       message: this.cancelcomments
     };
     this.loadingSvc.addMessage('CancelPurchase', 'Cancelling Purchase...');
-    this.purchaseSvc.cancelPurchaseByUser(this.userSvc.user._id, cancelReq).subscribe((res) => {
+    this.purchaseSvc.changePurchaseStatusByUser(this.userSvc.user._id, cancelReq).subscribe((res) => {
       this.router.navigate(['purchasehistory']);
       this.loadingSvc.removeMessage('CancelPurchase');
     });

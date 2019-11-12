@@ -162,6 +162,27 @@ namespace pubpalapi.Controllers
             }
         }
 
+        [HttpPut("PickedUpPurchaseByUser", Name = "PickedUpPurchaseByUser")]
+        [Authorize(AuthenticationSchemes = Constants.SchemesNamesUserConst)]
+        public IActionResult PickedUpPurchaseByUser(string id, [FromBody] ChangePurchaseStatusRequest req)
+        {
+            if (!ModelState.IsValid || string.IsNullOrEmpty(id))
+            {
+                return BadRequest();
+            }
+
+            try
+            {
+                var repo = new PurchaseRepository(dbName, purchaseStoreName, storeName);
+                var purchaseStatusUpdated = repo.UpdatePurchaseStatus(id, req.purchaseid, req.status, req.message);
+                return Ok(purchaseStatusUpdated);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex);
+            }
+        }
+
         [HttpPut("CancelPurchaseByUser", Name = "CancelPurchaseByUser")]
         [Authorize(AuthenticationSchemes = Constants.SchemesNamesUserConst)]
         public IActionResult CancelPurchaseByUser(string id, [FromBody] ChangePurchaseStatusRequest req)
