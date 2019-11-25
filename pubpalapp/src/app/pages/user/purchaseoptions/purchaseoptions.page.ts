@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { PurchaseService } from 'src/app/providers/purchase.service';
 import { UserService } from 'src/app/providers/user.service';
-import { PurchasableItemModel, Ingredient, Purchase } from 'src/app/shared/models';
+import { PurchasableItemModel, Ingredient, Purchase, CartPurchase, Cart } from 'src/app/shared/models';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CommonService } from 'src/app/providers/common.service';
+import { CartService } from 'src/app/providers/cart.service';
 
 @Component({
   selector: 'app-purchaseoptions',
@@ -15,6 +16,7 @@ export class PurchaseoptionsPage implements OnInit {
   optionId: string;
   option: PurchasableItemModel;
   purchase: Purchase;
+  cartId: string;
 
   instructions: string;
 
@@ -41,6 +43,7 @@ export class PurchaseoptionsPage implements OnInit {
   constructor(
     private purchSvc: PurchaseService,
     public userSvc: UserService,
+    public cartSvc: CartService,
     private route: ActivatedRoute,
     private commonSvc: CommonService,
     private router: Router
@@ -78,6 +81,12 @@ export class PurchaseoptionsPage implements OnInit {
             this.categoryGroups.push(a.category);
           }
         });
+      });
+
+      this.cartSvc.getCartByUserId(this.userSvc.user._id).subscribe((res) => {
+        if (res && res.result && res.result._id) {
+          this.cartId = res.result._id as string;
+        }
       });
 
       this.commonSvc.getFee().subscribe((res) => {
@@ -184,58 +193,56 @@ export class PurchaseoptionsPage implements OnInit {
   }
 
   addPurchaseToCart() {
-    // if (this.cartId) {
-    //   let _purchase: CartPurchase = {
-    //     userid: this.userSvc.user._id,
-    //     customername: this.userSvc.user.firstname + ' ' + this.userSvc.user.lastname.substring(0, 1),
-    //     sellerid: this.sellerId,
-    //     itemname: this.purchasableItem.name,
-    //     ingredients: this.selectedOptions.map(a => a.ingredient),
-    //     price: +(this.totalPrice.toFixed(2)),
-    //     fee: this.fee * (this.userSvc.user.feediscount ? ((100 - this.userSvc.user.feediscount) / 100.0) : 1.0),
-    //     feewaived: this.userSvc.user.waivedfeetokens > 0,
-    //     tip: +(this.tipAmount.toFixed(2)),
-    //     instructions: this.instructions ? this.instructions : '',
-    //     currentstatus: 'ordered',
-    //     purchasehistory: [{
-    //       purchasestatus: 'ordered',
-    //       statusdate: `${new Date().toLocaleDateString()} ${new Date().toLocaleTimeString()}`
-    //     }]
-    //   };
-    //   this.cartSvc.addPurchaseToCart(this.cartId, _purchase).subscribe((res) => {
-    //     this.modalSvc.hideModal(CONSTANTS.MODAL_PURCHASE);
-    //     this.cartSvc.loadCart(this.userSvc.user._id);
-    //   });
-    // } else {
-    //   let _purchase: CartPurchase = {
-    //     userid: this.userSvc.user._id,
-    //     customername: this.userSvc.user.firstname + ' ' + this.userSvc.user.lastname.substring(0, 1),
-    //     sellerid: this.sellerId,
-    //     itemname: this.purchasableItem.name,
-    //     ingredients: this.selectedOptions.map(a => a.ingredient),
-    //     price: +(this.totalPrice.toFixed(2)),
-    //     fee: this.fee * (this.userSvc.user.feediscount ? ((100 - this.userSvc.user.feediscount) / 100.0) : 1.0),
-    //     feewaived: this.userSvc.user.waivedfeetokens > 0,
-    //     tip: +(this.tipAmount.toFixed(2)),
-    //     instructions: this.instructions ? this.instructions : '',
-    //     currentstatus: 'ordered',
-    //     purchasehistory: [{
-    //       purchasestatus: 'ordered',
-    //       statusdate: `${new Date().toLocaleDateString()} ${new Date().toLocaleTimeString()}`
-    //     }]
-    //   };
-    //   let _cart: Cart = {
-    //     purchases: [_purchase]
-    //   };
+    if (this.cartId) {
+      let _purchase: CartPurchase = {
+        userid: this.userSvc.user._id,
+        customername: this.userSvc.user.firstname + ' ' + this.userSvc.user.lastname.substring(0, 1),
+        sellerid: this.sellerId,
+        itemname: this.option.name,
+        ingredients: this.selectedIngredients.map(a => a.ingredient),
+        price: +(this.totalPrice.toFixed(2)),
+        fee: this.fee * (this.userSvc.user.feediscount ? ((100 - this.userSvc.user.feediscount) / 100.0) : 1.0),
+        feewaived: this.userSvc.user.waivedfeetokens > 0,
+        tip: +(this.tipAmount.toFixed(2)),
+        instructions: this.instructions ? this.instructions : '',
+        currentstatus: 'ordered',
+        purchasehistory: [{
+          purchasestatus: 'ordered',
+          statusdate: `${new Date().toLocaleDateString()} ${new Date().toLocaleTimeString()}`
+        }]
+      };
+      this.cartSvc.addPurchaseToCart(this.cartId, _purchase).subscribe((res) => {
+        this.cartSvc.loadCart(this.userSvc.user._id);
+        this.router.navigate(['user/purchase/seller', this.sellerId]);
+      });
+    } else {
+      let _purchase: CartPurchase = {
+        userid: this.userSvc.user._id,
+        customername: this.userSvc.user.firstname + ' ' + this.userSvc.user.lastname.substring(0, 1),
+        sellerid: this.sellerId,
+        itemname: this.option.name,
+        ingredients: this.selectedIngredients.map(a => a.ingredient),
+        price: +(this.totalPrice.toFixed(2)),
+        fee: this.fee * (this.userSvc.user.feediscount ? ((100 - this.userSvc.user.feediscount) / 100.0) : 1.0),
+        feewaived: this.userSvc.user.waivedfeetokens > 0,
+        tip: +(this.tipAmount.toFixed(2)),
+        instructions: this.instructions ? this.instructions : '',
+        currentstatus: 'ordered',
+        purchasehistory: [{
+          purchasestatus: 'ordered',
+          statusdate: `${new Date().toLocaleDateString()} ${new Date().toLocaleTimeString()}`
+        }]
+      };
+      let _cart: Cart = {
+        purchases: [_purchase]
+      };
 
-    //   this.loadingSvc.addMessage('AddToCart', 'Adding Purchase To Cart...');
-    //   this.cartSvc.createCart(_cart).subscribe((res) => {
-    //     this.modalSvc.hideModal(CONSTANTS.MODAL_PURCHASE);
-    //     this.cartId = res.result;
-    //     this.loadingSvc.removeMessage('AddToCart');
-    //     this.cartSvc.loadCart(this.userSvc.user._id);
-    //   });
-    // }
+      this.cartSvc.createCart(_cart).subscribe((res) => {
+        this.cartId = res.result;
+        this.cartSvc.loadCart(this.userSvc.user._id);
+        this.router.navigate(['user/purchase/seller', this.sellerId]);
+      });
+    }
   }
 
   private getUniqueSelectedOptionCategories() {

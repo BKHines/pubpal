@@ -55,7 +55,7 @@ export class PurchaseService {
     if (changeStatusReq.status === 'cancelled') {
       return this.http.put<APIResponse<boolean>>(`api/purchase/cancelpurchasebyuser`, changeStatusReq, { params });
     } else {
-      return this.http.put<APIResponse<boolean>>(`api/purchase/pickeduppurchasebyuser`, changeStatusReq, { params });
+      return this.http.put<APIResponse<boolean>>(`api/purchaexse/pickeduppurchasebyuser`, changeStatusReq, { params });
     }
   }
 
