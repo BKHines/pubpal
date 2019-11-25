@@ -17,6 +17,7 @@ import { ArraybypropertyPipe } from 'src/app/shared/pipes/arraybyproperty.pipe';
 import { ArraymaxdisplayPipe } from 'src/app/shared/pipes/arraymaxdisplay.pipe';
 import { PurchasehistoryPage } from './purchasehistory/purchasehistory.page';
 import { CartPage } from './cart/cart.page';
+import { ComponentsModule } from 'src/app/shared/components/components.module';
 
 const routes: Routes = [
   { path: '', component: UserPage },
@@ -35,6 +36,7 @@ const routes: Routes = [
     HttpClientModule,
     FormsModule,
     IonicModule,
+    ComponentsModule,
     RouterModule.forChild(routes)
   ],
   providers: [

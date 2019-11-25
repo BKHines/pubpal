@@ -1,6 +1,6 @@
 <ion-header>
   <ion-toolbar>
-    <ion-title>cart</ion-title>
+    <app-pp-header [message]="'Your Cart'" [showcart]="true"></app-pp-header>
   </ion-toolbar>
 </ion-header>
 
@@ -17,12 +17,8 @@
         <ion-icon name="close-circle" style="float: right" (click)="deletePurchase(p.cartid)" ></ion-icon>
       </ion-card-header>
       <ion-card-content>
-        <p>
-          {{ p.ingredients.join(', ') }}
-        </p>
-        <p>
-          {{ p['sellername'] }}
-        </p>
+        <p>{{ p.ingredients.join(', ') }}</p>
+        <p>{{ p['sellername'] }}</p>
       </ion-card-content>
     </ion-card>
     <ion-item>

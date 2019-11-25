@@ -1,6 +1,6 @@
 <ion-header>
   <ion-toolbar>
-    <ion-title>{{ userSvc.user ? 'Welcome back ' + userSvc.user.firstname + '!': '' }}</ion-title>
+    <app-pp-header [message]="userSvc.user ? 'Welcome back ' + userSvc.user.firstname + '!': ''" [showcart]="true"></app-pp-header>
   </ion-toolbar>
 </ion-header>
 

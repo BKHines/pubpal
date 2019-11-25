@@ -1,0 +1,9 @@
+<ion-item>
+  <ion-label>
+    {{ message }}
+  </ion-label>
+  <ion-button slot="end" fill="clear" *ngIf="userSvc.user" class="cart-button" (click)="goToCart()">
+    <ion-icon name="cart"></ion-icon>
+    <ion-badge id="cart-badge" color="danger" *ngIf="cartCount > 0">{{ cartCount }}</ion-badge>
+  </ion-button>
+</ion-item>

@@ -1,6 +1,6 @@
 <ion-header>
   <ion-toolbar>
-    <ion-title>Make Purchase</ion-title>
+    <app-pp-header [message]="'Make Purchase'" [showcart]="true"></app-pp-header>
   </ion-toolbar>
 </ion-header>
 
@@ -112,10 +112,10 @@
       <ion-button type="submit" color="success" fill="solid" (click)="addPurchase()" [disabled]="!allGroupsSelected">
         Purchase
       </ion-button>
-      <ion-button type="button" class="btn btn-success ml-2 float-right" (click)="addPurchaseToCart()" 
-            [disabled]="!allGroupsSelected">
-            Add To Cart
-        </ion-button>
+      <ion-button type="button" class="btn btn-success ml-2 float-right" (click)="addPurchaseToCart()"
+        [disabled]="!allGroupsSelected">
+        Add To Cart
+      </ion-button>
     </ion-item>
   </ng-template>
 </ion-content>
