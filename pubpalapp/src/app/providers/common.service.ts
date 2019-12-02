@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { APIResponse, StatusType, StatusText } from '../shared/models';
+import { APIResponse, StatusType, StatusText, StatusDisplayText } from '../shared/models';
 
 @Injectable({
   providedIn: 'root'
@@ -12,6 +12,23 @@ export class CommonService {
 
   getFee(): Observable<APIResponse<number>> {
     return this.http.get<APIResponse<number>>(`api/common/getfee`);
+  }
+
+  getStatusDisplayText(_currStatus: StatusType): StatusDisplayText {
+    switch (_currStatus) {
+      case 'ordered':
+        return 'ordered';
+      case 'accepted':
+        return 'accepted';
+      case 'inprogress':
+        return 'in progress';
+      case 'ready':
+        return 'ready to be picked up';
+      case 'pickedup':
+        return 'picked up';
+      case 'cancelled':
+        return 'cancelled';
+    }
   }
 
   // 'ordered' | 'accepted' | 'inprogress' | 'ready' | 'pickedup' | 'cancelled'

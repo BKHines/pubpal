@@ -188,6 +188,7 @@ export class PurchaseoptionsPage implements OnInit {
     this.purchSvc.createPurchase(this.purchase).subscribe((res) => {
       this.purchase._id = res.result;
       this.clearEntry();
+      this.purchSvc.startPolling();
       this.router.navigate(['user/purchase/seller', this.sellerId]);
     });
   }

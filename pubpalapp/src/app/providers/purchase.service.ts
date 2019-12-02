@@ -1,15 +1,61 @@
-import { Injectable } from '@angular/core';
+import { Injectable, EventEmitter } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { APIResponse, PurchasableItemModel, Purchase, ChangePurchaseStatusRequest } from '../shared/models';
+import { APIResponse, PurchasableItemModel, Purchase, ChangePurchaseStatusRequest, StatusType } from '../shared/models';
+import { UserService } from './user.service';
+import { CommonService } from './common.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class PurchaseService {
   sellerName: string;
+  purchases: Purchase[];
+  purchaseStatusChanged: EventEmitter<string> = new EventEmitter<string>();
 
-  constructor(private http: HttpClient) { }
+  constructor(
+    private http: HttpClient,
+    private userSvc: UserService,
+    private commonSvc: CommonService
+  ) { }
+
+  startPolling() {
+    this.getPurchasesByUserId(this.userSvc.user._id).subscribe((res) => {
+      if (res && res.result) {
+        if (this.purchases) {
+          if (res.result.some(a => this.purchases.filter(b => b._id === a._id && b.currentstatus !== a.currentstatus).length > 0)) {
+            let _msgs = [];
+            let _updatedPurchases =  res.result.filter(a => this.purchases.filter(b => b._id === a._id && b.currentstatus !== a.currentstatus).length > 0);
+            this.purchases = res.result;
+            _updatedPurchases.forEach((p) => {
+                switch (p.currentstatus) {
+                  case 'accepted':
+                  case 'cancelled':
+                  case 'ordered':
+                  case 'pickedup':
+                    _msgs.push(`Your order has been updated: ${p.itemname} has been ${this.commonSvc.getStatusDisplayText(p.currentstatus)}`);
+                    break;
+                  case 'inprogress':
+                  case 'ready':
+                    _msgs.push(`Your order has been updated: ${p.itemname} is ${this.commonSvc.getStatusDisplayText(p.currentstatus)}`);
+                    break;
+                }
+              });
+            this.purchaseStatusChanged.emit(_msgs.join('\n'));
+          }
+
+        } else {
+          this.purchases = res.result;
+        }
+
+        if (res.result.some(a => !(/cancelled|pickedup/.test(a.currentstatus)))) {
+          setTimeout(() => {
+            this.startPolling();
+          }, 5000);
+        }
+      }
+    });
+  }
 
   getSellerOptionsById(sellerId: string): Observable<APIResponse<PurchasableItemModel[]>> {
     const params: HttpParams = new HttpParams()
