@@ -1,10 +1,12 @@
 <ion-header>
   <ion-toolbar>
-    <app-pp-header [message]="userSvc.user ? 'Welcome back ' + userSvc.user.firstname + '!': ''" [showcart]="true"></app-pp-header>
+    <app-pp-header [message]="userSvc.user ? 'Welcome back ' + userSvc.user.firstname + '!': ''" ></app-pp-header>
   </ion-toolbar>
 </ion-header>
 
-<ion-content>
+<app-pp-menuoptions [usertype]="'user'" ></app-pp-menuoptions>
+
+<ion-content id="userContent">
   <ion-item>
     <a [routerLink]="['purchase/sellers']">Make a Purchase</a>
   </ion-item>

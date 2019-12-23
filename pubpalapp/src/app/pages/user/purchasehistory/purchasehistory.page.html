@@ -1,10 +1,12 @@
 <ion-header>
   <ion-toolbar>
-    <ion-title>Your Purchase History</ion-title>
+    <app-pp-header [message]="'Your Purchase History'" ></app-pp-header>
   </ion-toolbar>
 </ion-header>
 
-<ion-content>
+<app-pp-menuoptions [usertype]="'user'" ></app-pp-menuoptions>
+
+<ion-content id="userContent">
   <ion-segment>
     <ion-segment-button (ionSelect)="showinactivepurchases = false;">
       <ion-label>Active</ion-label>

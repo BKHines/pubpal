@@ -37,7 +37,7 @@ namespace pubpalapi
                                                             .AllowAnyHeader()
                                                             .AllowAnyMethod());
             });
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_3_0);
+            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Latest);
             services.AddScoped<PubPalInterceptor>();
             services.AddOptions();
 

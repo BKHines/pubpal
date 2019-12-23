@@ -1,10 +1,12 @@
 <ion-header>
   <ion-toolbar>
-      <app-pp-header [message]="'Available Sellers'" [showcart]="true"></app-pp-header>
+      <app-pp-header [message]="'Available Sellers'" ></app-pp-header>
     </ion-toolbar>
 </ion-header>
 
-<ion-content *ngIf="sellers">
+<app-pp-menuoptions [usertype]="'user'" ></app-pp-menuoptions>
+
+<ion-content *ngIf="sellers" id="userContent">
   <ng-template ngFor [ngForOf]="sellers" let-seller>
     <ion-item>
       <ion-label slot="start" (click)="openSellerDetails(seller)">

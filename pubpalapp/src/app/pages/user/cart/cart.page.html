@@ -1,10 +1,12 @@
 <ion-header>
   <ion-toolbar>
-    <app-pp-header [message]="'Your Cart'" [showcart]="true"></app-pp-header>
+    <app-pp-header [message]="'Your Cart'"></app-pp-header>
   </ion-toolbar>
 </ion-header>
 
-<ion-content>
+<app-pp-menuoptions [usertype]="'user'" ></app-pp-menuoptions>
+
+<ion-content id="userContent">
   <ng-template [ngIf]="cartSvc.cart">
     <ion-card *ngFor="let p of cartSvc.cart.purchases">
       <ion-card-header>
@@ -25,7 +27,7 @@
       <ion-button type="reset" color="success" fill="solid" (click)="clearCart()">
         Clear Cart
       </ion-button>
-      <ion-button type="submit" color="success" fill="solid" (click)="makePurchases()" [disabled]="!allGroupsSelected">
+      <ion-button type="submit" color="success" fill="solid" (click)="makePurchases()" >
         Make Purchases
       </ion-button>
     </ion-item>
