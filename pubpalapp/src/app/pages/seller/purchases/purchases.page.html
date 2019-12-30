@@ -1,0 +1,65 @@
+<ion-header>
+  <ion-toolbar>
+    <app-pp-header [message]="'Purchases'">
+    </app-pp-header>
+  </ion-toolbar>
+</ion-header>
+
+<app-pp-menuoptions [usertype]="'seller'"></app-pp-menuoptions>
+
+<ion-content id="userContent" *ngIf="activepurchases">
+  <ng-template ngFor [ngForOf]="activepurchases" let-ap>
+    <ion-card>
+      <ion-card-header class="pb-1">
+        <ion-card-title>
+          {{ ap.customername }}
+        </ion-card-title>
+        <ion-card-subtitle>
+          {{ ap.itemname }} - ({{ ap.price | currency }})
+        </ion-card-subtitle>
+      </ion-card-header>
+      <ion-card-content class="py-0">
+        <ion-label><strong>Special Instructions:</strong></ion-label><br />
+        <ion-label>{{ ap.instructions }}</ion-label>
+        <ion-list>
+          <ion-item *ngFor="let ing of ap.ingredients" no-border>
+            {{ ing }}
+          </ion-item>
+        </ion-list>
+      </ion-card-content>
+      <ion-card-header class="pb-1">
+        <ion-card-subtitle>
+          {{ ap.currentstatus }}
+        </ion-card-subtitle>
+        <ion-card-content>
+          <ion-item>
+            <ion-label><strong>Change to: </strong></ion-label>
+            <ion-button *ngIf="ap['nextstatustext'] !== 'Complete' && ap.currentstatus !== 'cancelled'" slot="end"
+              (click)="updateToNextStatus(ap)">
+              {{ ap['nextstatustext'] }}
+            </ion-button>
+          </ion-item>
+          <ion-item>
+            <ion-button *ngIf="['ordered', 'accepted', 'inprogress'].indexOf(ap['nextstatus']) > -1" slot="end"
+              [disabled]="ap['showcancelcomments'] && (!ap['cancelcomments'] || ap['cancelcomments'].length < 3)"
+              (click)="!ap['showcancelcomments'] ? ap['showcancelcomments'] = true : cancelOrder(ap._id, ap['cancelcomments'])">
+              Cancel Order
+            </ion-button>
+          </ion-item>
+          <ng-template [ngIf]="ap['showcancelcomments']">
+            <ion-item>
+              <ion-label position="floating">Reason for Cancelling:</ion-label>
+              <ion-textarea id="ccommentsentry" name="ccommentsentry" rows="2" [(ngModel)]="ap['cancelcomments']">
+              </ion-textarea>
+            </ion-item>
+            <ion-item>
+              <ion-button slot="end" (click)="ap['showcancelcomments'] = false; ap['cancelcomments'] = '';">
+                Keep Order
+              </ion-button>
+            </ion-item>
+          </ng-template>
+        </ion-card-content>
+      </ion-card-header>
+    </ion-card>
+  </ng-template>
+</ion-content>

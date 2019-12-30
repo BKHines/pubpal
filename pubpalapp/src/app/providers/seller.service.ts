@@ -23,8 +23,8 @@ export class SellerService {
           type: 'Point',
           coordinates: [0, 0]
         };
-        this.sellerLoaded.emit();
       }
+      this.sellerLoaded.emit();
     }
   }
 

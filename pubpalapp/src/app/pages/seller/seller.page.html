@@ -1,9 +1,12 @@
 <ion-header>
   <ion-toolbar>
-    <ion-title>seller</ion-title>
+    <app-pp-header [message]="sellerSvc.seller ? 'Welcome back ' + sellerSvc.seller.place.name + '!': ''">
+    </app-pp-header>
   </ion-toolbar>
 </ion-header>
 
-<ion-content>
+<app-pp-menuoptions [usertype]="'seller'"></app-pp-menuoptions>
+
+<ion-content id="userContent">
 
 </ion-content>

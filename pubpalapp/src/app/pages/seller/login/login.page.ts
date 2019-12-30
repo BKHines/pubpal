@@ -31,7 +31,7 @@ export class LoginPage implements OnInit {
     this.sellerSvc.login(this.email, this.password);
     let sellerlogin$ = this.sellerSvc.loginComplete.subscribe((status) => {
       if (status) {
-        this.router.navigate(['']);
+        this.router.navigate(['seller']);
       } else {
         this.loginFailed = true;
       }

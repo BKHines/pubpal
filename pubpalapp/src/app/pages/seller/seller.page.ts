@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { SellerService } from 'src/app/providers/seller.service';
 
 @Component({
   selector: 'app-seller',
@@ -7,7 +8,9 @@ import { Component, OnInit } from '@angular/core';
 })
 export class SellerPage implements OnInit {
 
-  constructor() { }
+  constructor(
+    public sellerSvc: SellerService
+  ) { }
 
   ngOnInit() {
   }

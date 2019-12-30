@@ -10,10 +10,13 @@ import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { PubpalinterceptorService } from 'src/app/providers/pubpalinterceptor.service';
 import { RegistrationPage } from './registration/registration.page';
 import { LoginPage } from './login/login.page';
+import { PurchasesPage } from './purchases/purchases.page';
+import { ComponentsModule } from 'src/app/shared/components/components.module';
 
 const routes: Routes = [
   { path: '', component: SellerPage },
   { path: 'registration', component: RegistrationPage },
+  { path: 'purchases', component: PurchasesPage },
   { path: 'login', component: LoginPage }
 ];
 
@@ -22,12 +25,13 @@ const routes: Routes = [
     CommonModule,
     HttpClientModule,
     FormsModule,
+    ComponentsModule,
     IonicModule,
     RouterModule.forChild(routes)
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: PubpalinterceptorService, multi: true }
   ],
-  declarations: [SellerPage, RegistrationPage, LoginPage]
+  declarations: [SellerPage, RegistrationPage, PurchasesPage, LoginPage]
 })
 export class SellerPageModule {}

@@ -51,7 +51,13 @@ export class PpMenuoptionsComponent implements OnInit {
   }
 
   goToCart() {
+    this.menuCtrl.close();
     this.router.navigateByUrl('user/cart');
+  }
+
+  goSellerPurchases() {
+    this.menuCtrl.close();
+    this.router.navigateByUrl('seller/purchases');
   }
 
   logout() {
