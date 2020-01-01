@@ -11,16 +11,17 @@ import { PubpalinterceptorService } from 'src/app/providers/pubpalinterceptor.se
 import { RegistrationPage } from './registration/registration.page';
 import { LoginPage } from './login/login.page';
 import { PurchasesPage } from './purchases/purchases.page';
-import { ComponentsModule } from 'src/app/shared/components/components.module';
 import { ItementryPage } from './itementry/itementry.page';
-import { CurrencyformatPipe } from 'src/app/shared/pipes/currencyformat.pipe';
-import { ArraybypropertyPipe } from 'src/app/shared/pipes/arraybyproperty.pipe';
+import { ItemlistPage } from './itemlist/itemlist.page';
+import { SharedModule } from 'src/app/shared/shared.module';
 
 const routes: Routes = [
   { path: '', component: SellerPage },
   { path: 'registration', component: RegistrationPage },
   { path: 'purchases', component: PurchasesPage },
-  { path: 'itementry', component: ItementryPage },
+  { path: 'items', component: ItemlistPage },
+  { path: 'items/newentry', component: ItementryPage },
+  { path: 'items/entry/:id', component: ItementryPage },
   { path: 'login', component: LoginPage }
 ];
 
@@ -29,21 +30,18 @@ const routes: Routes = [
     CommonModule,
     HttpClientModule,
     FormsModule,
-    ComponentsModule,
+    SharedModule,
     IonicModule,
     RouterModule.forChild(routes)
   ],
   providers: [
-    CurrencyPipe,
-    ArraybypropertyPipe,
     { provide: HTTP_INTERCEPTORS, useClass: PubpalinterceptorService, multi: true }
   ],
   declarations: [
-    CurrencyformatPipe,
-    ArraybypropertyPipe,
     SellerPage,
     RegistrationPage,
     PurchasesPage,
+    ItemlistPage,
     ItementryPage,
     LoginPage
   ]

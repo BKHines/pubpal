@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { Ingredient, PurchasableItemModel } from 'src/app/shared/models';
 import { Observable, of } from 'rxjs';
 import { SellerService } from 'src/app/providers/seller.service';
@@ -6,6 +6,7 @@ import { CONSTANTS } from 'src/app/shared/constants';
 import { mergeMap } from 'rxjs/operators';
 import { NgForm } from '@angular/forms';
 import { IonInput } from '@ionic/angular';
+import { Router, ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-itementry',
@@ -13,7 +14,7 @@ import { IonInput } from '@ionic/angular';
   styleUrls: ['./itementry.page.scss'],
 })
 export class ItementryPage implements OnInit {
-  @Input() piId: string;
+  piId: string;
   entryFailed: boolean;
   newIngredient: Ingredient;
 
@@ -31,9 +32,14 @@ export class ItementryPage implements OnInit {
   applyIngUpchargeFormat: boolean;
 
   constructor(
-    private sellerSvc: SellerService) { }
+    private sellerSvc: SellerService,
+    private router: Router,
+    private activatedRoute: ActivatedRoute
+  ) { }
 
   ngOnInit() {
+    this.applyPriceFormat = true;
+    this.piId = this.activatedRoute.snapshot.params['id'];
     this.categoryTypes = CONSTANTS.categorytypes;
 
     if (this.sellerSvc.seller) {
@@ -187,6 +193,7 @@ export class ItementryPage implements OnInit {
           this.sellerSvc.seller.items[updateIdx] = JSON.parse(JSON.stringify(this.newPI));
           setTimeout(() => {
             this.resetNewPI();
+            this.goToItems();
           }, 200);
         }
       });
@@ -199,6 +206,7 @@ export class ItementryPage implements OnInit {
         this.sellerSvc.seller.items.push(this.newPI);
         setTimeout(() => {
           this.resetNewPI();
+          this.goToItems();
         }, 200);
       });
     }
@@ -206,5 +214,10 @@ export class ItementryPage implements OnInit {
 
   piResetHandler() {
     this.resetNewPI();
+    this.goToItems();
+  }
+
+  goToItems() {
+    this.router.navigate(['seller/items']);
   }
 }
