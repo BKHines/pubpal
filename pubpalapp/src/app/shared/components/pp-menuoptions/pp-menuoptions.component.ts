@@ -60,6 +60,12 @@ export class PpMenuoptionsComponent implements OnInit {
     this.router.navigateByUrl('seller/purchases');
   }
 
+  goSellerMenuItems() {
+    this.menuCtrl.close();
+    // TODO change this to menu list when page is created
+    this.router.navigateByUrl('seller/itementry');
+  }
+
   logout() {
     this.menuCtrl.close();
     if (this.usertype === 'user') {
