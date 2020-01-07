@@ -2,13 +2,22 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { APIResponse, StatusType, StatusText, StatusDisplayText } from '../shared/models';
+import { AlertController } from '@ionic/angular';
 
 @Injectable({
   providedIn: 'root'
 })
 export class CommonService {
+  isApp: boolean;
 
-  constructor(private http: HttpClient) { }
+  constructor(
+    private http: HttpClient,
+    private alertCtrl: AlertController
+  ) {
+    if (document.URL.indexOf('http://localhost') === 0 || document.URL.indexOf('ionic') === 0 || document.URL.indexOf('https://localhost') === 0) {
+      this.isApp = true;
+    }
+  }
 
   getFee(): Observable<APIResponse<number>> {
     return this.http.get<APIResponse<number>>(`api/common/getfee`);
@@ -62,5 +71,20 @@ export class CommonService {
       default:
         return 'cancelled';
     }
+  }
+
+  showAlertMessage(_alertMsg: string) {
+    this.alertCtrl.create({
+      message: _alertMsg,
+      buttons: [
+        {
+          text: 'OK',
+          role: 'cancel'
+        }
+      ]
+    }).then((ma) => {
+      ma.present();
+    });
+
   }
 }

@@ -1,7 +1,14 @@
 {
   "appId": "com.pubpal.app",
   "appName": "pubpal",
-  "bundledWebRuntime": false,
+  "bundledWebRuntime": true,
   "npmClient": "npm",
-  "webDir": "www"
+  "webDir": "www",
+  "server": {
+    "androidScheme": "https",
+    "allowIntent": [
+      "http://*/",
+      "https://*/"
+    ]
+  }
 }

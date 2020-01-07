@@ -1,8 +1,6 @@
 import { Component } from '@angular/core';
 
 import { Platform, ToastController } from '@ionic/angular';
-import { SplashScreen } from '@ionic-native/splash-screen/ngx';
-import { StatusBar } from '@ionic-native/status-bar/ngx';
 import { LocalstoreService } from './providers/localstore.service';
 import { CONSTANTS } from './shared/constants';
 import { TokenService } from './providers/token.service';
@@ -10,6 +8,9 @@ import { SellerService } from './providers/seller.service';
 import { UserService } from './providers/user.service';
 import { Router } from '@angular/router';
 import { PurchaseService } from './providers/purchase.service';
+
+import { Plugins, StatusBarStyle } from '@capacitor/core';
+const { SplashScreen, StatusBar } = Plugins;
 
 @Component({
   selector: 'app-root',
@@ -20,8 +21,6 @@ export class AppComponent {
 
   constructor(
     private platform: Platform,
-    private splashScreen: SplashScreen,
-    private statusBar: StatusBar,
     private localStoreSvc: LocalstoreService,
     private tokenSvc: TokenService,
     private sellerSvc: SellerService,
@@ -36,8 +35,10 @@ export class AppComponent {
   initializeApp() {
     this.platform.ready().then(() => {
       if (this.platform.is('cordova')) {
-        this.statusBar.styleDefault();
-        this.splashScreen.hide();
+        StatusBar.setStyle({
+          style: StatusBarStyle.Dark
+        });
+        SplashScreen.hide();
       }
       this.setLocalUserIfAny();
 

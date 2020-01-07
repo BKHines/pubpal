@@ -33,6 +33,7 @@ namespace pubpalapi
             {
                 options.AddPolicy("PubPalCORS", builder => builder.WithOrigins("http://localhost:4200", "https://localhost:4200", 
                                                                                 "http://localhost:8100", "https://localhost:8100",
+                                                                                "http://localhost", "https://localhost",
                                                                                 "https://pubpal.dynu.net", "https://pubpalapp.dynu.net")
                                                             .AllowAnyHeader()
                                                             .AllowAnyMethod());

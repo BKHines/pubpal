@@ -4,7 +4,7 @@
 
 export const environment = {
   production: false,
-  baseApiUrl: 'https://localhost:44320'
+  baseApiUrl: 'https://pubpalapi.dynu.net'
 };
 
 /*

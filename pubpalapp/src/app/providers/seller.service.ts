@@ -5,6 +5,7 @@ import { TokenService } from './token.service';
 import { LocalstoreService } from './localstore.service';
 import { CONSTANTS } from '../shared/constants';
 import { Observable } from 'rxjs';
+import { CommonService } from './common.service';
 
 @Injectable({
   providedIn: 'root'
@@ -35,7 +36,9 @@ export class SellerService {
   constructor(
     private http: HttpClient,
     private tokenSvc: TokenService,
-    private localStoreSvc: LocalstoreService) { }
+    private localStoreSvc: LocalstoreService,
+    private commonSvc: CommonService
+  ) { }
 
   login(email: string, password: string) {
     this.tokenSvc.getIp().subscribe((ipres) => {
@@ -52,9 +55,11 @@ export class SellerService {
         this.loginComplete.emit(true);
       }, (err) => {
         this.loginComplete.emit(false);
+        this.commonSvc.showAlertMessage(`LOGIN: ${err}`);
       });
     }, (err) => {
       this.loginComplete.emit(false);
+      this.commonSvc.showAlertMessage(`IP: ${err}`);
     });
   }
 

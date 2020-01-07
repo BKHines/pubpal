@@ -1,12 +1,19 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, Sanitizer } from '@angular/core';
 import { Ingredient, PurchasableItemModel } from 'src/app/shared/models';
 import { Observable, of } from 'rxjs';
 import { SellerService } from 'src/app/providers/seller.service';
 import { CONSTANTS } from 'src/app/shared/constants';
 import { mergeMap } from 'rxjs/operators';
 import { NgForm } from '@angular/forms';
-import { IonInput } from '@ionic/angular';
+import { IonInput, LoadingController, AlertController } from '@ionic/angular';
 import { Router, ActivatedRoute } from '@angular/router';
+import { Plugins, CameraResultType, CameraSource, CameraOptions } from '@capacitor/core';
+
+// import * as Tesseract from 'tesseract.js';
+declare var OCRAD: any;
+import * as $ from 'jquery';
+import { CommonService } from 'src/app/providers/common.service';
+import { DomSanitizer } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-itementry',
@@ -31,10 +38,16 @@ export class ItementryPage implements OnInit {
   applyPriceFormat: boolean;
   applyIngUpchargeFormat: boolean;
 
+  imgdata: string;
+
   constructor(
     private sellerSvc: SellerService,
     private router: Router,
-    private activatedRoute: ActivatedRoute
+    private activatedRoute: ActivatedRoute,
+    private loadingCtrl: LoadingController,
+    private alertCtrl: AlertController,
+    private sanitizer: DomSanitizer,
+    private commonSvc: CommonService
   ) { }
 
   ngOnInit() {
@@ -219,5 +232,114 @@ export class ItementryPage implements OnInit {
 
   goToItems() {
     this.router.navigate(['seller/items']);
+  }
+
+  async addFromCamera() {
+    let _opts: CameraOptions = {
+      quality: 40,
+      allowEditing: false,
+      resultType: CameraResultType.DataUrl,
+      source: CameraSource.Camera,
+      saveToGallery: false
+    };
+
+    Plugins.Camera.getPhoto(_opts).then((image) => {
+      // this.sanitizer.bypassSecurityTrustResourceUrl(image && (image.dataUrl));
+
+      if (image && image.dataUrl) {
+        this.loadingCtrl.create({ spinner: 'dots' }).then((lc) => {
+          lc.present();
+        });
+        // let _bufferImage = Buffer.from(image.base64String);
+        // if (_bufferImage) {
+        //   console.log('image buffer found');
+        // }
+
+        // const worker = Tesseract.createWorker({
+        //   logger: m => console.log(m),
+        //   // langPath: './tessdata',
+        // });
+        // worker.load();
+        // worker.loadLanguage('./assets/tessdata/eng');
+        // worker.initialize('./assets/tessdata/eng');
+        // worker.recognize(_bufferImage)
+        //   .then(({ data: { text } }) => {
+        //     console.log(text);
+        //   }).finally(async () => {
+        //     worker.terminate();
+        //   });
+
+        // Tesseract.recognize(_bufferImage, './assets/tessdata/eng', {
+        //   logger: m => console.log(m),
+        //   // corePath: './assets/tessdata/tesseract-core.js'
+        // })
+        // Tesseract.recognize(image.path, this.commonSvc.isApp ? 'assets/tessdata/eng' : 'eng', {
+        //   logger: m => console.log(m)
+        // }).catch((err) => {
+        //   this.loadingCtrl.dismiss();
+        //   console.error(err);
+        //   this.alertCtrl.create({
+        //     message: 'Your label could not be read. Please try again and make sure the text is visible.',
+        //     buttons: [
+        //       {
+        //         text: 'Okay',
+        //         role: 'cancel'
+        //       }
+        //     ]
+        //   }).then((ac) => {
+        //     ac.present();
+        //   });
+        // }).then((result: Tesseract.RecognizeResult) => {
+        //   console.log('result ======<<<<>>>>>');
+        //   this.loadingCtrl.dismiss();
+        //   if (result && result.data) {
+        //     console.log(result.data.text);
+        //   } else {
+        //     console.log('nope, no result data');
+        //   }
+        // });
+
+        // const worker = Tesseract.createWorker({
+        //   logger: m => console.log(m)
+        //   // langPath: './tessdata',
+        // });
+        // worker.load();
+        // worker.loadLanguage('./assets/tessdata/eng');
+        // // worker.initialize('./assets/tessdata/eng');
+        // worker.recognize(_bufferImage).then(({ data: { text } }) => {
+        //   console.log('result ======<<<<>>>>>');
+        //   console.log(text);
+        //   worker.terminate();
+        // }).catch(err => console.error(err));
+
+        // OCRAD
+        this.imgdata = image.dataUrl;
+        setTimeout(() => {
+          let _img = $('#imgdata_id');
+          let context = document.createElement('canvas').getContext('2d');
+          context.drawImage(_img[0] as CanvasImageSource, 0, 0);
+
+          let imageData = context.getImageData(0, 0, _img.width(), _img.height());
+          OCRAD(imageData, text => {
+            console.log(text);
+            this.loadingCtrl.dismiss();
+          });
+        }, 300);
+      } else {
+        this.loadingCtrl.dismiss();
+        this.alertCtrl.create({
+          message: 'Your label could not be read. Please try again and make sure the text is visible.',
+          buttons: [
+            {
+              text: 'Okay',
+              role: 'cancel'
+            }
+          ]
+        }).then((ac) => {
+          ac.present();
+        });
+      }
+    });
+
   }
 }

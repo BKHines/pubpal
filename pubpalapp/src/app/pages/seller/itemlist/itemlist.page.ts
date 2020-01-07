@@ -31,8 +31,8 @@ export class ItemlistPage implements OnInit {
     }
   }
 
-  async showDeleteConfirmationModal(item: PurchasableItemModel) {
-    const _deleteAlert = await this.alertCtrl.create({
+  showDeleteConfirmationModal(item: PurchasableItemModel) {
+    this.alertCtrl.create({
       header: 'Delete Item',
       message: `Are you sure you want to delete ${item.name}?  This is permanent can cannot be undone.`,
       buttons: [
@@ -51,8 +51,9 @@ export class ItemlistPage implements OnInit {
           }
         }
       ]
+    }).then((da) => {
+      da.present();
     });
 
-    await _deleteAlert.present();
   }
 }
