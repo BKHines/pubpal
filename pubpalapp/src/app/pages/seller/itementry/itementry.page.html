@@ -1,12 +1,3 @@
-<ion-header>
-  <ion-toolbar>
-    <app-pp-header [message]="piId ? 'Edit Item' : 'Add New Item'">
-    </app-pp-header>
-  </ion-toolbar>
-</ion-header>
-
-<app-pp-menuoptions [usertype]="'seller'"></app-pp-menuoptions>
-
 <ion-content id="userContent" *ngIf="newPI">
   <ion-card>
     <ion-card-content>
@@ -18,7 +9,7 @@
         </ion-item>
         <ion-item>
           <ion-label position="floating">Description</ion-label>
-          <ion-textarea id="inputDesc" name="desc" rows="2" [(ngModel)]="newPI.description" >
+          <ion-textarea id="inputDesc" name="desc" rows="2" [(ngModel)]="newPI.description">
           </ion-textarea>
         </ion-item>
         <ion-item [class.pp-invalid]="valbaseing.touched && valbaseing.invalid">
@@ -80,13 +71,13 @@
       <form #ingForm="ngForm">
         <ion-item [class.pp-invalid]="valinging.touched && valinging.invalid">
           <ion-label position="floating">Ingredient</ion-label>
-          <ion-input inputmode="text" id="inputIngIng" name="inging" #ingentry [(ngModel)]="newIngredient.ingredient" required
-            #valinging="ngModel">
+          <ion-input inputmode="text" id="inputIngIng" name="inging" #ingentry [(ngModel)]="newIngredient.ingredient"
+            required #valinging="ngModel">
           </ion-input>
         </ion-item>
         <ion-item>
           <ion-label position="floating">Description</ion-label>
-          <ion-textarea id="inputIngDesc" name="ingdesc" rows="2" [(ngModel)]="newIngredient.description" >
+          <ion-textarea id="inputIngDesc" name="ingdesc" rows="2" [(ngModel)]="newIngredient.description">
           </ion-textarea>
         </ion-item>
         <ion-item [class.pp-invalid]="valingupcharge.touched && valingupcharge.invalid">
@@ -104,15 +95,18 @@
           </ion-select>
         </ion-item>
         <ion-item>
-          <ion-button slot="start" (click)="ingAddHandler(ingForm)" [disabled]="!ingForm.touched || ingForm.invalid">Add Ingredient</ion-button>
-          <ion-button slot="end" (click)="resetIng()" >Reset</ion-button>
+          <ion-button slot="start" (click)="ingAddHandler(ingForm)" [disabled]="!ingForm.touched || ingForm.invalid">Add
+            Ingredient</ion-button>
+          <ion-button slot="end" (click)="resetIng()">Reset</ion-button>
         </ion-item>
       </form>
     </ion-card-content>
     <ion-card-content>
       <ion-item>
-        <ion-button slot="start" (click)="piAddUpdateHandler()" [disabled]="piId ? false : (!itemForm.touched || itemForm.invalid)">{{ piId ? 'Update' : 'Add' }} Menu Item</ion-button>
-        <ion-button slot="end" (click)="piResetHandler()" >Cancel</ion-button>
+        <ion-button slot="start" (click)="piAddUpdateHandler()"
+          [disabled]="piId ? false : (!itemForm.touched || itemForm.invalid)">{{ piId ? 'Update' : 'Add' }} Menu Item
+        </ion-button>
+        <ion-button slot="end" (click)="piResetHandler()">Cancel</ion-button>
       </ion-item>
     </ion-card-content>
   </ion-card>

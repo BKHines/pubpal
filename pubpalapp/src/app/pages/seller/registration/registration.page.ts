@@ -3,6 +3,7 @@ import { SellerModel } from 'src/app/shared/models';
 import { Router } from '@angular/router';
 import { SellerService } from 'src/app/providers/seller.service';
 import { CONSTANTS } from 'src/app/shared/constants';
+import { CommonService } from 'src/app/providers/common.service';
 
 @Component({
   selector: 'app-sellerregistration',
@@ -19,9 +20,13 @@ export class RegistrationPage implements OnInit {
 
   constructor(
     public sellerSvc: SellerService,
-    private router: Router) { }
+    private router: Router,
+    private commonSvc: CommonService
+  ) { }
 
   ngOnInit() {
+    this.commonSvc.headerMessage = 'Register New Seller';
+    this.commonSvc.menuoptionsType = 'seller';
     this.states = CONSTANTS.states;
     this.registeringUser = false;
 

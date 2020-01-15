@@ -56,6 +56,11 @@ function copySiteFilesToDest() {
     return gulp.src(['./www/**/*']).pipe(gulp.dest(destFolder));
 }
 
+function syncCapAndroid() {
+    captype = 'android';
+    return syncCap();
+}
+
 function syncCap() {
     var _capcommand = "npx cap sync";
     switch (captype) {
@@ -84,4 +89,4 @@ function finish(done) {
 
 exports.SiteBuildAndDeploy = series(updateBundledWebRuntime, addCapacitorJSReference, buildApp, initSite, copySiteFilesToDest, finish);
 
-exports.AndroidBuildAndSync = series(buildApp, syncCap, finish);
+exports.AndroidBuildAndSync = series(buildApp, syncCapAndroid, finish);

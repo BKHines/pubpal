@@ -3,6 +3,7 @@ import { UserService } from 'src/app/providers/user.service';
 import { CartService } from 'src/app/providers/cart.service';
 import { SellerName } from 'src/app/shared/models';
 import { Router } from '@angular/router';
+import { CommonService } from 'src/app/providers/common.service';
 
 @Component({
   selector: 'app-cart',
@@ -13,7 +14,8 @@ export class CartPage implements OnInit {
   constructor(
     public userSvc: UserService,
     public cartSvc: CartService,
-    private router: Router
+    private router: Router,
+    private commonSvc: CommonService
   ) { }
 
   ngOnInit() {
@@ -28,6 +30,8 @@ export class CartPage implements OnInit {
   }
 
   loadCart() {
+    this.commonSvc.headerMessage = 'Your Cart';
+    this.commonSvc.menuoptionsType = 'user';
     this.cartSvc.loadCart(this.userSvc.user._id);
 
     let _cartLoaded$ = this.cartSvc.cartLoaded.subscribe(() => {

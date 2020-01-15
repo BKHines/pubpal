@@ -67,6 +67,8 @@ export class PurchaseoptionsPage implements OnInit {
 
   loadData() {
     if (this.userSvc.user) {
+      this.commonSvc.headerMessage = 'Make Purchase';
+      this.commonSvc.menuoptionsType = 'user';
       this.purchSvc.getSellerOptionsById(this.sellerId).subscribe((res) => {
         this.option = res.result.find(a => a.id === this.optionId);
         this.totalPrice = this.option.price;

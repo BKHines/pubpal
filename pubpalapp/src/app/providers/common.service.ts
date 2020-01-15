@@ -9,6 +9,8 @@ import { AlertController } from '@ionic/angular';
 })
 export class CommonService {
   isApp: boolean;
+  menuoptionsType: 'user' | 'seller';
+  headerMessage: string;
 
   constructor(
     private http: HttpClient,

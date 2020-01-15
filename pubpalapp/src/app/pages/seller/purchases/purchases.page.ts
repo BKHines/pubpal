@@ -33,13 +33,15 @@ export class PurchasesPage implements OnInit {
 
   loadData() {
     if (this.sellerSvc.seller) {
+      this.common.headerMessage = 'Purchases';
+      this.common.menuoptionsType = 'seller';
       this.purchaseSvc.getPurchasesBySellerId(this.sellerSvc.seller._id).subscribe((res) => {
         this.purchases = res.result;
         this.purchases.map(a => {
           a['nextstatustext'] = this.common.getNextStatusText(a.currentstatus);
           a['nextstatus'] = this.common.getNextStatus(a.currentstatus);
         });
-        
+
         this.activepurchases = this.purchases.filter(a => a.currentstatus !== 'cancelled' && a.currentstatus !== 'pickedup');
       });
     }

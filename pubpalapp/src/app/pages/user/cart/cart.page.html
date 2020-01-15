@@ -1,11 +1,3 @@
-<ion-header>
-  <ion-toolbar>
-    <app-pp-header [message]="'Your Cart'"></app-pp-header>
-  </ion-toolbar>
-</ion-header>
-
-<app-pp-menuoptions [usertype]="'user'" ></app-pp-menuoptions>
-
 <ion-content id="userContent">
   <ng-template [ngIf]="cartSvc.cart">
     <ion-card *ngFor="let p of cartSvc.cart.purchases">
@@ -16,7 +8,7 @@
         <ion-card-subtitle>
           {{ (p.price + p.tip + (!userSvc.user.waivedfeetokens ? (p.fee * (userSvc.user.feediscount ? ((100 - userSvc.user.feediscount) / 100.0) : 1.0)) : 0)) | currency }}
         </ion-card-subtitle>
-        <ion-icon name="close-circle" style="float: right" (click)="deletePurchase(p.cartid)" ></ion-icon>
+        <ion-icon name="close-circle" style="float: right" (click)="deletePurchase(p.cartid)"></ion-icon>
       </ion-card-header>
       <ion-card-content>
         <p>{{ p.ingredients.join(', ') }}</p>
@@ -27,7 +19,7 @@
       <ion-button type="reset" color="success" fill="solid" (click)="clearCart()">
         Clear Cart
       </ion-button>
-      <ion-button type="submit" color="success" fill="solid" (click)="makePurchases()" >
+      <ion-button type="submit" color="success" fill="solid" (click)="makePurchases()">
         Make Purchases
       </ion-button>
     </ion-item>

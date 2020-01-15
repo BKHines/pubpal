@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { SellerService } from 'src/app/providers/seller.service';
+import { CommonService } from 'src/app/providers/common.service';
 
 @Component({
   selector: 'app-sellerlogin',
@@ -14,10 +15,13 @@ export class LoginPage implements OnInit {
 
   constructor(
     private router: Router,
-    private sellerSvc: SellerService
+    private sellerSvc: SellerService,
+    private commonSvc: CommonService
   ) { }
 
   ngOnInit() {
+    this.commonSvc.headerMessage = 'Login';
+    this.commonSvc.menuoptionsType = 'seller';
   }
 
   resetUser() {

@@ -1,6 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 
-import { Platform, ToastController } from '@ionic/angular';
+import { Platform, ToastController, MenuController } from '@ionic/angular';
 import { LocalstoreService } from './providers/localstore.service';
 import { CONSTANTS } from './shared/constants';
 import { TokenService } from './providers/token.service';
@@ -10,26 +10,36 @@ import { Router } from '@angular/router';
 import { PurchaseService } from './providers/purchase.service';
 
 import { Plugins, StatusBarStyle } from '@capacitor/core';
+import { CommonService } from './providers/common.service';
+import { CartService } from './providers/cart.service';
 const { SplashScreen, StatusBar } = Plugins;
 
 @Component({
   selector: 'app-root',
   templateUrl: 'app.component.html'
 })
-export class AppComponent {
+export class AppComponent implements OnInit {
   localStorageChecked: boolean;
+  cartCount: number;
 
   constructor(
     private platform: Platform,
     private localStoreSvc: LocalstoreService,
     private tokenSvc: TokenService,
-    private sellerSvc: SellerService,
-    private userSvc: UserService,
+    public sellerSvc: SellerService,
+    public userSvc: UserService,
     private router: Router,
     private purchaseSvc: PurchaseService,
-    private toastCtrl: ToastController
+    private toastCtrl: ToastController,
+    public commonSvc: CommonService,
+    public cartSvc: CartService,
+    private menuCtrl: MenuController
   ) {
     this.initializeApp();
+  }
+
+  ngOnInit() {
+
   }
 
   initializeApp() {
@@ -121,4 +131,48 @@ export class AppComponent {
       this.localStorageChecked = true;
     }
   }
+
+  toggleMenu() {
+    this.menuCtrl.toggle();
+  }
+
+  goHome() {
+    this.menuCtrl.close();
+    if (this.commonSvc.menuoptionsType === 'user') {
+      this.router.navigate(['user']);
+    } else {
+      this.router.navigate(['seller']);
+    }
+  }
+
+  loadCart() {
+    this.cartSvc.loadCart(this.userSvc.user._id);
+  }
+
+  goToCart() {
+    this.menuCtrl.close();
+    this.router.navigateByUrl('user/cart');
+  }
+
+  goSellerPurchases() {
+    this.menuCtrl.close();
+    this.router.navigateByUrl('seller/purchases');
+  }
+
+  goSellerMenuItems() {
+    this.menuCtrl.close();
+    this.router.navigateByUrl('seller/items');
+  }
+
+  logout() {
+    this.menuCtrl.close();
+    if (this.commonSvc.menuoptionsType === 'user') {
+      this.userSvc.logout();
+    } else {
+      this.sellerSvc.logout();
+    }
+    this.localStoreSvc.removeMultiple([CONSTANTS.KEY_STORE_KEY, CONSTANTS.KEY_STORE_USEREMAIL, CONSTANTS.KEY_STORE_USERTYPE]);
+    this.router.navigate(['']);
+  }
+
 }

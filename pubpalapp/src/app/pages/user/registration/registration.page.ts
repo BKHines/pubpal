@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { UserService } from 'src/app/providers/user.service';
 import { UserModel } from 'src/app/shared/models';
 import { Router } from '@angular/router';
+import { CommonService } from 'src/app/providers/common.service';
 
 @Component({
   selector: 'app-userregistration',
@@ -15,10 +16,13 @@ export class RegistrationPage implements OnInit {
 
   constructor(
     private router: Router,
-    private userSvc: UserService
+    private userSvc: UserService,
+    private commonSvc: CommonService
   ) { }
 
   ngOnInit() {
+    this.commonSvc.headerMessage = 'Register New User';
+    this.commonSvc.menuoptionsType = 'user';
     if (this.userSvc.user) {
       this.localUser = Object.assign({}, this.userSvc.user);
     } else {

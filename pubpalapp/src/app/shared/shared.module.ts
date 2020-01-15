@@ -1,6 +1,4 @@
 import { NgModule } from '@angular/core';
-import { PpHeaderComponent } from './components/pp-header/pp-header.component';
-import { PpMenuoptionsComponent } from './components/pp-menuoptions/pp-menuoptions.component';
 import { IonicModule } from '@ionic/angular';
 import { CommonModule, CurrencyPipe } from '@angular/common';
 import { RouterModule } from '@angular/router';
@@ -10,8 +8,6 @@ import { CurrencyformatPipe } from './pipes/currencyformat.pipe';
 
 @NgModule({
     declarations: [
-        PpHeaderComponent,
-        PpMenuoptionsComponent,
         ArraybypropertyPipe,
         ArraymaxdisplayPipe,
         CurrencyformatPipe,
@@ -26,8 +22,6 @@ import { CurrencyformatPipe } from './pipes/currencyformat.pipe';
         CurrencyPipe,
     ],
     exports: [
-        PpHeaderComponent,
-        PpMenuoptionsComponent,
         ArraybypropertyPipe,
         ArraymaxdisplayPipe,
         CurrencyformatPipe

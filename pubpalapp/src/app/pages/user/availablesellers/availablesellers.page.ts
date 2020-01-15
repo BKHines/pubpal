@@ -3,6 +3,7 @@ import { UserService } from 'src/app/providers/user.service';
 import { SellerModel, SellerTagModel } from 'src/app/shared/models';
 import { PurchaseService } from 'src/app/providers/purchase.service';
 import { Router } from '@angular/router';
+import { CommonService } from 'src/app/providers/common.service';
 
 @Component({
   selector: 'app-availablesellers',
@@ -18,7 +19,8 @@ export class AvailablesellersPage implements OnInit, AfterViewInit {
   constructor(
     public userSvc: UserService,
     private purchSvc: PurchaseService,
-    private router: Router
+    private router: Router,
+    private commonSvc: CommonService
   ) { }
 
   ngOnInit() {
@@ -38,6 +40,8 @@ export class AvailablesellersPage implements OnInit, AfterViewInit {
   }
 
   loadData() {
+    this.commonSvc.headerMessage = 'Available Sellers';
+    this.commonSvc.menuoptionsType = 'user';
     this.userSvc.getSellersNearMe(39.344, -84.537, 10).subscribe((res) => {
       this.sellers = res.result;
     });

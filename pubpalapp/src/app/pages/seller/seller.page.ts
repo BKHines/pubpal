@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { SellerService } from 'src/app/providers/seller.service';
+import { CommonService } from 'src/app/providers/common.service';
 
 @Component({
   selector: 'app-seller',
@@ -9,10 +10,16 @@ import { SellerService } from 'src/app/providers/seller.service';
 export class SellerPage implements OnInit {
 
   constructor(
-    public sellerSvc: SellerService
+    public sellerSvc: SellerService,
+    private commonSvc: CommonService
   ) { }
 
   ngOnInit() {
+    this.commonSvc.menuoptionsType = 'seller';
+  }
+
+  ionViewDidEnter() {
+    this.commonSvc.headerMessage = `${this.sellerSvc.seller ? 'Welcome back ' + this.sellerSvc.seller.place.name + '!' : ''}`;
   }
 
 }

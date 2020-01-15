@@ -4,6 +4,7 @@ import { AlertController } from '@ionic/angular';
 import { PurchasableItemModel } from 'src/app/shared/models';
 import { Router } from '@angular/router';
 import { CONSTANTS } from 'src/app/shared/constants';
+import { CommonService } from 'src/app/providers/common.service';
 
 @Component({
   selector: 'app-itemlist',
@@ -16,11 +17,14 @@ export class ItemlistPage implements OnInit {
   constructor(
     private alertCtrl: AlertController,
     public sellerSvc: SellerService,
-    private router: Router
+    private router: Router,
+    private commonSvc: CommonService
   ) { }
 
   ngOnInit() {
     this.categoryTypes = CONSTANTS.categorytypes;
+    this.commonSvc.headerMessage = 'Your Items';
+    this.commonSvc.menuoptionsType = 'seller';
   }
 
   goToItemEntry(piId?: string) {

@@ -1,11 +1,3 @@
-<ion-header>
-  <ion-toolbar>
-    <app-pp-header [message]="purchSvc.sellerName + ' Menu'"></app-pp-header>
-  </ion-toolbar>
-</ion-header>
-
-<app-pp-menuoptions [usertype]="'user'" ></app-pp-menuoptions>
-
 <ion-content id="userContent">
   <ng-template ngFor [ngForOf]="purchaseOptions" let-po>
     <ion-item (click)="openOption(po);">

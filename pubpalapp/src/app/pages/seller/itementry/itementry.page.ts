@@ -67,6 +67,8 @@ export class ItementryPage implements OnInit {
   }
 
   loadData() {
+    this.commonSvc.headerMessage = this.piId ? 'Edit Item' : 'Add New Item';
+    this.commonSvc.menuoptionsType = 'seller';
     this.sellerSvc.getSellerCategories(this.sellerSvc.seller._id).subscribe((res) => {
       this.categories = res.result as string[];
     });
