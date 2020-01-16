@@ -1,9 +1,15 @@
 // Ionic Variables and Theming. For more info, please see:
 // http://ionicframework.com/docs/theming/
 
+@import url('https://fonts.googleapis.com/css?family=Righteous&display=swap');
+
 :root {
+  --ion-font-family: 'Righteous', sans-serif;
+  font-family: var(--ion-font-family) !important;
+  
   --ion-color-primary: #B24A3B;
   --ion-color-primary-rgb: 178,74,59;
+  --ion-color-primary-opaque: #B24A3B80;
   --ion-color-primary-contrast: #ffffff;
   --ion-color-primary-contrast-rgb: 255,255,255;
   --ion-color-primary-shade: #9d4134;

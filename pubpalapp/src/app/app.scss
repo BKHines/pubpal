@@ -90,3 +90,15 @@ $sizes: 10;
 }
 
 @include size-list;
+
+.hand-cursor {
+    cursor: pointer;
+}
+
+ion-title {
+    font-size: 2rem;
+}
+
+a {
+    color: var(--ion-color-tertiary);
+}
