@@ -5,12 +5,14 @@ import { RouterModule } from '@angular/router';
 import { ArraybypropertyPipe } from './pipes/arraybyproperty.pipe';
 import { ArraymaxdisplayPipe } from './pipes/arraymaxdisplay.pipe';
 import { CurrencyformatPipe } from './pipes/currencyformat.pipe';
+import { PpButtonComponent } from './components/pp-button/pp-button.component';
 
 @NgModule({
     declarations: [
         ArraybypropertyPipe,
         ArraymaxdisplayPipe,
         CurrencyformatPipe,
+        PpButtonComponent
     ],
     entryComponents: [],
     imports: [
@@ -24,7 +26,8 @@ import { CurrencyformatPipe } from './pipes/currencyformat.pipe';
     exports: [
         ArraybypropertyPipe,
         ArraymaxdisplayPipe,
-        CurrencyformatPipe
+        CurrencyformatPipe,
+        PpButtonComponent
     ]
 })
 export class SharedModule { }

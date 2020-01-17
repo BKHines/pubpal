@@ -1,0 +1,5 @@
+<ion-button [attr.type]="buttontype" [attr.color]="color" [attr.fill]="disabled ? 'outline' : 'solid'"
+  [attr.slot]="slot">
+  <ion-icon [attr.name]="icon" *ngIf="icon"></ion-icon>
+  {{ text }}
+</ion-button>

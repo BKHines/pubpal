@@ -5,10 +5,20 @@
 // file can hold Sass mixins, functions, and placeholder classes to be imported 
 // and used throughout the application.
 
+ion-input {
+    input {
+        background-color: var(--ion-color-light);
+    }
+}
+
+input {
+    border-bottom: 2px var(--ion-color-medium) solid !important;
+}
+
 .pp-invalid {
     ion-input {
         input {
-            border-bottom: 1px var(--ion-color-danger) solid;
+            border-bottom: 3px var(--ion-color-danger) solid !important;
         }
     }
 
@@ -101,4 +111,8 @@ ion-title {
 
 a {
     color: var(--ion-color-tertiary);
+}
+
+ion-label.label-floating {
+    z-index: 3 !important;
 }
