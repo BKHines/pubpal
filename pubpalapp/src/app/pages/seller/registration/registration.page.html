@@ -1,64 +1,64 @@
-<ion-content>
+<ion-content color="primary">
   <form #rform="ngForm" novalidate>
     <ion-card>
-      <ion-item [class.pp-invalid]="valemail.touched && valemail.invalid">
-        <ion-label position="floating">Email</ion-label>
+      <ion-item class="px-5" lines="none" [class.pp-invalid]="valemail.touched && valemail.invalid">
+        <ion-label position="floating" color="tertiary" >Email</ion-label>
         <ion-input inputmode="email" id="inputEmail" name="email" [(ngModel)]="localSeller.email" required
           #valemail="ngModel"></ion-input>
       </ion-item>
-      <ion-item [class.pp-invalid]="valpass.touched && valpass.invalid">
-        <ion-label position="floating">Password</ion-label>
+      <ion-item class="px-5" lines="none" [class.pp-invalid]="valpass.touched && valpass.invalid">
+        <ion-label position="floating" color="tertiary" >Password</ion-label>
         <ion-input type="password" id="inputPassword" name="password" [(ngModel)]="password" required
           #valpass="ngModel"></ion-input>
       </ion-item>
-      <ion-item [class.pp-invalid]="valfname.touched && valfname.invalid">
-        <ion-label position="floating">First Name</ion-label>
+      <ion-item class="px-5" lines="none" [class.pp-invalid]="valfname.touched && valfname.invalid">
+        <ion-label position="floating" color="tertiary" >First Name</ion-label>
         <ion-input inputmode="text" id="inputFName" name="fname" [(ngModel)]="localSeller.firstname" required
           #valfname="ngModel"></ion-input>
       </ion-item>
-      <ion-item [class.pp-invalid]="vallname.touched && vallname.invalid">
-        <ion-label position="floating">Last Name</ion-label>
+      <ion-item class="px-5" lines="none" [class.pp-invalid]="vallname.touched && vallname.invalid">
+        <ion-label position="floating" color="tertiary" >Last Name</ion-label>
         <ion-input inputmode="text" id="inputLName" name="lname" [(ngModel)]="localSeller.lastname" required
           #vallname="ngModel"></ion-input>
       </ion-item>
-      <ion-item [class.pp-invalid]="valpname.touched && valpname.invalid">
-        <ion-label position="floating">Place Name</ion-label>
+      <ion-item class="px-5" lines="none" [class.pp-invalid]="valpname.touched && valpname.invalid">
+        <ion-label position="floating" color="tertiary" >Place Name</ion-label>
         <ion-input inputmode="text" id="inputPName" name="pname" [(ngModel)]="localSeller.place.name" required
           #valpname="ngModel"></ion-input>
       </ion-item>
-      <ion-item [class.pp-invalid]="valdesc.touched && valdesc.invalid">
-        <ion-label position="floating">Description</ion-label>
+      <ion-item class="px-5" lines="none" [class.pp-invalid]="valdesc.touched && valdesc.invalid">
+        <ion-label position="floating" color="tertiary" >Description</ion-label>
         <ion-input inputmode="text" id="inputDesc" name="desc" [(ngModel)]="localSeller.place.description" required
           #valdesc="ngModel"></ion-input>
       </ion-item>
-      <ion-item [class.pp-invalid]="valaddress.touched && valaddress.invalid">
-        <ion-label position="floating"> Address</ion-label>
+      <ion-item class="px-5" lines="none" [class.pp-invalid]="valaddress.touched && valaddress.invalid">
+        <ion-label position="floating" color="tertiary" >Address</ion-label>
         <ion-input inputmode="text" id="inputAddress" name="address" [(ngModel)]="localSeller.place.address.address"
           required #valaddress="ngModel"></ion-input>
       </ion-item>
-      <ion-item>
-        <ion-label position="floating">City</ion-label>
+      <ion-item class="px-5" lines="none" [class.pp-invalid]="valcity.touched && valcity.invalid">
+        <ion-label position="floating" color="tertiary" >City</ion-label>
         <ion-input inputmode="text" id="inputCity" name="city" [(ngModel)]="localSeller.place.address.city" required
           #valcity="ngModel" ></ion-input>
-      </ion-item>
-      <ion-item>
-        <ion-label position="floating">State</ion-label>
+      </ion-item >
+      <ion-item class="px-5" lines="none" [class.pp-invalid]="valstate.touched && valstate.invalid" >
+        <ion-label position="floating" color="tertiary" >State</ion-label>
         <ion-select id="inputState" name="state" [(ngModel)]="localSeller.place.address.state" required
           #valstate="ngModel">
           <ion-select-option *ngFor="let s of states" value="{{ s }}">{{ s }}</ion-select-option>
         </ion-select>
       </ion-item>
-      <ion-item>
-        <ion-label position="floating">Zip</ion-label>
+      <ion-item class="px-5" lines="none" [class.pp-invalid]="valzip.touched && valzip.invalid">
+        <ion-label position="floating" color="tertiary" >Zip</ion-label>
         <ion-input inputmode="text" id="inputZip" name="zip" [(ngModel)]="localSeller.place.address.zip" required
           #valzip="ngModel" ></ion-input>
       </ion-item>
-      <ion-item>
+      <ion-item class="px-5" lines="none" >
         <ion-button type="submit" (click)="register()" color="success" expand="full"
           [disabled]="rform.untouched || rform.invalid">Register</ion-button>
         <ion-button (click)="reset()" color="success" expand="full">Cancel</ion-button>
       </ion-item>
-      <ion-item *ngIf="registrationFailed">
+      <ion-item *ngIf="registrationFailed" class="px-5" lines="none" >
         <ion-text color="danger">
           <h4>Registration Failed. Please try again.</h4>
         </ion-text>
