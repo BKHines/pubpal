@@ -15,6 +15,9 @@ export class UserPage implements OnInit {
   ) { }
 
   ngOnInit() {
+  }
+
+  ionViewWillEnter() {
     this.loadData();
     this.userSvc.userLoaded.subscribe(() => {
       this.loadData();

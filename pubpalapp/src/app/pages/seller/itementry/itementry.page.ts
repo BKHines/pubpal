@@ -51,6 +51,9 @@ export class ItementryPage implements OnInit {
   ) { }
 
   ngOnInit() {
+  }
+
+  ionViewWillEnter() {
     this.applyPriceFormat = true;
     this.piId = this.activatedRoute.snapshot.params['id'];
     this.categoryTypes = CONSTANTS.categorytypes;

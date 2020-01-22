@@ -19,6 +19,9 @@ export class CartPage implements OnInit {
   ) { }
 
   ngOnInit() {
+  }
+
+  ionViewWillEnter() {
     if (this.userSvc.user) {
       this.loadCart();
     }

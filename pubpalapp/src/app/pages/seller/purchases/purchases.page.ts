@@ -25,6 +25,9 @@ export class PurchasesPage implements OnInit {
   ) { }
 
   ngOnInit() {
+  }
+
+  ionViewWillEnter() {
     this.loadData();
     this.sellerSvc.sellerLoaded.subscribe(() => {
       this.loadData();
@@ -32,9 +35,9 @@ export class PurchasesPage implements OnInit {
   }
 
   loadData() {
+    this.common.headerMessage = 'Purchases';
+    this.common.menuoptionsType = 'seller';
     if (this.sellerSvc.seller) {
-      this.common.headerMessage = 'Purchases';
-      this.common.menuoptionsType = 'seller';
       this.purchaseSvc.getPurchasesBySellerId(this.sellerSvc.seller._id).subscribe((res) => {
         this.purchases = res.result;
         this.purchases.map(a => {

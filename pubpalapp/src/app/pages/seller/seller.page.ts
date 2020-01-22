@@ -15,11 +15,11 @@ export class SellerPage implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.commonSvc.menuoptionsType = 'seller';
   }
 
-  ionViewDidEnter() {
+  ionViewWillEnter() {
     this.commonSvc.headerMessage = `${this.sellerSvc.seller ? 'Welcome back ' + this.sellerSvc.seller.place.name + '!' : ''}`;
+    this.commonSvc.menuoptionsType = 'seller';
   }
 
 }

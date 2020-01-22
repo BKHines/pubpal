@@ -21,8 +21,9 @@ export class RegistrationPage implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.commonSvc.headerMessage = 'Register New User';
-    this.commonSvc.menuoptionsType = 'user';
+  }
+
+  ionViewWillEnter() {
     if (this.userSvc.user) {
       this.localUser = Object.assign({}, this.userSvc.user);
     } else {
@@ -34,6 +35,8 @@ export class RegistrationPage implements OnInit {
         feediscount: 1
       };
     }
+    this.commonSvc.headerMessage = 'Register New User';
+    this.commonSvc.menuoptionsType = 'user';
   }
 
   resetUser() {

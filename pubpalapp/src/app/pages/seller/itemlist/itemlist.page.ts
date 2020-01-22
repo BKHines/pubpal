@@ -22,6 +22,9 @@ export class ItemlistPage implements OnInit {
   ) { }
 
   ngOnInit() {
+  }
+
+  ionViewWillEnter() {
     this.categoryTypes = CONSTANTS.categorytypes;
     this.commonSvc.headerMessage = 'Your Items';
     this.commonSvc.menuoptionsType = 'seller';

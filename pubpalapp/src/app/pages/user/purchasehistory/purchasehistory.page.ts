@@ -25,6 +25,9 @@ export class PurchasehistoryPage implements OnInit {
   ) { }
 
   ngOnInit() {
+  }
+
+  ionViewWillEnter() {
     this.loadData();
     this.userSvc.userLoaded.subscribe(() => {
       this.loadData();
@@ -32,9 +35,9 @@ export class PurchasehistoryPage implements OnInit {
   }
 
   loadData() {
+    this.commonSvc.headerMessage = 'Your Purchase History';
+    this.commonSvc.menuoptionsType = 'user';
     if (this.userSvc.user) {
-      this.commonSvc.headerMessage = 'Your Purchase History';
-      this.commonSvc.menuoptionsType = 'user';
       this.purchSvc.getPurchasesByUserId(this.userSvc.user._id).subscribe((res) => {
         this.activepurchases = [];
         this.inactivepurchases = [];

@@ -50,6 +50,9 @@ export class PurchaseoptionsPage implements OnInit {
   ) { }
 
   ngOnInit() {
+  }
+
+  ionViewWillEnter() {
     this.sellerId = this.route.snapshot.params['id'];
     this.optionId = this.route.snapshot.params['optionid'];
 
@@ -66,9 +69,9 @@ export class PurchaseoptionsPage implements OnInit {
   }
 
   loadData() {
+    this.commonSvc.headerMessage = `Make Purchase${this.purchSvc.sellerName ? ' from ' + this.purchSvc.sellerName : ''}`;
+    this.commonSvc.menuoptionsType = 'user';
     if (this.userSvc.user) {
-      this.commonSvc.headerMessage = 'Make Purchase';
-      this.commonSvc.menuoptionsType = 'user';
       this.purchSvc.getSellerOptionsById(this.sellerId).subscribe((res) => {
         this.option = res.result.find(a => a.id === this.optionId);
         this.totalPrice = this.option.price;

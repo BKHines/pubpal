@@ -1,4 +1,4 @@
-import { Component, OnInit, AfterViewInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { UserService } from 'src/app/providers/user.service';
 import { SellerModel, SellerTagModel } from 'src/app/shared/models';
 import { PurchaseService } from 'src/app/providers/purchase.service';
@@ -10,7 +10,7 @@ import { CommonService } from 'src/app/providers/common.service';
   templateUrl: './availablesellers.page.html',
   styleUrls: ['./availablesellers.page.scss'],
 })
-export class AvailablesellersPage implements OnInit, AfterViewInit {
+export class AvailablesellersPage implements OnInit {
   sellers: SellerModel[];
   showTagAdd: boolean;
   newtag: string;
@@ -24,6 +24,9 @@ export class AvailablesellersPage implements OnInit, AfterViewInit {
   ) { }
 
   ngOnInit() {
+  }
+
+  ionViewWillEnter() {
     this.tagmax = 10;
     if (this.userSvc.user) {
       this.loadData();
@@ -33,10 +36,6 @@ export class AvailablesellersPage implements OnInit, AfterViewInit {
         userLoaded$.unsubscribe();
       });
     }
-  }
-
-  ngAfterViewInit() {
-
   }
 
   loadData() {

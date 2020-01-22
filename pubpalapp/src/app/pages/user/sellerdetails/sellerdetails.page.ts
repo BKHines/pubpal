@@ -23,6 +23,9 @@ export class SellerdetailsPage implements OnInit {
   ) { }
 
   ngOnInit() {
+  }
+
+  ionViewWillEnter() {
     this.sellerId = this.route.snapshot.params['id'];
 
     if (this.sellerId) {
@@ -51,6 +54,8 @@ export class SellerdetailsPage implements OnInit {
         this.commonSvc.headerMessage = this.purchSvc.sellerName + ' Menu';
         this.purchSvc.sellerName = res.result && res.result.length > 0 ? res.result[0].name : '';
       });
+    } else {
+      this.commonSvc.headerMessage = this.purchSvc.sellerName + ' Menu';
     }
 
     this.commonSvc.menuoptionsType = 'user';

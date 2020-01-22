@@ -25,8 +25,9 @@ export class RegistrationPage implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.commonSvc.headerMessage = 'Register New Seller';
-    this.commonSvc.menuoptionsType = 'seller';
+  }
+
+  ionViewWillEnter() {
     this.states = CONSTANTS.states;
     this.registeringUser = false;
 
@@ -53,6 +54,9 @@ export class RegistrationPage implements OnInit {
         }
       };
     }
+
+    this.commonSvc.headerMessage = 'Register New Seller';
+    this.commonSvc.menuoptionsType = 'seller';
   }
 
   register() {

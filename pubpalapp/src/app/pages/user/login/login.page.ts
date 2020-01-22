@@ -20,6 +20,9 @@ export class LoginPage implements OnInit {
   ) { }
 
   ngOnInit() {
+  }
+
+  ionViewWillEnter() {
     this.commonSvc.headerMessage = 'Login';
     this.commonSvc.menuoptionsType = 'user';
   }
