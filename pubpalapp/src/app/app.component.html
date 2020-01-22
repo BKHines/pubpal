@@ -15,10 +15,12 @@
     </ion-toolbar>
   </ion-header>
 
-  <ion-menu side="end" type="push" content-id="appContent" swipeGesture="false">
-    <ion-header>
-      <ion-toolbar>
-        <ion-title></ion-title>
+  <ion-menu side="end" type="overlay" content-id="appContent" swipeGesture="false">
+    <ion-header color="primary" no-border >
+      <ion-toolbar color="primary" no-border >
+        <ion-item (click)="goHome()" color="primary" lines="none">
+          <ion-icon name="home"></ion-icon>
+        </ion-item>
       </ion-toolbar>
     </ion-header>
     <ng-container [ngTemplateOutlet]="commonSvc.menuoptionsType === 'user' ? useroptions : selleroptions"></ng-container>
@@ -27,14 +29,17 @@
   <ng-template #useroptions>
     <ion-content color="primary">
       <ion-list color="primary" class="py-0">
-        <ion-item (click)="goHome()" color="primary">
-          <ion-icon name="home"></ion-icon>
+        <ion-item (click)="makePurchase();" color="primary" lines="none">
+          <ion-icon name="beer"></ion-icon>
         </ion-item>
-        <ion-item (click)="goToCart()" color="primary">
+        <ion-item (click)="goToPurchaseHistory();" color="primary" lines="none">
+          <ion-icon name="list-box"></ion-icon>
+        </ion-item>
+        <ion-item (click)="goToCart()" color="primary" lines="none">
           <ion-icon name="cart"></ion-icon>
           <ion-badge id="cart-badge" color="danger" *ngIf="cartCount > 0">{{ cartCount }}</ion-badge>
         </ion-item>
-        <ion-item (click)="logout();" color="primary">
+        <ion-item (click)="logout();" color="primary" lines="none">
           <ion-icon name="log-out"></ion-icon>
         </ion-item>
       </ion-list>
@@ -44,16 +49,13 @@
   <ng-template #selleroptions>
     <ion-content color="primary">
       <ion-list color="primary" class="py-0">
-        <ion-item (click)="goHome()" color="primary">
-          <ion-icon name="home"></ion-icon>
-        </ion-item>
-        <ion-item (click)="goSellerPurchases()" color="primary">
+        <ion-item (click)="goSellerPurchases()" color="primary" lines="none" >
           <ion-icon name="beer"></ion-icon>
         </ion-item>
-        <ion-item (click)="goSellerMenuItems()" color="primary">
+        <ion-item (click)="goSellerMenuItems()" color="primary" lines="none" >
           <ion-icon name="list-box"></ion-icon>
         </ion-item>
-        <ion-item (click)="logout();" color="primary">
+        <ion-item (click)="logout();" color="primary" lines="none" >
           <ion-icon name="log-out"></ion-icon>
         </ion-item>
       </ion-list>

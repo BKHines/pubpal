@@ -140,9 +140,21 @@ export class AppComponent implements OnInit {
     this.menuCtrl.close();
     if (this.commonSvc.menuoptionsType === 'user') {
       this.router.navigate(['user']);
+      this.commonSvc.headerMessage = `Welcome back ${this.userSvc.user.firstname}!`;
     } else {
       this.router.navigate(['seller']);
+      this.commonSvc.headerMessage = `Welcome back ${this.sellerSvc.seller.place.name}!`;
     }
+  }
+
+  makePurchase() {
+    this.menuCtrl.close();
+    this.router.navigateByUrl('user/purchase/sellers');
+  }
+
+  goToPurchaseHistory() {
+    this.menuCtrl.close();
+    this.router.navigateByUrl('user/purchasehistory');
   }
 
   loadCart() {

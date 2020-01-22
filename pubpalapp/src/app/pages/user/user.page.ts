@@ -15,8 +15,16 @@ export class UserPage implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.commonSvc.headerMessage = this.userSvc.user ? 'Welcome back ' + this.userSvc.user.firstname + '!' : '';
-    this.commonSvc.menuoptionsType = 'user';
+    this.loadData();
+    this.userSvc.userLoaded.subscribe(() => {
+      this.loadData();
+    });
   }
 
+  loadData() {
+    if (this.userSvc.user) {
+      this.commonSvc.headerMessage = 'Welcome back ' + this.userSvc.user.firstname + '!';
+      this.commonSvc.menuoptionsType = 'user';
+    }
+  }
 }

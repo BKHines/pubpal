@@ -5,6 +5,11 @@
 // file can hold Sass mixins, functions, and placeholder classes to be imported 
 // and used throughout the application.
 
+ion-content.centered {
+    text-align: center;
+    justify-content: center;
+}
+
 ion-input {
     input {
         background-color: var(--ion-color-light);
@@ -111,6 +116,7 @@ ion-title {
 
 a {
     color: var(--ion-color-tertiary);
+    font-size: 2.5rem;
 }
 
 ion-label.label-floating {
