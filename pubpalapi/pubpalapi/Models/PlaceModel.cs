@@ -1,4 +1,6 @@
-﻿using System;
+﻿using MongoDB.Bson;
+using MongoDB.Bson.Serialization.Attributes;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -15,6 +17,7 @@ namespace pubpalapi.Models
         [Required]
         public LocationModel location { get; set; }
 
+        public string imageurl { get; set; }
         public string description { get; set; }
     }
 
@@ -23,6 +26,7 @@ namespace pubpalapi.Models
         [Required]
         public string type { get; set; }
         [Required]
+        [BsonRepresentation(BsonType.Double, AllowTruncation = true)]
         public float[] coordinates { get; set; }
     }
 }
