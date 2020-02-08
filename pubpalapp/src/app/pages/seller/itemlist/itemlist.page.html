@@ -1,10 +1,10 @@
-<ion-content id="userContent" *ngIf="sellerSvc.seller.items && sellerSvc.seller.items.length > 0">
+<ion-content id="userContent" *ngIf="sellerSvc.seller">
   <ion-item>
     <ion-button (click)="goToItemEntry()">
       Add New Item
     </ion-button>
   </ion-item>
-  <ion-card>
+  <ion-card *ngIf="sellerSvc.seller.items && sellerSvc.seller.items.length > 0">
     <ng-template ngFor [ngForOf]="sellerSvc.seller.items" let-item>
       <ion-card-title>
         {{ item.name }}

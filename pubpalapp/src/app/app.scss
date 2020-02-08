@@ -10,6 +10,11 @@ ion-content.centered {
     justify-content: center;
 }
 
+ion-card-subtitle.centered {
+    text-align: center;
+    justify-content: center;
+}
+
 ion-input {
     input {
         background-color: var(--ion-color-light);
@@ -121,4 +126,22 @@ a {
 
 ion-label.label-floating {
     z-index: 3 !important;
+}
+
+.logo-list {
+    height: 128px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.logo-list-square {
+    max-width: 128px;
+}
+
+.chip-label {
+    font-size: .75rem;
+}
+
+.chip-padding {
+    padding: 6px;
 }

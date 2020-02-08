@@ -25,13 +25,13 @@ export class RegistrationPage implements OnInit {
   ) { }
 
   ngOnInit() {
+    this.states = CONSTANTS.states;
+    this.registeringUser = false;
   }
 
   ionViewWillEnter() {
-    this.states = CONSTANTS.states;
-    this.registeringUser = false;
 
-    if (this.sellerSvc.seller) {
+    if (this.sellerSvc.seller && this.localSeller.email) {
       this.localSeller = Object.assign({}, this.sellerSvc.seller);
     } else {
       this.localSeller = {
@@ -70,7 +70,7 @@ export class RegistrationPage implements OnInit {
       this.sellerSvc.login(this.localSeller.email, this.password);
       this.sellerSvc.loginComplete.subscribe((status) => {
         if (status) {
-          this.router.navigate(['']);
+          this.router.navigate(['seller']);
         } else {
           this.registrationFailed = true;
         }

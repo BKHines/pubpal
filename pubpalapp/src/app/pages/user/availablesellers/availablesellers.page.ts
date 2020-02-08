@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, EventEmitter } from '@angular/core';
 import { UserService } from 'src/app/providers/user.service';
 import { SellerModel, SellerTagModel } from 'src/app/shared/models';
 import { PurchaseService } from 'src/app/providers/purchase.service';
@@ -12,22 +12,24 @@ import { CommonService } from 'src/app/providers/common.service';
 })
 export class AvailablesellersPage implements OnInit {
   sellers: SellerModel[];
-  showTagAdd: boolean;
   newtag: string;
   tagmax: number;
+
+  sellersLoaded: EventEmitter<void> = new EventEmitter<void>();
 
   constructor(
     public userSvc: UserService,
     private purchSvc: PurchaseService,
     private router: Router,
     private commonSvc: CommonService
-  ) { }
+  ) {
+  }
 
   ngOnInit() {
   }
 
   ionViewWillEnter() {
-    this.tagmax = 10;
+    this.tagmax = 4;
     if (this.userSvc.user) {
       this.loadData();
     } else {
@@ -38,11 +40,17 @@ export class AvailablesellersPage implements OnInit {
     }
   }
 
-  loadData() {
+  loadData(emitSellersLoaded?: boolean) {
     this.commonSvc.headerMessage = 'Available Sellers';
     this.commonSvc.menuoptionsType = 'user';
     this.userSvc.getSellersNearMe(39.344, -84.537, 10).subscribe((res) => {
       this.sellers = res.result;
+
+      this.sellers.forEach(a => a['showTagAdd'] = false);
+
+      if (emitSellersLoaded) {
+        this.sellersLoaded.emit();
+      }
     });
   }
 
@@ -92,16 +100,18 @@ export class AvailablesellersPage implements OnInit {
         _seller.tags = [];
       }
 
-      _seller.tags.push({ tag: t, userid: this.userSvc.user._id });
-      this.showTagAdd = false;
-      this.newtag = '';
+      this.loadData(true);
+      let sellersLoaded$ = this.sellersLoaded.subscribe(() => {
+        _seller['showTagAdd'] = false;
+        this.newtag = '';
+        sellersLoaded$.unsubscribe();
+      });
     });
   }
 
   removeTag(t: SellerTagModel, sellerId: string) {
     this.userSvc.removeTag(sellerId, t).subscribe((res) => {
-      let _seller = this.sellers.find(a => a._id === sellerId);
-      _seller.tags.splice(_seller.tags.findIndex(a => a.tag === t.tag && a.userid === t.userid), 1);
+      this.loadData();
     });
   }
 }

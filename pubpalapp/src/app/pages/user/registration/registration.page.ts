@@ -62,7 +62,7 @@ export class RegistrationPage implements OnInit {
       this.userSvc.login(this.localUser.email, this.password);
       this.userSvc.loginComplete.subscribe((status) => {
         if (status) {
-          this.router.navigate(['']);
+          this.router.navigate(['user']);
         } else {
           this.registrationFailed = true;
         }

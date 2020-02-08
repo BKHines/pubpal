@@ -1,5 +1,5 @@
 <ion-content color="primary">
-  <form #rform="ngForm" novalidate>
+  <form #rform="ngForm" novalidate *ngIf="localSeller">
     <ion-card>
       <ion-item class="px-5" lines="none" [class.pp-invalid]="valemail.touched && valemail.invalid">
         <ion-label position="floating" color="tertiary" >Email</ion-label>
@@ -26,10 +26,9 @@
         <ion-input inputmode="text" id="inputPName" name="pname" [(ngModel)]="localSeller.place.name" required
           #valpname="ngModel"></ion-input>
       </ion-item>
-      <ion-item class="px-5" lines="none" [class.pp-invalid]="valdesc.touched && valdesc.invalid">
+      <ion-item class="px-5" lines="none">
         <ion-label position="floating" color="tertiary" >Description</ion-label>
-        <ion-input inputmode="text" id="inputDesc" name="desc" [(ngModel)]="localSeller.place.description" required
-          #valdesc="ngModel"></ion-input>
+        <ion-input inputmode="text" id="inputDesc" name="desc" [(ngModel)]="localSeller.place.description" ></ion-input>
       </ion-item>
       <ion-item class="px-5" lines="none" [class.pp-invalid]="valaddress.touched && valaddress.invalid">
         <ion-label position="floating" color="tertiary" >Address</ion-label>
@@ -52,6 +51,11 @@
         <ion-label position="floating" color="tertiary" >Zip</ion-label>
         <ion-input inputmode="text" id="inputZip" name="zip" [(ngModel)]="localSeller.place.address.zip" required
           #valzip="ngModel" ></ion-input>
+      </ion-item>
+      <ion-item class="px-5" lines="none" >
+        <ion-label position="floating" color="tertiary">Image or Logo URL</ion-label>
+        <ion-input inputmode="text" id="inputImageUrl" name="imageurl" [(ngModel)]="localSeller.place.imageurl" ></ion-input>
+        <ion-img *ngIf="localSeller.place.imageurl" [src]="localSeller.place.imageurl" alt="place image or logo" ></ion-img>
       </ion-item>
       <ion-item class="px-5" lines="none" >
         <ion-button type="submit" (click)="register()" color="success" expand="full"

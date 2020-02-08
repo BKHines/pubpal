@@ -49,6 +49,7 @@ export interface LocationModel {
 export interface PlaceModel {
     name: string;
     description?: string;
+    imageurl?: string;
     address: AddressModel;
     location: LocationModel;
 }
