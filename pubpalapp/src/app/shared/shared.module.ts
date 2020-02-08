@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { IonicModule } from '@ionic/angular';
 import { CommonModule, CurrencyPipe } from '@angular/common';
 import { RouterModule } from '@angular/router';
@@ -28,6 +28,9 @@ import { PpButtonComponent } from './components/pp-button/pp-button.component';
         ArraymaxdisplayPipe,
         CurrencyformatPipe,
         PpButtonComponent
+    ],
+    schemas: [
+        CUSTOM_ELEMENTS_SCHEMA
     ]
 })
 export class SharedModule { }

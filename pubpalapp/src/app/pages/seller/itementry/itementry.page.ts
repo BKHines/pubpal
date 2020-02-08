@@ -30,7 +30,7 @@ export class ItementryPage implements OnInit {
   categories: string[];
   ingCategoryGroups: string[];
 
-  @ViewChild('ingentry', { static: false }) entryingredient: IonInput;
+  @ViewChild('ingentry') entryingredient: IonInput;
 
   typeaheadLoading: boolean;
   typeaheadNoResults: boolean;
