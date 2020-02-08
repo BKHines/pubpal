@@ -10,6 +10,11 @@ ion-content.centered {
     justify-content: center;
 }
 
+ion-card-header.centered {
+    text-align: center;
+    justify-content: center;
+}
+
 ion-card-subtitle.centered {
     text-align: center;
     justify-content: center;
@@ -129,13 +134,14 @@ ion-label.label-floating {
 }
 
 .logo-list {
-    height: 128px;
+    height: 230px;
+    width: 100%;
     margin-left: auto;
     margin-right: auto;
 }
 
 .logo-list-square {
-    max-width: 128px;
+    max-width: 230px;
 }
 
 .chip-label {

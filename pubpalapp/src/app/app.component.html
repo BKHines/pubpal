@@ -18,8 +18,8 @@
   <ion-menu side="end" type="overlay" content-id="appContent" swipeGesture="false">
     <ion-header color="primary" no-border >
       <ion-toolbar color="primary" no-border >
-        <ion-item (click)="goHome()" color="primary" lines="none">
-          <ion-icon name="home"></ion-icon>
+        <ion-item (click)="toggleMenu()" color="primary" lines="none">
+          <ion-icon name="caret-back-circle-outline"></ion-icon>
         </ion-item>
       </ion-toolbar>
     </ion-header>
@@ -29,11 +29,14 @@
   <ng-template #useroptions>
     <ion-content color="primary">
       <ion-list color="primary" class="py-0">
+        <ion-item (click)="goHome()" color="primary" lines="none">
+          <ion-icon name="home"></ion-icon>
+        </ion-item>
         <ion-item (click)="makePurchase();" color="primary" lines="none">
           <ion-icon name="beer"></ion-icon>
         </ion-item>
         <ion-item (click)="goToPurchaseHistory();" color="primary" lines="none">
-          <ion-icon name="list-box"></ion-icon>
+          <ion-icon name="list-outline"></ion-icon>
         </ion-item>
         <ion-item (click)="goToCart()" color="primary" lines="none">
           <ion-icon name="cart"></ion-icon>
@@ -49,11 +52,14 @@
   <ng-template #selleroptions>
     <ion-content color="primary">
       <ion-list color="primary" class="py-0">
+        <ion-item (click)="goHome()" color="primary" lines="none">
+          <ion-icon name="home"></ion-icon>
+        </ion-item>
         <ion-item (click)="goSellerPurchases()" color="primary" lines="none" >
           <ion-icon name="beer"></ion-icon>
         </ion-item>
         <ion-item (click)="goSellerMenuItems()" color="primary" lines="none" >
-          <ion-icon name="list-box"></ion-icon>
+          <ion-icon name="list-outline"></ion-icon>
         </ion-item>
         <ion-item (click)="logout();" color="primary" lines="none" >
           <ion-icon name="log-out"></ion-icon>

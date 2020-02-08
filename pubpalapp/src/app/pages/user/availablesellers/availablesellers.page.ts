@@ -29,7 +29,7 @@ export class AvailablesellersPage implements OnInit {
   }
 
   ionViewWillEnter() {
-    this.tagmax = 4;
+    this.tagmax = 3;
     if (this.userSvc.user) {
       this.loadData();
     } else {

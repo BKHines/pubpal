@@ -1,6 +1,6 @@
 <ion-content color="primary">
   <form #rform="ngForm" novalidate>
-    <ion-card>
+    <ion-card *ngIf="localUser">
       <ion-item class="px-5" lines="none" [class.pp-invalid]="valemail.touched && valemail.invalid">
         <ion-label position="floating" color="tertiary" >Email</ion-label>
         <ion-input inputmode="email" id="inputEmail" name="email" [(ngModel)]="localUser.email" required

@@ -4,7 +4,7 @@
       <ng-template ngFor [ngForOf]="sellers" let-seller>
         <ion-col size-xl="4" size-lg="6" size-md="6" size-sm="12" size-xs="12">
           <ion-card color="primary">
-            <ion-card-header class="ion-no-padding">
+            <ion-card-header class="ion-no-padding centered">
               <ng-template #favoriteSeller>
                 <ion-button color="medium" (click)="toggleFavorite(seller._id)" class="mr-4 mt-2 ion-float-right">
                   <ion-icon name="star" slot="icon-only"></ion-icon>
@@ -23,9 +23,14 @@
                   </ion-col>
                 </ion-row>
               </ion-grid>
-              <img *ngIf="seller.place.imageurl" [src]="seller.place.imageurl" class="logo-list" [attr.alt]="seller.place.name" (click)="openSellerDetails(seller)" />
-              <img *ngIf="!seller.place.imageurl" src="../../../../assets/imgs/no_image_available.png" class="logo-list logo-list-square" [attr.alt]="seller.place.name"
-                (click)="openSellerDetails(seller)" />
+              <ng-template #noImage>
+                <img src="../../../../assets/imgs/no_image_available.png" class="logo-list logo-list-square" [attr.alt]="seller.place.name"
+                  (click)="openSellerDetails(seller)" />
+              </ng-template>
+              <ng-template #customImage>
+                <img [src]="seller.place.imageurl" class="logo-list" [attr.alt]="seller.place.name" (click)="openSellerDetails(seller)" />
+              </ng-template>
+              <ng-container [ngTemplateOutlet]="seller.place.imageurl ? customImage : noImage"></ng-container>
               <ion-card-subtitle color="primary" class="centered">
                 <ion-label color="tertiary">
                   {{ seller.place.name }}
@@ -35,37 +40,43 @@
             <ion-card-content>
               <ion-grid class="ion-no-padding">
                 <ion-row>
-                  <ng-template #filteredtags>
-                    <ion-col *ngFor="let t of seller.tags | arraymaxdisplay: tagmax" class="ion-no-padding" >
-                      <ion-chip color="light" outline="true" class="chip-padding">
-                        <ion-label class="chip-label">
-                          {{ t.tag }}
-                        </ion-label>
-                        <ion-icon *ngIf="userSvc.user._id === t.userid" name="close-circle" (click)="removeTag(t, seller._id)">
-                        </ion-icon>
-                      </ion-chip>
-                    </ion-col>
-                  </ng-template>
-                  <ng-template #unfilteredtags>
-                    <ion-col *ngFor="let t of seller.tags" class="ion-no-padding" >
-                      <ion-chip color="light" outline="true">
-                        <ion-label>
-                          {{ t.tag }}
-                        </ion-label>
-                        <ion-icon *ngIf="userSvc.user._id === t.userid" name="close-circle" (click)="removeTag(t, seller._id)">
-                        </ion-icon>
-                      </ion-chip>
-                    </ion-col>
-                  </ng-template>
-                  <ng-container [ngTemplateOutlet]="seller['showalltags'] ? unfilteredtags : filteredtags">
-                  </ng-container>
-                  <ion-col *ngIf="seller.tags && seller.tags.length > tagmax && !seller['showalltags']" class="ion-no-padding" >
-                    <ion-icon name="arrow-dropdown" (click)="seller['showalltags'] = true;"></ion-icon>
+                  <ion-col size="11">
+                    <ion-row>
+                      <ng-template #filteredtags>
+                        <ion-col *ngFor="let t of seller.tags | arraymaxdisplay: tagmax" class="ion-no-padding">
+                          <ion-chip color="light" outline="true" class="chip-padding">
+                            <ion-label class="chip-label">
+                              {{ t.tag }}
+                            </ion-label>
+                            <ion-icon *ngIf="userSvc.user._id === t.userid" name="close-circle" (click)="removeTag(t, seller._id)">
+                            </ion-icon>
+                          </ion-chip>
+                        </ion-col>
+                      </ng-template>
+                      <ng-template #unfilteredtags>
+                        <ion-col *ngFor="let t of seller.tags" class="ion-no-padding">
+                          <ion-chip color="light" outline="true" class="chip-padding" >
+                            <ion-label class="chip-label" >
+                              {{ t.tag }}
+                            </ion-label>
+                            <ion-icon *ngIf="userSvc.user._id === t.userid" name="close-circle" (click)="removeTag(t, seller._id)">
+                            </ion-icon>
+                          </ion-chip>
+                        </ion-col>
+                      </ng-template>
+                      <ng-container [ngTemplateOutlet]="seller['showalltags'] ? unfilteredtags : filteredtags">
+                      </ng-container>
+                    </ion-row>
                   </ion-col>
-                  <ion-col *ngIf="seller.tags && seller.tags.length > tagmax && seller['showalltags']" class="ion-no-padding" >
-                    <ion-icon name="arrow-dropup" (click)="seller['showalltags'] = false;"></ion-icon>
+                  <ion-col size="1" *ngIf="seller.tags && seller.tags.length > tagmax && !seller['showalltags']" class="ion-no-padding">
+                    <ion-icon name="caret-down-circle-outline" size="large" (click)="seller['showalltags'] = true;"></ion-icon>
                   </ion-col>
-                  <ion-col class="ion-no-padding" >
+                  <ion-col size="1" *ngIf="seller.tags && seller.tags.length > tagmax && seller['showalltags']" class="ion-no-padding">
+                    <ion-icon name="caret-up-circle-outline" size="large" (click)="seller['showalltags'] = false;"></ion-icon>
+                  </ion-col>
+                </ion-row>
+                <ion-row>
+                  <ion-col class="ion-no-padding">
                     <ion-button *ngIf="!seller['showTagAdd']" color="light" fill="outline" (click)="seller['showTagAdd'] = true" class="ion-float-right">
                       <ion-label>Tag Pub</ion-label>
                       <ion-icon slot="icon-only" name="add"></ion-icon>

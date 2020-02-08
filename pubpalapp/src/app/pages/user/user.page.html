@@ -1,11 +1,13 @@
 <ion-content id="userContent" color="primary" class="centered">
   <ion-grid>
     <ion-row>
-      <ion-col size-xl="4" size-lg="6" size-md="6" size-sm="12" size-xs="12" >
+      <ion-col size-xl="4" size-lg="6" size-md="6" size-sm="12" size-xs="12">
         <ion-card [routerLink]="['purchase/sellers']" color="primary">
-          <ion-card-content class="px-0 pt-0">
-            <ion-img src="../../../assets/imgs/user_make_purchase_background.jpg" alt="make a purchase" ></ion-img>
-            <ion-card-subtitle>
+          <ion-card-content class="p-0" color="primary">
+            <ion-img src="../../../assets/imgs/user_make_purchase_background.jpg" alt="make a purchase"></ion-img>
+          </ion-card-content>
+          <ion-card-header color="primary">
+            <ion-card-subtitle color="primary">
               <ion-label color="tertiary">
                 Make a
               </ion-label>
@@ -15,13 +17,15 @@
                 Purchase
               </ion-label>
             </ion-card-title>
-          </ion-card-content>
-        </ion-card>    
+          </ion-card-header>
+        </ion-card>
       </ion-col>
-      <ion-col size-xl="4" size-lg="6" size-md="6" size-sm="12" size-xs="12" >
+      <ion-col size-xl="4" size-lg="6" size-md="6" size-sm="12" size-xs="12">
         <ion-card [routerLink]="['purchasehistory']" color="primary">
-          <ion-card-content class="px-0 pt-0">
-            <ion-img src="../../../assets/imgs/user_purchases.jpg" alt="view purchases" ></ion-img>
+          <ion-card-content class="p-0">
+            <ion-img src="../../../assets/imgs/user_purchases.jpg" alt="view purchases"></ion-img>
+          </ion-card-content>
+          <ion-card-header color="primary">
             <ion-card-subtitle>
               <ion-label color="tertiary">
                 View
@@ -32,13 +36,15 @@
                 Purchases
               </ion-label>
             </ion-card-title>
-          </ion-card-content>
-        </ion-card>    
+          </ion-card-header>
+        </ion-card>
       </ion-col>
       <ion-col size-xl="4" size-lg="6" size-md="6" size-sm="12" size-xs="12">
         <ion-card [routerLink]="['cart']" color="primary">
-          <ion-card-content class="px-0 pt-0">
-            <ion-img src="../../../assets/imgs/user_cart.jpg" alt="view cart" ></ion-img>
+          <ion-card-content class="p-0">
+            <ion-img src="../../../assets/imgs/user_cart.jpg" alt="view cart"></ion-img>
+          </ion-card-content>
+          <ion-card-header color="primary">
             <ion-card-subtitle>
               <ion-label color="tertiary">
                 View
@@ -49,8 +55,8 @@
                 Cart
               </ion-label>
             </ion-card-title>
-          </ion-card-content>
-        </ion-card>    
+          </ion-card-header>
+        </ion-card>
       </ion-col>
     </ion-row>
   </ion-grid>
