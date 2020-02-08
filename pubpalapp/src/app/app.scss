@@ -145,9 +145,18 @@ ion-label.label-floating {
 }
 
 .chip-label {
-    font-size: .75rem;
+    font-size: .748rem;
 }
 
 .chip-padding {
-    padding: 6px;
+    padding-top: 6px;
+    padding-bottom: 6px;
+    padding-right: 0px;
+    padding-left: 9px;
+}
+
+ion-chip {
+    ion-icon[name="close-circle"] {
+        margin-left: 0px;
+    }
 }
