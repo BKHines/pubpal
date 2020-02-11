@@ -26,6 +26,12 @@ ion-input {
     }
 }
 
+ion-item.item-has-focus {
+    ion-label.ion-color-tertiary.label-floating {
+        color: var(--ion-color-tertiary) !important;
+    }
+}
+
 input {
     border-bottom: 2px var(--ion-color-medium) solid !important;
 }

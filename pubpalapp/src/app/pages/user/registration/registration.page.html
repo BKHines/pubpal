@@ -2,22 +2,22 @@
   <form #rform="ngForm" novalidate>
     <ion-card *ngIf="localUser">
       <ion-item class="px-5" lines="none" [class.pp-invalid]="valemail.touched && valemail.invalid">
-        <ion-label position="floating" color="tertiary" >Email</ion-label>
+        <ion-label position="floating" color="primary" >Email</ion-label>
         <ion-input inputmode="email" id="inputEmail" name="email" [(ngModel)]="localUser.email" required
           #valemail="ngModel"></ion-input>
       </ion-item>
       <ion-item class="px-5" lines="none" [class.pp-invalid]="valpass.touched && valpass.invalid">
-        <ion-label position="floating" color="tertiary" >Password</ion-label>
+        <ion-label position="floating" color="primary" >Password</ion-label>
         <ion-input type="password" id="inputPassword" name="password" [(ngModel)]="password" required
           #valpass="ngModel"></ion-input>
       </ion-item>
       <ion-item class="px-5" lines="none" [class.pp-invalid]="valfname.touched && valfname.invalid">
-        <ion-label position="floating" color="tertiary" >First Name</ion-label>
+        <ion-label position="floating" color="primary" >First Name</ion-label>
         <ion-input inputmode="text" id="inputFName" name="fname" [(ngModel)]="localUser.firstname" required
           #valfname="ngModel"></ion-input>
       </ion-item>
       <ion-item class="px-5" lines="none" [class.pp-invalid]="vallname.touched && vallname.invalid">
-        <ion-label position="floating" color="tertiary" >Last Name</ion-label>
+        <ion-label position="floating" color="primary" >Last Name</ion-label>
         <ion-input inputmode="text" id="inputLName" name="lname" [(ngModel)]="localUser.lastname" required
           #vallname="ngModel"></ion-input>
       </ion-item>
