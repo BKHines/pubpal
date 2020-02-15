@@ -67,6 +67,7 @@ export class SellerdetailsPage implements OnInit {
   }
 
   openOption(option: PurchasableItemModel) {
+    this.filtertext = '';
     this.router.navigate(['user/purchase/seller', this.sellerId, option.id]);
   }
 }
