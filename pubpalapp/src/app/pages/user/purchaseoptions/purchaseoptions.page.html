@@ -15,7 +15,7 @@
             <h3>Select from: {{ category }}</h3>
           </ion-label>
         </ion-item>
-        <ng-template ngFor [ngForOf]="option.ingredients | arraybyproperty: 'category': category" let-ing>
+        <ng-template ngFor [ngForOf]="option.ingredients | arraybyproperty: [{ pname: 'category', pvalue: category, filter: 'equalsignorecase' }]" let-ing>
           <ion-item (click)="selectIngredient(ing); setTipAmount(tipType)">
             <ion-label>
               {{ ing.ingredient }}

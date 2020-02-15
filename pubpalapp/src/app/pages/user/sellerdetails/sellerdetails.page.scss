@@ -1,0 +1,15 @@
+@media (min-width: 768px) {
+    ion-img.drink-icon {
+        max-width: 128px;
+    }
+}
+
+@media (max-width: 767px) {
+    ion-img.drink-icon {
+        max-width: 64px;
+    }
+}
+
+ion-item:not(.input-container) {
+    border-bottom: 2px solid var(--ion-color-secondary);
+}

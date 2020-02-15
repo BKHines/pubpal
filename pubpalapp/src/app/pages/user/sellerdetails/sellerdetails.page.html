@@ -1,12 +1,43 @@
-<ion-content id="userContent">
-  <ng-template ngFor [ngForOf]="purchaseOptions" let-po>
-    <ion-item (click)="openOption(po);">
-      <ion-label slot="start">
-        {{ po.name }}
-      </ion-label>
-      <ion-label slot="end">
-        {{ po.price | currency }}
-      </ion-label>
-    </ion-item>
-  </ng-template>
+<ion-content id="userContent" color="primary">
+  <ion-grid>
+    <ion-row>
+      <ion-col size="5">
+        <ion-item color="primary" lines="none" class="input-container">
+          <ion-label position="floating" color="tertiary">Filter Menu</ion-label>
+          <ion-input inputmode="text" id="inputfilter" name="ingredients" [(ngModel)]="filtertext"></ion-input>
+        </ion-item>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ng-template ngFor [ngForOf]="purchaseOptions | arraybyproperty: [{ pname: 'name baseingredient', pvalue: filtertext, filter: 'containsignorecase' },
+                                                                        { pname: 'ingredients', pvalue: filtertext, filter: 'objectcontains' }]" let-po>
+        <ion-col size-lg="6" size="12">
+          <ion-item (click)="openOption(po);" lines="none" color="primary">
+            <ion-img [src]="po.iconurl" slot="start" [attr.alt]="po.baseingredient ? po.baseingredient : po.name" class="drink-icon"></ion-img>
+            <ion-label slot="start" color="tertiary">
+              {{ po.name }}<br>
+              Starting at {{ po.price | currency }}
+            </ion-label>
+            <ion-grid slot="end">
+              <ion-row
+                *ngFor="let ing of po.ingredients | arraybyproperty: [{ pname: 'category', pvalue: 'alcohol', filter: 'equalsignorecase' }] | arraylimit: 3">
+                <ion-col>
+                  <ion-label color="tertiary">
+                    {{ ing.ingredient }}
+                  </ion-label>
+                </ion-col>
+              </ion-row>
+              <ion-row *ngIf="(po.ingredients | arraybyproperty: [{ pname: 'category', pvalue: 'alcohol', filter: 'equalsignorecase' }]).length > 3">
+                <ion-col>
+                  <ion-label color="tertiary">
+                    ...
+                  </ion-label>
+                </ion-col>
+              </ion-row>
+            </ion-grid>
+          </ion-item>
+        </ion-col>
+      </ng-template>
+    </ion-row>
+  </ion-grid>
 </ion-content>

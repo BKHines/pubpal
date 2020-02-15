@@ -40,7 +40,7 @@
           <ion-card-subtitle>
             {{ cattype }}
           </ion-card-subtitle>
-          <ng-template ngFor [ngForOf]="item.ingredients | arraybyproperty: 'category' : cattype" let-ing>
+          <ng-template ngFor [ngForOf]="item.ingredients | arraybyproperty: [{ pname: 'category', pvalue: cattype, filter: 'equalsignorecase' }]" let-ing>
             <ion-item>
               <ion-label slot="start">
                 {{ ing.ingredient }}

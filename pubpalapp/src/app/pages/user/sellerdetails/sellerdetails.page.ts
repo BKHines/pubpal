@@ -13,6 +13,7 @@ import { CommonService } from 'src/app/providers/common.service';
 export class SellerdetailsPage implements OnInit {
   sellerId: string;
   purchaseOptions: PurchasableItemModel[];
+  filtertext: string;
 
   constructor(
     private route: ActivatedRoute,
@@ -46,6 +47,10 @@ export class SellerdetailsPage implements OnInit {
 
       this.purchSvc.getSellerOptionsById(this.sellerId).subscribe((res) => {
         this.purchaseOptions = res.result;
+
+        this.purchaseOptions.forEach((po) => {
+          po.iconurl = this.commonSvc.getDrinkIconUrl(po.name, po.baseingredient);
+        });
       });
     }
 

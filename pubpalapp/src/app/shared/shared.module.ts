@@ -6,11 +6,13 @@ import { ArraybypropertyPipe } from './pipes/arraybyproperty.pipe';
 import { ArraymaxdisplayPipe } from './pipes/arraymaxdisplay.pipe';
 import { CurrencyformatPipe } from './pipes/currencyformat.pipe';
 import { PpButtonComponent } from './components/pp-button/pp-button.component';
+import { ArraylimitPipe } from './pipes/arraylimit.pipe';
 
 @NgModule({
     declarations: [
         ArraybypropertyPipe,
         ArraymaxdisplayPipe,
+        ArraylimitPipe,
         CurrencyformatPipe,
         PpButtonComponent
     ],
@@ -26,6 +28,7 @@ import { PpButtonComponent } from './components/pp-button/pp-button.component';
     exports: [
         ArraybypropertyPipe,
         ArraymaxdisplayPipe,
+        ArraylimitPipe,
         CurrencyformatPipe,
         PpButtonComponent
     ],

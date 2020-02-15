@@ -13,7 +13,6 @@ import { Plugins, CameraResultType, CameraSource, CameraOptions } from '@capacit
 declare var OCRAD: any;
 import * as $ from 'jquery';
 import { CommonService } from 'src/app/providers/common.service';
-import { DomSanitizer } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-itementry',
@@ -31,6 +30,9 @@ export class ItementryPage implements OnInit {
   ingCategoryGroups: string[];
 
   @ViewChild('ingentry') entryingredient: IonInput;
+  @ViewChild('optentry') entryoption: IonInput;
+
+  isOptionEntry: boolean;
 
   typeaheadLoading: boolean;
   typeaheadNoResults: boolean;
@@ -46,7 +48,6 @@ export class ItementryPage implements OnInit {
     private activatedRoute: ActivatedRoute,
     private loadingCtrl: LoadingController,
     private alertCtrl: AlertController,
-    private sanitizer: DomSanitizer,
     private commonSvc: CommonService
   ) { }
 
@@ -168,6 +169,26 @@ export class ItementryPage implements OnInit {
 
     this.resetIng();
     this.entryingredient.setFocus();
+    this.resetForm(entryForm);
+  }
+
+  optAddHandler(entryForm: NgForm) {
+    if (!this.newPI.ingredients) {
+      this.newPI.ingredients = [];
+    }
+
+    this.newPI.ingredients.forEach((i, idx) => {
+      i.id = idx;
+      i.upcharge = +i.upcharge;
+    });
+    this.newIngredient.id = this.newPI.ingredients.length;
+    this.newIngredient.category = 'Alcohol';
+    this.newPI.ingredients.push(this.newIngredient);
+
+    this.ingCategoryGroups = ['Alcohol'];
+
+    this.resetIng();
+    this.entryoption.setFocus();
     this.resetForm(entryForm);
   }
 

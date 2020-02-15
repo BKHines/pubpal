@@ -26,7 +26,7 @@
         </ion-item>
         <ion-item [class.pp-invalid]="valcat.touched && valcat.invalid">
           <ion-label position="floating">Cocktail/Mixed Drink/Beer/Wine?</ion-label>
-          <ion-input inputmode="text" id="inputCategory" name="cat" [(ngModel)]="newPI.category" required
+          <ion-input inputmode="text" id="inputCategory" name="cat" [(ngModel)]="newPI.category" (ngModelChange)=" isOptionEntry = newPI.category.toLowerCase() === 'beer';" required
             #valcat="ngModel">
           </ion-input>
         </ion-item>
@@ -39,12 +39,12 @@
     </ion-card-header>
     <ng-template ngFor [ngForOf]="ingCategoryGroups" let-category>
       <ion-card-subtitle>
-        {{ category }}
+        {{ isOptionEntry ? 'Available Option' : category }}
       </ion-card-subtitle>
-      <ion-card-content *ngFor="let ing of newPI.ingredients | arraybyproperty: 'category' : category">
+      <ion-card-content *ngFor="let ing of newPI.ingredients | arraybyproperty: [{ pname: 'category', pvalue: category, filter: 'equals' }]">
         <ion-grid>
           <ion-row>
-            <ion-col>Ingredient: {{ ing.ingredient }}</ion-col>
+            <ion-col>{{ isOptionEntry ? 'Option' : 'Ingredient' }}: {{ ing.ingredient }}</ion-col>
             <ion-col>Upcharge: {{ ing.upcharge | currency }}</ion-col>
           </ion-row>
           <ion-row>
@@ -61,45 +61,75 @@
       </ion-card-content>
     </ng-template>
     <ion-card-subtitle>
-      Add New Ingredient
+      Add New {{ isOptionEntry ? 'Beer' : 'Ingredient' }}
     </ion-card-subtitle>
     <ion-card-content>
       <!-- <ion-button (click)="addFromCamera();">
         Add from Camera
       </ion-button>
       <img [src]="imgdata" id="imgdata_id"> -->
-      <form #ingForm="ngForm">
-        <ion-item [class.pp-invalid]="valinging.touched && valinging.invalid">
-          <ion-label position="floating">Ingredient</ion-label>
-          <ion-input inputmode="text" id="inputIngIng" name="inging" #ingentry [(ngModel)]="newIngredient.ingredient"
-            required #valinging="ngModel">
-          </ion-input>
-        </ion-item>
-        <ion-item>
-          <ion-label position="floating">Description</ion-label>
-          <ion-textarea id="inputIngDesc" name="ingdesc" rows="2" [(ngModel)]="newIngredient.description">
-          </ion-textarea>
-        </ion-item>
-        <ion-item [class.pp-invalid]="valingupcharge.touched && valingupcharge.invalid">
-          <ion-label position="floating">Price</ion-label>
-          <ion-input type="tel" id="inputIngUpcharge" name="ingupcharge"
-            [ngModel]="newIngredient.upcharge | currencyformat: applyIngUpchargeFormat"
-            (ngModelChange)="updateIngUpcharge($event)" (ionBlur)="applyIngUpchargeFormat = true;"
-            (ionFocus)="applyIngUpchargeFormat = false;" required #valingupcharge="ngModel"></ion-input>
-        </ion-item>
-        <ion-item [class.pp-invalid]="valingcat.touched && valingcat.invalid">
-          <ion-label position="floating">Category</ion-label>
-          <ion-select id="inputIngCat" name="ingcat" [(ngModel)]="newIngredient.category" required #valingcat="ngModel">
-            <ion-select-option *ngFor="let catType of categoryTypes" value="{{ catType }}">{{ catType }}
-            </ion-select-option>
-          </ion-select>
-        </ion-item>
-        <ion-item>
-          <ion-button slot="start" (click)="ingAddHandler(ingForm)" [disabled]="!ingForm.touched || ingForm.invalid">Add
-            Ingredient</ion-button>
-          <ion-button slot="end" (click)="resetIng()">Reset</ion-button>
-        </ion-item>
-      </form>
+      <ng-template #ingredientform >
+        <form #ingForm="ngForm">
+          <ion-item [class.pp-invalid]="valinging.touched && valinging.invalid">
+            <ion-label position="floating">Ingredient</ion-label>
+            <ion-input inputmode="text" id="inputIngIng" name="inging" #ingentry [(ngModel)]="newIngredient.ingredient"
+              required #valinging="ngModel">
+            </ion-input>
+          </ion-item>
+          <ion-item>
+            <ion-label position="floating">Description</ion-label>
+            <ion-textarea id="inputIngDesc" name="ingdesc" rows="2" [(ngModel)]="newIngredient.description">
+            </ion-textarea>
+          </ion-item>
+          <ion-item [class.pp-invalid]="valingupcharge.touched && valingupcharge.invalid">
+            <ion-label position="floating">Price</ion-label>
+            <ion-input type="tel" id="inputIngUpcharge" name="ingupcharge"
+              [ngModel]="newIngredient.upcharge | currencyformat: applyIngUpchargeFormat"
+              (ngModelChange)="updateIngUpcharge($event)" (ionBlur)="applyIngUpchargeFormat = true;"
+              (ionFocus)="applyIngUpchargeFormat = false;" required #valingupcharge="ngModel"></ion-input>
+          </ion-item>
+          <ion-item [class.pp-invalid]="valingcat.touched && valingcat.invalid">
+            <ion-label position="floating">Category</ion-label>
+            <ion-select id="inputIngCat" name="ingcat" [(ngModel)]="newIngredient.category" required #valingcat="ngModel">
+              <ion-select-option *ngFor="let catType of categoryTypes" value="{{ catType }}">{{ catType }}
+              </ion-select-option>
+            </ion-select>
+          </ion-item>
+          <ion-item>
+            <ion-button slot="start" (click)="ingAddHandler(ingForm)" [disabled]="!ingForm.touched || ingForm.invalid">Add
+              Ingredient</ion-button>
+            <ion-button slot="end" (click)="resetIng()">Reset</ion-button>
+          </ion-item>
+        </form>
+      </ng-template>
+      <ng-template #optionform>
+        <form #optForm="ngForm">
+          <ion-item [class.pp-invalid]="valinging.touched && valinging.invalid">
+            <ion-label position="floating">Option</ion-label>
+            <ion-input inputmode="text" id="inputIngIng" name="inging" #optentry [(ngModel)]="newIngredient.ingredient"
+              required #valinging="ngModel">
+            </ion-input>
+          </ion-item>
+          <ion-item>
+            <ion-label position="floating">Description</ion-label>
+            <ion-textarea id="inputIngDesc" name="ingdesc" rows="2" [(ngModel)]="newIngredient.description">
+            </ion-textarea>
+          </ion-item>
+          <ion-item [class.pp-invalid]="valingupcharge.touched && valingupcharge.invalid">
+            <ion-label position="floating">Price</ion-label>
+            <ion-input type="tel" id="inputIngUpcharge" name="ingupcharge"
+              [ngModel]="newIngredient.upcharge | currencyformat: applyIngUpchargeFormat"
+              (ngModelChange)="updateIngUpcharge($event)" (ionBlur)="applyIngUpchargeFormat = true;"
+              (ionFocus)="applyIngUpchargeFormat = false;" required #valingupcharge="ngModel"></ion-input>
+          </ion-item>
+          <ion-item>
+            <ion-button slot="start" (click)="optAddHandler(optForm)" [disabled]="!optForm.touched || optForm.invalid">Add
+              Option</ion-button>
+            <ion-button slot="end" (click)="resetIng()">Reset</ion-button>
+          </ion-item>
+        </form>
+      </ng-template>
+      <ng-container [ngTemplateOutlet]="isOptionEntry ? optionform : ingredientform" ></ng-container>
     </ion-card-content>
     <ion-card-content>
       <ion-item>

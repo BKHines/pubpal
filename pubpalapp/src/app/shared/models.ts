@@ -70,6 +70,7 @@ export interface PurchasableItemModel {
     baseingredient: string;
     category?: string;
     ingredients?: Ingredient[];
+    iconurl?: string;
 }
 
 export interface IModalHeader {

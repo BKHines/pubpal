@@ -87,6 +87,45 @@ export class CommonService {
     }).then((ma) => {
       ma.present();
     });
+  }
 
+  getDrinkIconUrl(name: string, baseingredient: string) {
+    if (/beer/i.test(name) || /beer/i.test(baseingredient)) {
+      return '../../../../assets/imgs/beer/beer_icon.jpg'
+    } else if (this.matchBrandy(name) || this.matchBrandy(baseingredient)) {
+      return '../../../../assets/imgs/brandycognac/brandy_icon.jpg';
+    } else if (/gin/i.test(name) || /gin/i.test(baseingredient)) {
+      return '../../../../assets/imgs/gin/gin_icon.jpg';
+    } else if (/margarita/i.test(name) || /margarita/i.test(baseingredient)) {
+      return '../../../../assets/imgs/margarita/margarita_icon.jpg';
+    } else if (this.matchRedWine(name) || this.matchRedWine(baseingredient)) {
+      return '../../../../assets/imgs/redwine/redwine_icon.jpg';
+    } else if (/rum/i.test(name) || /rum/i.test(baseingredient)) {
+      return '../../../../assets/imgs/rum/rum_icon.jpg';
+    } else if (/tequila/i.test(name) || /tequila/i.test(baseingredient)) {
+      return '../../../../assets/imgs/tequila/tequila_icon.jpg';
+    } else if (/vodka/i.test(name) || /vodka/i.test(baseingredient)) {
+      return '../../../../assets/imgs/vodka/vodka_icon.jpg';
+    } else if (this.matchWhiskey(name) || this.matchWhiskey(baseingredient)) {
+      return '../../../../assets/imgs/whiskeybourbonscotch/whiskey_icon.jpg';
+    } else if (this.matchWhiteWine(name) || this.matchWhiteWine(baseingredient)) {
+      return '../../../../assets/imgs/whitewine/whitewine_icon.jpg';
+    }
+  }
+
+  private matchBrandy(text: string) {
+    return /brandy|cognac/i.test(text);
+  }
+
+  private matchRedWine(text: string) {
+    return /redwine|red wine|wine/i.test(text);
+  }
+
+  private matchWhiskey(text: string) {
+    return /whiskey|whisky|bourbon|scotch/i.test(text);
+  }
+
+  private matchWhiteWine(text: string) {
+    return /white wine|whitewine/i.test(text);
   }
 }
