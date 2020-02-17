@@ -59,5 +59,12 @@ namespace pubpalapi.Controllers
                 return StatusCode(500, ex);
             }
         }
+
+        [HttpGet("GetOptionIcons", Name = "GetOptionIcons")]
+        public IActionResult GetOptionIcons()
+        {
+            var oirepo = new OptionIconsRepository();
+            return Ok(oirepo.GetOptionIcons());
+        }
     }
 }
