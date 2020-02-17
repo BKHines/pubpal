@@ -3,3 +3,19 @@
         width: 100%;
     }
 }
+
+@media (min-width: 768px) {
+    ion-img.option-logo {
+        max-width: 128px;
+    }
+}
+
+@media (max-width: 767px) {
+    ion-img.option-logo {
+        max-width: 64px;
+    }
+}
+
+ion-item.category-header {
+    border-bottom: 2px solid var(--ion-color-secondary);
+}

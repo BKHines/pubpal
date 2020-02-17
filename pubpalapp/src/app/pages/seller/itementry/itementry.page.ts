@@ -96,9 +96,11 @@ export class ItementryPage implements OnInit {
         }
       });
 
+      this.isOptionEntry = this.newPI.category.toLowerCase() === 'beer';
     } else {
       this.resetNewPI();
     }
+
   }
 
   updatePrice(price: string) {

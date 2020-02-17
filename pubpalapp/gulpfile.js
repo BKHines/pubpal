@@ -2,10 +2,14 @@ var gulp = require('gulp');
 const replace = require('gulp-replace');
 var argv = require('yargs').argv;
 var exec = require('child_process').exec;
+const fileList = require('gulp-filelist');
 const { series } = require('gulp');
 var prodBuild = argv.prod;
 var destFolder = argv.destfolder;
 var captype = argv.captype;
+var apiRepo = argv.apirepo;
+var deployIcons = argv.deployicons;
+var apiSite = argv.apisite;
 
 function updateBundledWebRuntime() {
     console.log('Changing bundledWebRuntime in capacitor.config.json to true');
@@ -83,10 +87,35 @@ function syncCap() {
     });
 }
 
+function syncIconsFile(done) {
+    if (apiRepo) {
+        console.log(`Running sync icons file`);
+        return gulp.src([apiRepo + '/pubpalapi/appcontent/icons/*.*'])
+            .pipe(fileList('icons.json', { relative: true }))
+            .pipe(gulp.dest(apiRepo + '/pubpalapi/appcontent/definitions'));
+    } else {
+        console.log(`Did not sync icons file`);
+        done();
+    }
+}
+
+function deployIconsFile(done) {
+    if (deployIcons && apiSite) {
+        console.log(`Running deploy icons file`);
+        return gulp.src([apiRepo + '/pubpalapi/appcontent/**/*'])
+            .pipe(gulp.dest(apiSite + '/appcontent'));
+    } else {
+        console.log(`Did not deploy icons file`);
+        done();
+    }
+}
+
 function finish(done) {
     done();
 }
 
-exports.SiteBuildAndDeploy = series(updateBundledWebRuntime, addCapacitorJSReference, buildApp, initSite, copySiteFilesToDest, finish);
+exports.SiteBuildAndDeploy = series(syncIconsFile, deployIconsFile, updateBundledWebRuntime, addCapacitorJSReference, buildApp, initSite, copySiteFilesToDest, finish);
 
-exports.AndroidBuildAndSync = series(buildApp, syncCapAndroid, finish);
+exports.AndroidBuildAndSync = series(syncIconsFile, deployIconsFile, buildApp, syncCapAndroid, finish);
+
+exports.SyncIconsFile = series(syncIconsFile, deployIconsFile, finish);

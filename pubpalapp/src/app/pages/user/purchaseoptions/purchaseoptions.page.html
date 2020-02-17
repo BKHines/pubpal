@@ -1,43 +1,50 @@
-<ion-content id="userContent">
-  <ion-item *ngIf="option">
-    <ion-label>
+<ion-content id="userContent" color="primary">
+  <ion-item *ngIf="option" lines="none" color="primary">
+    <ion-label color="tertiary">
       {{ option.name }}
     </ion-label>
-    <ion-label>
+    <ion-label color="tertiary">
       ({{ option.price | currency }}){{ingredientUpcharge ? ' -> (' + ((option.price + ingredientUpcharge) | currency) + ')' : ''}}
     </ion-label>
   </ion-item>
   <ng-template [ngIf]="categoryGroups && option">
     <ng-template ngFor [ngForOf]="categoryGroups" let-category>
       <ng-template #categoryTemplate>
-        <ion-item>
-          <ion-label>
-            <h3>Select from: {{ category }}</h3>
+        <ion-item color="primary" class="pl-3 category-header">
+          <ion-label color="tertiary">
+            <h3>Select from {{ ingredientIsOptionView ? 'Option' : category }}:</h3>
           </ion-label>
         </ion-item>
         <ng-template ngFor [ngForOf]="option.ingredients | arraybyproperty: [{ pname: 'category', pvalue: category, filter: 'equalsignorecase' }]" let-ing>
-          <ion-item (click)="selectIngredient(ing); setTipAmount(tipType)">
-            <ion-label>
+          <ion-item (click)="selectIngredient(ing); setTipAmount(tipType)" lines="none" color="primary" class="pl-6">
+            <ion-img *ngIf="ing['iconurl']" [src]="ing['iconurl']" alt="ing.ingredient" class="option-logo pr-3"></ion-img>
+            <ion-img *ngIf="!ing['iconurl']" src="../../../../assets/imgs/no_image_available.png" alt="ing.ingredient" class="option-logo pr-3"></ion-img>
+            <ion-label color="tertiary">
               {{ ing.ingredient }}
             </ion-label>
-            <ion-label *ngIf="ing.upcharge > 0">
+            <ion-label *ngIf="ing.upcharge > 0" color="tertiary">
               {{ ing.upcharge | currency }}
             </ion-label>
-            <ion-label *ngIf="ing.upcharge === 0">
+            <ion-label *ngIf="ing.upcharge === 0" color="tertiary">
               No Charge
             </ion-label>
           </ion-item>
         </ng-template>
       </ng-template>
       <ng-template #categorySelectedTemplate>
-        <ion-item>
+        <ion-item lines="none" color="primary">
           <ng-container *ngIf="getCategorySelection(category) as selection">
-            <ion-label>
-              {{ category }} selection:
+            <ion-label color="tertiary" >
+              {{ ingredientIsOptionView ? 'Option' : category }} selection:
             </ion-label>
-            <ion-label>
+            <ion-img *ngIf="selection['iconurl']" [src]="selection['iconurl']" alt="selection.ingredient" class="option-logo pr-3"></ion-img>
+            <ion-img *ngIf="!selection['iconurl']" src="../../../../assets/imgs/no_image_available.png" alt="ing.ingredient" class="option-logo pr-4"></ion-img>
+            <ion-label color="tertiary" >
               {{ selection.ingredient }} ({{ selection.upcharge ? (selection.upcharge | currency) : 'No Charge' }})
             </ion-label>
+            <ion-button color="danger" (click)="clearSelection(selection);" class="mr-4 mt-2 ion-float-right">
+              <ion-icon name="close" slot="icon-only"></ion-icon>
+            </ion-button>    
           </ng-container>
         </ion-item>
       </ng-template>
@@ -46,33 +53,33 @@
     </ng-template>
     <ion-grid class="tip-grid">
       <ion-row>
-        <ion-col size="4">
-          <ion-button color="success" [fill]="tipType === 'NT' ? 'solid' : 'outline'" (click)="setTipAmount('NT')">
+        <ion-col size="4" size-md="2">
+          <ion-button [color]="tipType === 'NT' ? 'tertiary' : 'light'" fill="solid" (click)="setTipAmount('NT')">
             No Tip
           </ion-button>
         </ion-col>
-        <ion-col size="4">
-          <ion-button color="success" [fill]="tipType === '5%' ? 'solid' : 'outline'" (click)="setTipAmount('5%')">
+        <ion-col size="4" size-md="2">
+          <ion-button [color]="tipType === '5%' ? 'tertiary' : 'light'" fill="solid" (click)="setTipAmount('5%')">
             {{ (totalPrice * .05).toFixed(2) | currency }} (5%)
           </ion-button>
         </ion-col>
-        <ion-col size="4">
-          <ion-button color="success" [fill]="tipType === '10%' ? 'solid' : 'outline'" (click)="setTipAmount('10%')">
+        <ion-col size="4" size-md="2">
+          <ion-button [color]="tipType === '10%' ? 'tertiary' : 'light'" fill="solid" (click)="setTipAmount('10%')">
             {{ (totalPrice * .1).toFixed(2) | currency }} (10%)
           </ion-button>
         </ion-col>
-        <ion-col size="4">
-          <ion-button color="success" [fill]="tipType === '15%' ? 'solid' : 'outline'" (click)="setTipAmount('15%')">
+        <ion-col size="4" size-md="2">
+          <ion-button [color]="tipType === '15%' ? 'tertiary' : 'light'" fill="solid" (click)="setTipAmount('15%')">
             {{ (totalPrice * .15).toFixed(2) | currency }} (15%)
           </ion-button>
         </ion-col>
-        <ion-col size="4">
-          <ion-button color="success" [fill]="tipType === '20%' ? 'solid' : 'outline'" (click)="setTipAmount('20%')">
+        <ion-col size="4" size-md="2">
+          <ion-button [color]="tipType === '20%' ? 'tertiary' : 'light'" fill="solid" (click)="setTipAmount('20%')">
             {{ (totalPrice * .2).toFixed(2) | currency }} (20%)
           </ion-button>
         </ion-col>
-        <ion-col size="4">
-          <ion-button color="success" [fill]="tipType === 'C' ? 'solid' : 'outline'" (click)="setTipAmount('C')">
+        <ion-col size="4" size-md="2">
+          <ion-button [color]="tipType === 'C' ? 'tertiary' : 'light'" fill="solid" (click)="setTipAmount('C')">
             Custom
           </ion-button>
           <ion-input *ngIf="tipType === 'C'" class="right-align-input" inputmode="decimal" [(ngModel)]="customTip">
@@ -80,34 +87,32 @@
         </ion-col>
       </ion-row>
     </ion-grid>
-    <ion-item>
-      <ion-label position="floating">Any Special Instructions?</ion-label>
-      <ion-textarea rows="2" [(ngModel)]="instructions"></ion-textarea>
-    </ion-item>
-    <ng-container
-      *ngIf="fee * (userSvc.user.feediscount ? ((100 - userSvc.user.feediscount) / 100.0) : 1.0) as calcfee">
-      <ion-item>
-        <ion-label>PubPal Fee:</ion-label>
-        <ion-label *ngIf="!userSvc.user.waivedfeetokens">{{ calcfee | currency }}</ion-label>
-        <ion-label *ngIf="userSvc.user.waivedfeetokens && userSvc.user.waivedfeetokens > 0">
+    <ng-container *ngIf="fee * (userSvc.user.feediscount ? ((100 - userSvc.user.feediscount) / 100.0) : 1.0) as calcfee">
+      <ion-item color="primary" lines="none" >
+        <ion-label color="tertiary">PubPal Fee:</ion-label>
+        <ion-label *ngIf="!userSvc.user.waivedfeetokens" color="tertiary">{{ calcfee | currency }}</ion-label>
+        <ion-label *ngIf="userSvc.user.waivedfeetokens && userSvc.user.waivedfeetokens > 0" color="tertiary">
           <del>{{ calcfee | currency }}</del></ion-label>
       </ion-item>
-      <ion-item>
-        <ion-label>Total Price:</ion-label>
-        <ion-label>
+      <ion-item color="primary" lines="none" >
+        <ion-label color="tertiary">Total Price:</ion-label>
+        <ion-label color="tertiary">
           {{ (totalPrice + tipAmount + (userSvc.user.waivedfeetokens && userSvc.user.waivedfeetokens > 0 ? 0 : calcfee)) | currency }}
         </ion-label>
       </ion-item>
     </ng-container>
-    <ion-item>
-      <ion-button type="reset" color="success" fill="solid" (click)="cancel()">
+    <ion-item color="primary" lines="none">
+      <ion-label position="floating" color="tertiary">Any Special Instructions?</ion-label>
+      <ion-textarea rows="2" [(ngModel)]="instructions"></ion-textarea>
+    </ion-item>
+    <ion-item color="primary" lines="none" >
+      <ion-button type="reset" color="tertiary" fill="outline" (click)="cancel()">
         Cancel
       </ion-button>
-      <ion-button type="submit" color="success" fill="solid" (click)="addPurchase()" [disabled]="!allGroupsSelected">
+      <ion-button type="submit" color="tertiary" fill="outline" class="ml-2" (click)="addPurchase()" [disabled]="!allGroupsSelected">
         Purchase
       </ion-button>
-      <ion-button type="button" class="btn btn-success ml-2 float-right" (click)="addPurchaseToCart()"
-        [disabled]="!allGroupsSelected">
+      <ion-button type="button" color="tertiary" fill="outline" class="ml-2 float-right" (click)="addPurchaseToCart()" [disabled]="!allGroupsSelected">
         Add To Cart
       </ion-button>
     </ion-item>

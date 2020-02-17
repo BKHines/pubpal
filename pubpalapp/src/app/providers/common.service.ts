@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { APIResponse, StatusType, StatusText, StatusDisplayText } from '../shared/models';
 import { AlertController } from '@ionic/angular';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -11,14 +12,22 @@ export class CommonService {
   isApp: boolean;
   menuoptionsType: 'user' | 'seller';
   headerMessage: string;
+  iconfiles: string[];
 
   constructor(
     private http: HttpClient,
     private alertCtrl: AlertController
   ) {
+    this.getOptionIcons().subscribe((res) => {
+      this.iconfiles = res.result;
+    });
     if (document.URL.indexOf('http://localhost') === 0 || document.URL.indexOf('ionic') === 0 || document.URL.indexOf('https://localhost') === 0) {
       this.isApp = true;
     }
+  }
+
+  getOptionIcons(): Observable<APIResponse<string[]>> {
+    return this.http.get<APIResponse<string[]>>(`api/common/getoptionicons`);
   }
 
   getFee(): Observable<APIResponse<number>> {
@@ -87,6 +96,17 @@ export class CommonService {
     }).then((ma) => {
       ma.present();
     });
+  }
+
+  getOptionIconUrl(optionname: string, drinkname: string, baseingredient: string) {
+    let _match = this.iconfiles.find(a => {
+      let _namesplits = optionname.replace(/'/g, '').toLowerCase().split(' ');
+      return _namesplits.every(b => a.toLowerCase().indexOf(b) > -1);
+    });
+    if (_match) {
+      return `${environment.baseAppContentUrl}/icons/${_match}`;
+    }
+    return this.getDrinkIconUrl(drinkname, baseingredient);
   }
 
   getDrinkIconUrl(name: string, baseingredient: string) {

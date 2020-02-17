@@ -17,6 +17,7 @@ export class PurchaseoptionsPage implements OnInit {
   option: PurchasableItemModel;
   purchase: Purchase;
   cartId: string;
+  ingredientIsOptionView: boolean;
 
   instructions: string;
 
@@ -74,6 +75,7 @@ export class PurchaseoptionsPage implements OnInit {
     if (this.userSvc.user) {
       this.purchSvc.getSellerOptionsById(this.sellerId).subscribe((res) => {
         this.option = res.result.find(a => a.id === this.optionId);
+        this.ingredientIsOptionView = this.option.category?.toLowerCase() === 'beer';
         this.totalPrice = this.option.price;
         this.setTipAmount('10%');
 
@@ -85,6 +87,8 @@ export class PurchaseoptionsPage implements OnInit {
           if (this.categoryGroups.filter(b => b === a.category).length === 0) {
             this.categoryGroups.push(a.category);
           }
+
+          a['iconurl'] = this.commonSvc.getOptionIconUrl(a.ingredient, this.option.name, this.option.baseingredient);
         });
       });
 
@@ -126,6 +130,14 @@ export class PurchaseoptionsPage implements OnInit {
 
   getCategorySelection(category: string) {
     return this.selectedIngredients ? this.selectedIngredients.find(a => a.category === category) : null;
+  }
+
+  clearSelection(ing: Ingredient) {
+    let _ingIdx = this.selectedIngredients.findIndex(a => a.id === ing.id);
+    this.selectedIngredients.splice(_ingIdx, 1);
+    this.allGroupsSelected = this.getUniqueOptionCategories() === this.getUniqueSelectedOptionCategories();
+
+    this.setTotalPrice();
   }
 
   setTipAmount(_tipType: 'NT' | '5%' | '10%' | '15%' | '20%' | 'C') {
