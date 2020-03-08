@@ -10,13 +10,13 @@
   <ng-template [ngIf]="categoryGroups && option">
     <ng-template ngFor [ngForOf]="categoryGroups" let-category>
       <ng-template #categoryTemplate>
-        <ion-item color="primary" class="pl-3 category-header">
-          <ion-label color="tertiary">
-            <h3>Select from {{ ingredientIsOptionView ? 'Option' : category }}:</h3>
+        <ion-item color="light" class="py-2" lines="none">
+          <ion-label color="dark" >
+            Select from {{ ingredientIsOptionView ? 'Option' : category }}:
           </ion-label>
         </ion-item>
         <ng-template ngFor [ngForOf]="option.ingredients | arraybyproperty: [{ pname: 'category', pvalue: category, filter: 'equalsignorecase' }]" let-ing>
-          <ion-item (click)="selectIngredient(ing); setTipAmount(tipType)" lines="none" color="primary" class="pl-6">
+          <ion-item (click)="selectIngredient(ing); setTipAmount(tipType)" lines="none" color="primary" class="ingredient-option">
             <ion-img *ngIf="ing['iconurl']" [src]="ing['iconurl']" alt="ing.ingredient" class="option-logo pr-3"></ion-img>
             <ion-img *ngIf="!ing['iconurl']" src="../../../../assets/imgs/no_image_available.png" alt="ing.ingredient" class="option-logo pr-3"></ion-img>
             <ion-label color="tertiary">
@@ -34,12 +34,12 @@
       <ng-template #categorySelectedTemplate>
         <ion-item lines="none" color="primary">
           <ng-container *ngIf="getCategorySelection(category) as selection">
-            <ion-label color="tertiary" >
-              {{ ingredientIsOptionView ? 'Option' : category }} selection:
+            <ion-label color="tertiary" class="selected-label" >
+              {{ ingredientIsOptionView ? 'Option' : category }}:
             </ion-label>
             <ion-img *ngIf="selection['iconurl']" [src]="selection['iconurl']" alt="selection.ingredient" class="option-logo pr-3"></ion-img>
             <ion-img *ngIf="!selection['iconurl']" src="../../../../assets/imgs/no_image_available.png" alt="ing.ingredient" class="option-logo pr-4"></ion-img>
-            <ion-label color="tertiary" >
+            <ion-label color="tertiary" class="selected-label" >
               {{ selection.ingredient }} ({{ selection.upcharge ? (selection.upcharge | currency) : 'No Charge' }})
             </ion-label>
             <ion-button color="danger" (click)="clearSelection(selection);" class="mr-4 mt-2 ion-float-right">

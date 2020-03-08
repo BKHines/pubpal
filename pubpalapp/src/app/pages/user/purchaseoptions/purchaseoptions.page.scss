@@ -8,14 +8,27 @@
     ion-img.option-logo {
         max-width: 128px;
     }
+
+    ion-item.ingredient-option {
+        padding-left: 1.5rem !important;
+    }
 }
 
 @media (max-width: 767px) {
     ion-img.option-logo {
         max-width: 64px;
     }
+
+    ion-item.ingredient-option {
+        padding-left: 0 !important;
+
+        .item-native {
+            padding-left: 0 !important;
+        }
+    }
 }
 
-ion-item.category-header {
-    border-bottom: 2px solid var(--ion-color-secondary);
+ion-label.selected-label {
+    padding-right: 1rem !important;
+    max-width: fit-content;
 }
