@@ -1,25 +1,47 @@
-<ion-content id="userContent">
-  <ng-template [ngIf]="cartSvc.cart">
-    <ion-card *ngFor="let p of cartSvc.cart.purchases">
-      <ion-card-header>
-        <ion-card-title>
-          {{ p.itemname }}
-        </ion-card-title>
-        <ion-card-subtitle>
-          {{ (p.price + p.tip + (!userSvc.user.waivedfeetokens ? (p.fee * (userSvc.user.feediscount ? ((100 - userSvc.user.feediscount) / 100.0) : 1.0)) : 0)) | currency }}
-        </ion-card-subtitle>
-        <ion-icon name="close-circle" style="float: right" (click)="deletePurchase(p.cartid)"></ion-icon>
-      </ion-card-header>
-      <ion-card-content>
-        <p>{{ p.ingredients.join(', ') }}</p>
-        <p>{{ p['sellername'] }}</p>
-      </ion-card-content>
-    </ion-card>
-    <ion-item>
-      <ion-button type="reset" color="success" fill="solid" (click)="clearCart()">
+<ion-content id="userContent" color="primary">
+  <ng-template [ngIf]="!cartSvc.cart || cartSvc.cart.purchases.length === 0">
+    <ion-text color="tertiary">
+      <h2 class="pl-4">
+        Your cart is empty.<br />{{ userSvc.currentHours > 17 || userSvc.currentHours < 12 ? 'Drink wisely! The night is yours!' : 'Tomorrow is a new day.' }}
+      </h2>
+    </ion-text>
+  </ng-template>
+  <ng-template [ngIf]="cartSvc.cart && cartSvc.cart.purchases.length > 0">
+    <ion-text color="tertiary">
+      <h2 class="pl-4">
+        Cart Total: {{ cartTotal | currency }}
+      </h2>
+    </ion-text>
+    <ion-grid class="ion-no-padding" >
+      <ion-row color="primary">
+        <ion-col *ngFor="let p of cartSvc.cart.purchases" size-xs="12" size-sm="12" size-md="12" size-lg="6" size-xl="3" class="ion-no-padding">
+          <ion-card color="primary" class="ion-no-padding" class="mx-0 my-2">
+            <ion-card-header>
+              <ion-card-title>
+                <ion-label color="tertiary">
+                  {{ p.itemname }}
+                </ion-label>
+                <ion-icon name="close-circle" style="float: right" (click)="deletePurchase(p.cartid)"></ion-icon>
+              </ion-card-title>
+              <ion-card-subtitle>
+                <ion-label color="tertiary">
+                  {{ p['totalprice'] | currency }}
+                </ion-label>
+              </ion-card-subtitle>
+            </ion-card-header>
+            <ion-card-content>
+              <p>{{ p.ingredients.join(', ') }}</p>
+              <p>{{ p['sellername'] }}</p>
+            </ion-card-content>
+          </ion-card>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+    <ion-item color="primary" lines="none">
+      <ion-button type="reset" color="tertiary" fill="outline" (click)="clearCart()">
         Clear Cart
       </ion-button>
-      <ion-button type="submit" color="success" fill="solid" (click)="makePurchases()">
+      <ion-button type="submit" color="tertiary" fill="outline" (click)="makePurchases()">
         Make Purchases
       </ion-button>
     </ion-item>

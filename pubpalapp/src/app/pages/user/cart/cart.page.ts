@@ -11,6 +11,9 @@ import { CommonService } from 'src/app/providers/common.service';
   styleUrls: ['./cart.page.scss'],
 })
 export class CartPage implements OnInit {
+  cartTotal: number;
+  sellerNames: SellerName[];
+
   constructor(
     public userSvc: UserService,
     public cartSvc: CartService,
@@ -19,6 +22,7 @@ export class CartPage implements OnInit {
   ) { }
 
   ngOnInit() {
+    this.userSvc.currentHours = (new Date()).getHours();
   }
 
   ionViewWillEnter() {
@@ -41,10 +45,8 @@ export class CartPage implements OnInit {
       if (this.cartSvc.cart && this.cartSvc.cart.purchases && this.cartSvc.cart.purchases.length > 0) {
         let sellerIds = [...new Set(this.cartSvc.cart.purchases.map(a => a.sellerid))];
         this.userSvc.getSellerNamesByIds(sellerIds).subscribe((sellernameres) => {
-          let _sellernames = sellernameres.result as SellerName[];
-          this.cartSvc.cart.purchases.forEach((a) => {
-            a['sellername'] = _sellernames.filter(b => b.sellerid === a.sellerid)[0].name;
-          });
+          this.sellerNames = sellernameres.result as SellerName[];
+          this.loadPricesAndTotal();
         });
       }
       _cartLoaded$.unsubscribe();
@@ -57,6 +59,7 @@ export class CartPage implements OnInit {
         this.cartSvc.loadCart(this.userSvc.user._id);
 
         let _cartloaded$ = this.cartSvc.cartLoaded.subscribe(() => {
+          this.loadPricesAndTotal();
           if (!this.cartSvc.cart || !this.cartSvc.cart.purchases || this.cartSvc.cart.purchases.length === 0) {
             if (this.cartSvc.cart) {
               this.cartSvc.deleteCart(this.cartSvc.cart._id).subscribe((deleteres) => {
@@ -70,6 +73,20 @@ export class CartPage implements OnInit {
           _cartloaded$.unsubscribe();
         });
       }
+    });
+  }
+
+  loadPricesAndTotal() {
+    this.cartTotal = 0;
+    this.cartSvc.cart.purchases.forEach((a) => {
+      a['sellername'] = this.sellerNames?.filter(b => b.sellerid === a.sellerid)[0].name;
+      let _totalPrice = a.price + a.tip;
+      if (!this.userSvc.user.waivedfeetokens) {
+        let _feeDiscount = this.userSvc.user.feediscount ? ((100 - this.userSvc.user.feediscount) / 100.0) : 1.0;
+        _totalPrice += a.fee * _feeDiscount
+      }
+      a['totalprice'] = _totalPrice;
+      this.cartTotal += _totalPrice;
     });
   }
 

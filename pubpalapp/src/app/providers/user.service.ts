@@ -21,6 +21,8 @@ export class UserService {
     this.userLoaded.emit();
   }
 
+  currentHours: number;
+
   userLoaded: EventEmitter<void> = new EventEmitter<void>();
   loginComplete: EventEmitter<boolean> = new EventEmitter<boolean>();
 
