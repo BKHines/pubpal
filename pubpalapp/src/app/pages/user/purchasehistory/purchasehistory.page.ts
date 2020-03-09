@@ -43,6 +43,7 @@ export class PurchasehistoryPage implements OnInit {
         this.inactivepurchases = [];
         res.result.forEach((p) => {
           if (/cancelled|pickedup/i.test(p.currentstatus)) {
+            p['lastactivitydate'] = p.purchasehistory[p.purchasehistory.length - 1].statusdate;
             this.inactivepurchases.push(p);
           } else {
             this.activepurchases.push(p);
@@ -50,6 +51,11 @@ export class PurchasehistoryPage implements OnInit {
         });
       });
     }
+  }
+
+  changeTab(ev: any) {
+    this.showinactivepurchases = ev.detail.value === 'inactive';
+    // console.log(ev);
   }
 
   changeStatus(purchase: Purchase, newstatus: 'cancelled' | 'pickedup') {

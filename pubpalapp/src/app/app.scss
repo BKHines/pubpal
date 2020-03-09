@@ -200,3 +200,14 @@ ion-chip {
         margin-right: 0 !important;
     }
 }
+
+.pp-capitalize {
+    text-transform: capitalize;
+}
+
+@media (max-width: 768px) {
+    .header-message {
+        font-size: 1.3rem;
+    }
+}
+

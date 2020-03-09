@@ -1,59 +1,149 @@
-<ion-content id="userContent">
-  <ion-segment>
-    <ion-segment-button (ionSelect)="showinactivepurchases = false;">
+<ion-content id="userContent" color="primary">
+  <ion-segment value="active" (ionChange)="changeTab($event)">
+    <ion-segment-button value="active" class="pb-2">
       <ion-label>Active</ion-label>
       <ion-badge *ngIf="activepurchases && activepurchases.length > 0">{{ activepurchases.length }}</ion-badge>
     </ion-segment-button>
-    <ion-segment-button (ionSelect)="showinactivepurchases = true;">
+    <ion-segment-button value="inactive" class="pb-2">
       <ion-label>Inactive</ion-label>
       <ion-badge *ngIf="inactivepurchases && inactivepurchases.length > 0">{{ inactivepurchases.length }}</ion-badge>
     </ion-segment-button>
   </ion-segment>
   <ng-template #tactivepurchases>
-    <ng-template ngFor [ngForOf]="activepurchases" let-p>
-      <ion-grid *ngIf="p">
-        <ion-row>
-          <ion-col size="6">{{ p.itemname }}</ion-col>
-          <ion-col>{{ p.currentstatus }}</ion-col>
-          <ion-col>{{ p.price | currency }}</ion-col>
-        </ion-row>
-        <ion-row class="pl-5">
-          <ion-col *ngFor="let i of p.ingredients" class="p-0">{{ i }}</ion-col>
-        </ion-row>
-        <ion-row>{{ p.instructions }}</ion-row>
-        <ion-segment>
-          <ion-segment-button (ionSelect)="showCancelComments = true;">
-            <ion-label>Cancel</ion-label>
-          </ion-segment-button>
-          <ion-segment-button (ionSelect)="changeStatus(p, 'pickedup')">
-            <ion-label>Picked Up</ion-label>
-          </ion-segment-button>
-        </ion-segment>
-        <ion-item *ngIf="showCancelComments">
-          <ion-label position="floating">Cancel Comments</ion-label>
-          <ion-textarea id="ccommentsentry" name="ccommentsentry" rows="2" [(ngModel)]="cancelcomments"></ion-textarea>
-          <ion-button slot="end" color="danger" (click)="changeStatus(p, 'cancelled')"
-            [disabled]="!cancelcomments || cancelcomments.length < 5">
-            <ion-icon slot="icon-only" name="close"></ion-icon>
-          </ion-button>
-        </ion-item>
-      </ion-grid>
-    </ng-template>
+    <ion-grid class="ion-no-padding">
+      <ion-row>
+        <ng-template ngFor [ngForOf]="activepurchases" let-p>
+          <ion-col size-xs="12" size-sm="12" size-md="6" size-lg="3" size-xl="3">
+            <ion-card color="primary" class="mx-0 my-2">
+              <ion-card-content>
+                <ion-grid *ngIf="p">
+                  <ion-row color="primary">
+                    <ion-col size="6">
+                      <ion-label color="tertiary">
+                        {{ p.itemname }}
+                      </ion-label>
+                    </ion-col>
+                    <ion-col>
+                      <ion-label color="tertiary">
+                        {{ p.price | currency }}
+                      </ion-label>
+                    </ion-col>
+                  </ion-row>
+                  <ion-row color="primary" class="pl-5">
+                    <ion-col *ngFor="let i of p.ingredients" class="p-0">
+                      <ion-label color="tertiary">
+                        {{ i }}
+                      </ion-label>
+                    </ion-col>
+                  </ion-row>
+                  <ion-row color="primary">
+                    <ion-col>
+                      <ion-label color="tertiary" *ngIf="p.instructions">
+                        {{ p.instructions }}
+                      </ion-label>
+                      <ion-label color="tertiary" *ngIf="!p.instructions">
+                        &nbsp;
+                      </ion-label>
+                    </ion-col>
+                  </ion-row>
+                  <ion-row>
+                    <ion-col>
+                      <ion-item color="primary" lines="none">
+                        <ion-label color="tertiary" class="pp-capitalize">
+                          {{ p.currentstatus }}
+                        </ion-label>
+                      </ion-item>
+                    </ion-col>
+                    <ion-col>
+                      <ion-item color="primary" lines="none">
+                        <ion-button type="reset" color="tertiary" fill="outline" (click)="p['showcancelcomments'] = true;">
+                          Cancel Order
+                        </ion-button>
+                      </ion-item>
+                    </ion-col>
+                    <ion-col>
+                      <ion-item color="primary" lines="none">
+                        <ion-button type="submit" color="tertiary" fill="outline" (click)="changeStatus(p, 'pickedup')" [disabled]="p.status !== 'ready'">
+                          Picked Up
+                        </ion-button>
+                      </ion-item>
+                    </ion-col>
+                  </ion-row>
+                  <ion-item *ngIf="p['showcancelcomments']" color="primary" lines="none">
+                    <ion-label position="floating" color="tertiary">Cancel Comments</ion-label>
+                    <ion-textarea id="ccommentsentry" name="ccommentsentry" rows="2" [(ngModel)]="cancelcomments"></ion-textarea>
+                    <ion-button slot="end" color="danger" (click)="changeStatus(p, 'cancelled')" [disabled]="!cancelcomments || cancelcomments.length < 5">
+                      <ion-icon slot="icon-only" name="close"></ion-icon>
+                    </ion-button>
+                  </ion-item>
+                </ion-grid>
+              </ion-card-content>
+            </ion-card>
+          </ion-col>
+        </ng-template>
+      </ion-row>
+    </ion-grid>
   </ng-template>
   <ng-template #tinactivepurchases>
-    <ng-template ngFor [ngForOf]="inactivepurchases" let-p>
-      <ion-grid *ngIf="p">
-        <ion-row>
-          <ion-col size="6">{{ p.itemname }}</ion-col>
-          <ion-col>{{ p.currentstatus }}</ion-col>
-          <ion-col>{{ p.price | currency }}</ion-col>
-        </ion-row>
-        <ion-row class="pl-5">
-          <ion-col *ngFor="let i of p.ingredients" class="p-0">{{ i }}</ion-col>
-        </ion-row>
-        <ion-row>{{ p.instructions }}</ion-row>
-      </ion-grid>
-    </ng-template>
+    <ion-grid class="ion-no-padding">
+      <ion-row>
+        <ng-template ngFor [ngForOf]="inactivepurchases" let-p>
+          <ion-col size-xs="12" size-sm="12" size-md="6" size-lg="3" size-xl="3">
+            <ion-card color="primary" class="mx-0 my-2">
+              <ion-card-content>
+                <ion-grid *ngIf="p">
+                  <ion-row color="primary">
+                    <ion-col size="6">
+                      <ion-label color="tertiary">
+                        {{ p.itemname }}
+                      </ion-label>
+                    </ion-col>
+                    <ion-col>
+                      <ion-label color="tertiary">
+                        {{ p.price | currency }}
+                      </ion-label>
+                    </ion-col>
+                  </ion-row>
+                  <ion-row color="primary" class="pl-5">
+                    <ion-col *ngFor="let i of p.ingredients" class="p-0">
+                      <ion-label color="tertiary">
+                        {{ i }}
+                      </ion-label>
+                    </ion-col>
+                  </ion-row>
+                  <ion-row color="primary">
+                    <ion-col>
+                      <ion-label color="tertiary" *ngIf="p.instructions">
+                        {{ p.instructions }}
+                      </ion-label>
+                      <ion-label color="tertiary" *ngIf="!p.instructions">
+                        &nbsp;
+                      </ion-label>
+                    </ion-col>
+                  </ion-row>
+                  <ion-row>
+                    <ion-col>
+                      <ion-item color="primary" lines="none">
+                        <ion-label color="tertiary" class="pp-capitalize">
+                          {{ p.currentstatus }}
+                        </ion-label>
+                      </ion-item>
+                    </ion-col>
+                    <ion-col>
+                      <ion-item color="primary" lines="none">
+                        <ion-label color="tertiary" class="pp-capitalize" *ngIf="p['lastactivitydate']">
+                          {{ p['lastactivitydate'] | date: 'MM.d.yyyy h:mm a' }}
+                        </ion-label>
+                      </ion-item>
+                    </ion-col>
+                  </ion-row>
+                </ion-grid>
+              </ion-card-content>
+            </ion-card>
+          </ion-col>
+        </ng-template>
+      </ion-row>
+    </ion-grid>
   </ng-template>
   <ng-container [ngTemplateOutlet]="showinactivepurchases ? tinactivepurchases : tactivepurchases"></ng-container>
 </ion-content>
