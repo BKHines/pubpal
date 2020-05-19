@@ -18,8 +18,16 @@ export class SellerPage implements OnInit {
   }
 
   ionViewWillEnter() {
-    this.commonSvc.headerMessage = `${this.sellerSvc.seller ? 'Welcome back ' + this.sellerSvc.seller.place.name + '!' : ''}`;
-    this.commonSvc.menuoptionsType = 'seller';
+    this.loadData();
+    this.sellerSvc.sellerLoaded.subscribe(() => {
+      this.loadData();
+    });
   }
 
+  loadData() {
+    if (this.sellerSvc.seller) {
+      this.commonSvc.headerMessage = `${this.sellerSvc.seller ? 'Welcome back ' + this.sellerSvc.seller.place.name + '!' : ''}`;
+      this.commonSvc.menuoptionsType = 'seller';
+    }
+  }
 }

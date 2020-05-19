@@ -13,6 +13,7 @@ import { CommonService } from 'src/app/providers/common.service';
 })
 export class ItemlistPage implements OnInit {
   categoryTypes: string[];
+  filtertext: string;
 
   constructor(
     private alertCtrl: AlertController,
@@ -28,6 +29,13 @@ export class ItemlistPage implements OnInit {
     this.categoryTypes = CONSTANTS.categorytypes;
     this.commonSvc.headerMessage = 'Your Items';
     this.commonSvc.menuoptionsType = 'seller';
+
+    if (this.sellerSvc.seller.items) {
+      this.sellerSvc.seller.items.forEach((si) => {
+        si.iconurl = this.commonSvc.getDrinkIconUrl(si.name, si.baseingredient);
+      });
+
+    }
   }
 
   goToItemEntry(piId?: string) {
