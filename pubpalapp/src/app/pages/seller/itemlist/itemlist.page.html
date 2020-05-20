@@ -50,14 +50,14 @@
                     </ion-grid>
                     <ion-grid class="ion-hide-md-down">
                       <ion-row
-                        *ngFor="let ing of po.ingredients | arraybyproperty: [{ pname: 'category', pvalue: 'alcohol', filter: 'equalsignorecase' }] | arraylimit: 3">
+                        *ngFor="let ing of po.ingredients | arraybyproperty: [{ pname: 'category', pvalue: 'modifier', filter: 'equalsignorecase' }] | arraylimit: 3">
                         <ion-col>
                           <ion-label color="tertiary">
                             {{ ing.ingredient }}
                           </ion-label>
                         </ion-col>
                       </ion-row>
-                      <ion-row *ngIf="(po.ingredients | arraybyproperty: [{ pname: 'category', pvalue: 'alcohol', filter: 'equalsignorecase' }]).length > 3">
+                      <ion-row *ngIf="(po.ingredients | arraybyproperty: [{ pname: 'category', pvalue: 'modifier', filter: 'equalsignorecase' }]).length > 3">
                         <ion-col>
                           <ion-label color="tertiary">
                             ...
