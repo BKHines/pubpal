@@ -1,0 +1,25 @@
+ion-card {
+    border: none !important;
+    --webkit-box-shadow: none !important;
+    box-shadow: none !important;
+    margin: auto !important;
+}
+
+ion-item {
+    border: none !important;
+    --webkit-box-shadow: none !important;
+    box-shadow: none !important;
+    background-color: white !important;
+}
+
+@media (min-width: 1024px) {
+    ion-card {
+        max-width: 768px;
+    }
+}
+
+@media (max-width: 1023px) {
+    ion-card {
+        max-width: 95%;
+    }
+}

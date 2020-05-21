@@ -194,6 +194,23 @@ ion-chip {
     }
 }
 
+ion-label.lbl-sm {
+    font-size: 0.9rem !important;
+}
+
+ion-label.lbl-md {
+    font-size: 1.0rem !important;
+}
+
+ion-label.lbl-lg {
+    font-size: 1.1rem !important;
+}
+
+ion-col.header-container {
+    padding-left: 10px;
+    border-bottom: 3px solid var(--ion-color-medium);
+}
+
 @media (max-width: 768px) {
     .padding-card {
         margin-left: 0 !important;
@@ -210,4 +227,3 @@ ion-chip {
         font-size: 1.3rem;
     }
 }
-
