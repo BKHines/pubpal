@@ -22,8 +22,8 @@
     <ion-row>
       <ng-template ngFor [ngForOf]="sellers" let-seller>
         <ion-col size-xl="4" size-lg="6" size-md="6" size-sm="12" size-xs="12">
-          <ion-card color="primary" class="padding-card">
-            <ion-card-header class="ion-no-padding centered">
+          <ion-card color="primary" class="padding-card" >
+            <ion-card-header class="ion-no-padding centered" (click)="openSellerDetails(seller)">
               <ng-template #favoriteSeller>
                 <ion-button color="medium" (click)="toggleFavorite(seller._id)" class="mr-4 mt-2 ion-float-right">
                   <ion-icon name="star" slot="icon-only"></ion-icon>
@@ -43,7 +43,7 @@
                 </ion-row>
               </ion-grid>
               <ng-template #noImage>
-                <img src="../../../../assets/imgs/no_image_available.png" class="logo-list logo-list-square" [attr.alt]="seller.place.name" (click)="openSellerDetails(seller)" />
+                <img src="../../../../assets/imgs/no_image_available.png" class="logo-list logo-list-square" [attr.alt]="seller.place.name" />
               </ng-template>
               <ng-template #customImage>
                 <img [src]="seller.place.imageurl" class="logo-list" [attr.alt]="seller.place.name" (click)="openSellerDetails(seller)" />
