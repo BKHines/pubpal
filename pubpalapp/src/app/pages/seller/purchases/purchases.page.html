@@ -19,7 +19,7 @@
         </ion-col>
       </ion-row>
       <ion-row class="pl-3" [ngClass]="{ 'alternating-row': i % 2 === 0, 'alternating-row-alt': i % 2 !== 0 }">
-        <ion-col size="9" class="p-0">
+        <ion-col size-md="9" size-sm="8" class="p-0">
           <ion-list class="p-0">
             <ion-item lines="none" *ngIf="ap.instructions">
               <ion-label><strong>Special Instructions:</strong></ion-label><br />
@@ -35,26 +35,15 @@
           </ion-list>
           &nbsp;
         </ion-col>
-        <ion-col size="3" class="p-0">
+        <ion-col size-md="3" size-sm="4" class="p-0">
           <ion-item lines="none" >
+            <!-- (click)="!ap['showcancelcomments'] ? ap['showcancelcomments'] = true : cancelOrder(ap._id, ap['cancelcomments'])" -->
             <ion-button *ngIf="['ordered', 'accepted', 'inprogress'].indexOf(ap['nextstatus']) > -1" slot="end"
               [disabled]="ap['showcancelcomments'] && (!ap['cancelcomments'] || ap['cancelcomments'].length < 3)"
-              (click)="!ap['showcancelcomments'] ? ap['showcancelcomments'] = true : cancelOrder(ap._id, ap['cancelcomments'])">
-              Cancel Order
+              (click)="openCancelModal(ap)">
+              Cancel
             </ion-button>
           </ion-item>
-          <ng-template [ngIf]="ap['showcancelcomments']">
-            <ion-item lines="none" >
-              <ion-label position="floating">Reason for Cancelling:</ion-label>
-              <ion-textarea id="ccommentsentry" name="ccommentsentry" rows="2" [(ngModel)]="ap['cancelcomments']">
-              </ion-textarea>
-            </ion-item>
-            <ion-item lines="none" >
-              <ion-button slot="end" (click)="ap['showcancelcomments'] = false; ap['cancelcomments'] = '';">
-                Keep Order
-              </ion-button>
-            </ion-item>
-          </ng-template>
         </ion-col>
       </ion-row>
     </ng-template>

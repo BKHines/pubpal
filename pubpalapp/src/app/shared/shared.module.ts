@@ -7,6 +7,7 @@ import { ArraymaxdisplayPipe } from './pipes/arraymaxdisplay.pipe';
 import { CurrencyformatPipe } from './pipes/currencyformat.pipe';
 import { PpButtonComponent } from './components/pp-button/pp-button.component';
 import { ArraylimitPipe } from './pipes/arraylimit.pipe';
+import { CancelorderPage } from './modals/cancelorder/cancelorder.page';
 
 @NgModule({
     declarations: [
@@ -14,9 +15,12 @@ import { ArraylimitPipe } from './pipes/arraylimit.pipe';
         ArraymaxdisplayPipe,
         ArraylimitPipe,
         CurrencyformatPipe,
-        PpButtonComponent
+        PpButtonComponent,
+        CancelorderPage
     ],
-    entryComponents: [],
+    entryComponents: [
+        CancelorderPage
+    ],
     imports: [
         CommonModule,
         RouterModule,

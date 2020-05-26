@@ -3,6 +3,8 @@ import { PurchaseService } from 'src/app/providers/purchase.service';
 import { Purchase, ChangePurchaseStatusRequest } from 'src/app/shared/models';
 import { SellerService } from 'src/app/providers/seller.service';
 import { CommonService } from 'src/app/providers/common.service';
+import { ModalController } from '@ionic/angular';
+import { CancelorderPage } from 'src/app/shared/modals/cancelorder/cancelorder.page';
 
 @Component({
   selector: 'app-purchases',
@@ -21,7 +23,8 @@ export class PurchasesPage implements OnInit {
   constructor(
     private sellerSvc: SellerService,
     private common: CommonService,
-    private purchaseSvc: PurchaseService
+    private purchaseSvc: PurchaseService,
+    private modalCtrl: ModalController
   ) { }
 
   ngOnInit() {
@@ -60,20 +63,20 @@ export class PurchasesPage implements OnInit {
     });
   }
 
-  resetCancel() {
-    this.itemname = '';
-    this.customername = '';
-    this.cancelcomments = '';
-  }
-
-  cancelOrder(_purchaseId: string, comments: string) {
-    const cancelPurchaseRequest: ChangePurchaseStatusRequest = {
-      purchaseid: _purchaseId,
-      status: 'cancelled',
-      message: comments
-    };
-    this.purchaseSvc.cancelPurchaseBySeller(this.sellerSvc.seller._id, cancelPurchaseRequest).subscribe((res) => {
+  async openCancelModal(purchase: Purchase) {
+    const modal = await this.modalCtrl.create({
+      component: CancelorderPage,
+      componentProps: {
+        purchaseId: purchase._id,
+        customername: purchase.customername,
+        itemname: purchase.category && purchase.category.toLowerCase() === 'beer' ? purchase.ingredients[0] : purchase.itemname,
+        price: purchase.price,
+        currentstatus: purchase.currentstatus
+      }
+    });
+    modal.onDidDismiss().then(() => {
       this.loadData();
     });
+    return await modal.present();
   }
 }

@@ -1,0 +1,49 @@
+<ion-header color="primary">
+  <ion-toolbar>
+    <ion-title>Cancel Order</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content color="primary">
+  <ion-grid class="pt-3">
+    <ion-row>
+      <ion-col class="p-0">
+        <ion-item lines="none">
+          <ion-label color="dark">
+            Cancel Order for {{ customername }}?
+          </ion-label>
+        </ion-item>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col class="p-0">
+        <ion-item lines="none">
+          <ion-label color="dark">
+            {{ itemname }} - ({{ price | currency }})
+          </ion-label>
+        </ion-item>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col class="p-0">
+        <ion-item lines="none">
+          <ion-label color="dark">
+            Current Status: {{ currentstatus }}
+          </ion-label>
+        </ion-item>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col class="p-0">
+        <ion-item>
+          <ion-button slot="start" (click)="cancelOrder()">
+            Yep, Cancel Order
+          </ion-button>
+          <ion-button slot="end" (click)="dismiss()">
+            No, Keep Order
+          </ion-button>
+        </ion-item>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>
