@@ -196,6 +196,7 @@ export class PurchaseoptionsPage implements OnInit {
       feewaived: this.userSvc.user.waivedfeetokens > 0,
       tip: +(this.tipAmount.toFixed(2)),
       instructions: this.instructions ? this.instructions : '',
+      category: this.option.category,
       currentstatus: 'ordered',
       purchasehistory: [{
         purchasestatus: 'ordered',
@@ -223,6 +224,7 @@ export class PurchaseoptionsPage implements OnInit {
         feewaived: this.userSvc.user.waivedfeetokens > 0,
         tip: +(this.tipAmount.toFixed(2)),
         instructions: this.instructions ? this.instructions : '',
+        category: this.option.category,
         currentstatus: 'ordered',
         purchasehistory: [{
           purchasestatus: 'ordered',
@@ -245,6 +247,7 @@ export class PurchaseoptionsPage implements OnInit {
         feewaived: this.userSvc.user.waivedfeetokens > 0,
         tip: +(this.tipAmount.toFixed(2)),
         instructions: this.instructions ? this.instructions : '',
+        category: this.option.category,
         currentstatus: 'ordered',
         purchasehistory: [{
           purchasestatus: 'ordered',

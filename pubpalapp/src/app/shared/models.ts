@@ -129,6 +129,7 @@ export interface Purchase {
     fee: number;
     feewaived: boolean;
     tip: number;
+    category?: string;
     instructions?: string;
     currentstatus: StatusType;
     purchasehistory: PurchaseHistory[];

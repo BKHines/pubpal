@@ -34,6 +34,7 @@ namespace pubpalapi.Models
         public bool feewaived { get; set; }
         [Required]
         public decimal tip { get; set; }
+        public string category { get; set; }
         public string instructions { get; set; }
         [BsonRepresentation(BsonType.String)]
         [JsonConverter(typeof(JsonStringEnumConverter))]
