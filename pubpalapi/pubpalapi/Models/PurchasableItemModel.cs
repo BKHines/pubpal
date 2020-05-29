@@ -19,6 +19,7 @@ namespace pubpalapi.Models
         
         public string category { get; set; }
         public IngredientModel[] ingredients { get; set; }
+        public bool unavailable { get; set; }
     }
 
     public class IngredientModel
@@ -33,5 +34,6 @@ namespace pubpalapi.Models
         public string category { get; set; }
 
         public string description { get; set; }
+        public bool unavailable { get; set; }
     }
 }

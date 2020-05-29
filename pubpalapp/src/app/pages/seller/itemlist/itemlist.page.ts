@@ -46,6 +46,34 @@ export class ItemlistPage implements OnInit {
     }
   }
 
+  showUnavailablePopup(item: PurchasableItemModel) {
+    this.alertCtrl.create({
+      header: 'Is Item Unavailable?',
+      message: `Are you sure you want to mark ${item.name} ${item.unavailable ? 'available' : 'unavailable'}?`,
+      buttons: [
+        {
+          text: 'Nevermind',
+          role: 'cancel'
+        },
+        {
+          text: 'Yep',
+          handler: () => {
+            item.unavailable = !item.unavailable;
+            this.sellerSvc.updatePurchasableItem(this.sellerSvc.seller._id, item).subscribe((res) => {
+              if (res.result) {
+                this.sellerSvc.seller.items.find(a => a.id === item.id).unavailable = item.unavailable;
+              }
+            });
+          }
+        }
+      ]
+    }).then((da) => {
+      da.present();
+    });
+
+  }
+
+
   showDeleteConfirmationModal(item: PurchasableItemModel) {
     this.alertCtrl.create({
       header: 'Delete Item',

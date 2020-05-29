@@ -60,6 +60,7 @@ export interface Ingredient {
     description?: string;
     upcharge: number;
     category: string;
+    unavailable?: boolean;
 }
 
 export interface PurchasableItemModel {
@@ -70,6 +71,7 @@ export interface PurchasableItemModel {
     baseingredient: string;
     category?: string;
     ingredients?: Ingredient[];
+    unavailable?: boolean;
     iconurl?: string;
 }
 

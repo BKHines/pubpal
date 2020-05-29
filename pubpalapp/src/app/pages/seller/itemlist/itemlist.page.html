@@ -19,16 +19,19 @@
         <ion-col size-lg="6" size="12">
           <ion-card color="primary" class="mx-0 mt-0">
             <ion-card-content class="ion-no-padding">
-              <ion-grid (click)="goToItemEntry(po.id)" lines="none" color="primary">
+              <ion-grid lines="none" color="primary">
                 <ion-row>
-                  <ion-col size="2">
+                  <ion-col size="2" (click)="goToItemEntry(po.id)">
                     <ion-img [src]="po.iconurl" [attr.alt]="po.baseingredient ? po.baseingredient : po.name" class="drink-icon"></ion-img>
                   </ion-col>
                   <ion-col size="6" class="pl-2">
-                    <ion-label color="tertiary">
+                    <ion-label color="tertiary" (click)="goToItemEntry(po.id)">
                       {{ po.name }}<br>
-                      <span class="ion-hide-md-down">Starting at </span>{{ po.price | currency }}<span class="ion-hide-lg-up">+</span>
+                      <span class="ion-hide-md-down">Starting at </span>{{ po.price | currency }}<span class="ion-hide-lg-up">+</span><br>
                     </ion-label>    
+                    <ion-button type="button" color="tertiary" fill="outline" class="ml-2" (click)="showUnavailablePopup(po)" >
+                      Is {{ po.unavailable ? 'Available' : 'Unavailable'}}?
+                    </ion-button>                
                   </ion-col>
                   <ion-col size="4">
                     <ion-grid class="ion-hide-lg-up">
