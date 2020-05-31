@@ -204,6 +204,34 @@ export class ItementryPage implements OnInit {
     this.setIndices();
   }
 
+  showUnavailablePopup(item: PurchasableItemModel, ing: Ingredient) {
+    this.alertCtrl.create({
+      header: 'Is Ingredient Unavailable?',
+      message: `Are you sure you want to mark ${ing.ingredient} ${ing.unavailable ? 'available' : 'unavailable'} for ${item.name}?`,
+      buttons: [
+        {
+          text: 'Nevermind',
+          role: 'cancel'
+        },
+        {
+          text: 'Yep',
+          handler: () => {
+            let _ingUnavailable = item.ingredients.find(a => a.id === ing.id).unavailable;
+            item.ingredients.find(a => a.id === ing.id).unavailable = !_ingUnavailable;
+            this.sellerSvc.updatePurchasableItem(this.sellerSvc.seller._id, item).subscribe((res) => {
+              if (!res.result) {
+                item.ingredients.find(a => a.id === ing.id).unavailable = _ingUnavailable;
+              }
+            });
+          }
+        }
+      ]
+    }).then((da) => {
+      da.present();
+    });
+
+  }
+
   setIndices() {
     this.newPI.ingredients.forEach((i, idx) => {
       i.id = idx;
