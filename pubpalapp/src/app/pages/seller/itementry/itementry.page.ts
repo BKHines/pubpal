@@ -218,11 +218,6 @@ export class ItementryPage implements OnInit {
           handler: () => {
             let _ingUnavailable = item.ingredients.find(a => a.id === ing.id).unavailable;
             item.ingredients.find(a => a.id === ing.id).unavailable = !_ingUnavailable;
-            this.sellerSvc.updatePurchasableItem(this.sellerSvc.seller._id, item).subscribe((res) => {
-              if (!res.result) {
-                item.ingredients.find(a => a.id === ing.id).unavailable = _ingUnavailable;
-              }
-            });
           }
         }
       ]
