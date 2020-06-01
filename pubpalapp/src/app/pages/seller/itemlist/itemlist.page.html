@@ -19,7 +19,7 @@
         <ion-col size-lg="6" size="12">
           <ion-card color="primary" class="mx-0 mt-0">
             <ion-card-content class="ion-no-padding">
-              <ion-grid lines="none" color="primary" [class.unavailable]="po.unavailable" >
+              <ion-grid lines="none" color="primary" [class.unavailable-itemlist]="po.unavailable" >
                 <ion-row>
                   <ion-col size="2" class="hand-cursor" (click)="goToItemEntry(po.id)">
                     <ion-img [src]="po.iconurl" [attr.alt]="po.baseingredient ? po.baseingredient : po.name" class="drink-icon"></ion-img>
