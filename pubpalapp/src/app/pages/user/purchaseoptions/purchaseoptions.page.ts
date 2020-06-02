@@ -75,6 +75,7 @@ export class PurchaseoptionsPage implements OnInit {
     if (this.userSvc.user) {
       this.purchSvc.getSellerOptionsById(this.sellerId).subscribe((res) => {
         this.option = res.result.find(a => a.id === this.optionId);
+        this.option.ingredients = this.option.ingredients.filter(o => !o.unavailable);
         this.ingredientIsOptionView = this.option.category?.toLowerCase() === 'beer';
         this.totalPrice = this.option.price;
         this.setTipAmount('10%');

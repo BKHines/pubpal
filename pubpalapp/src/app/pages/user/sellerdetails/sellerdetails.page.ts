@@ -46,10 +46,12 @@ export class SellerdetailsPage implements OnInit {
       this.commonSvc.headerMessage = 'Menu';
 
       this.purchSvc.getSellerOptionsById(this.sellerId).subscribe((res) => {
-        this.purchaseOptions = res.result;
+        this.purchaseOptions = res.result.filter(po => !po.unavailable);
 
         this.purchaseOptions.forEach((po) => {
           po.iconurl = this.commonSvc.getDrinkIconUrl(po.name, po.baseingredient);
+
+          po.ingredients = po.ingredients.filter(ing => !ing.unavailable);
         });
       });
     }
