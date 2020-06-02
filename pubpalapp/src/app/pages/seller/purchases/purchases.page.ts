@@ -3,7 +3,7 @@ import { PurchaseService } from 'src/app/providers/purchase.service';
 import { Purchase, ChangePurchaseStatusRequest } from 'src/app/shared/models';
 import { SellerService } from 'src/app/providers/seller.service';
 import { CommonService } from 'src/app/providers/common.service';
-import { ModalController } from '@ionic/angular';
+import { ModalController, AlertController } from '@ionic/angular';
 import { CancelorderPage } from 'src/app/shared/modals/cancelorder/cancelorder.page';
 
 @Component({
@@ -24,6 +24,7 @@ export class PurchasesPage implements OnInit {
     private sellerSvc: SellerService,
     private common: CommonService,
     private purchaseSvc: PurchaseService,
+    private alertCtrl: AlertController,
     private modalCtrl: ModalController
   ) { }
 
@@ -54,12 +55,31 @@ export class PurchasesPage implements OnInit {
   }
 
   updateToNextStatus(_purchase: Purchase) {
-    const changeStatusReq: ChangePurchaseStatusRequest = {
-      status: _purchase['nextstatus'],
-      purchaseid: _purchase._id
-    };
-    this.purchaseSvc.changePurchaseStatusBySeller(this.sellerSvc.seller._id, changeStatusReq).subscribe((res) => {
-      this.loadData();
+    let _itemname = /beer/i.test(_purchase.category) ? _purchase.ingredients[0] : _purchase.itemname;
+    let _nextStatus = this.common.getNextStatusText(_purchase.currentstatus);
+    this.alertCtrl.create({
+      header: 'Update Order Status?',
+      message: `Are you sure you want to update the status of the order of ${_itemname} for ${_purchase.customername} to ${_nextStatus}?`,
+      buttons: [
+        {
+          text: 'Nevermind',
+          role: 'cancel'
+        },
+        {
+          text: 'Yep',
+          handler: () => {
+            const changeStatusReq: ChangePurchaseStatusRequest = {
+              status: _purchase['nextstatus'],
+              purchaseid: _purchase._id
+            };
+            this.purchaseSvc.changePurchaseStatusBySeller(this.sellerSvc.seller._id, changeStatusReq).subscribe((res) => {
+              this.loadData();
+            });
+          }
+        }
+      ]
+    }).then((da) => {
+      da.present();
     });
   }
 
