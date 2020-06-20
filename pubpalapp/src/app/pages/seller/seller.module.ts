@@ -14,11 +14,13 @@ import { PurchasesPage } from './purchases/purchases.page';
 import { ItementryPage } from './itementry/itementry.page';
 import { ItemlistPage } from './itemlist/itemlist.page';
 import { SharedModule } from 'src/app/shared/shared.module';
+import { PurchasehistoryPage } from '../user/purchasehistory/purchasehistory.page';
 
 const routes: Routes = [
   { path: '', component: SellerPage },
   { path: 'registration', component: RegistrationPage },
   { path: 'purchases', component: PurchasesPage },
+  { path: 'purchasehistory', component: PurchasehistoryPage },
   { path: 'items', component: ItemlistPage },
   { path: 'items/newentry', component: ItementryPage },
   { path: 'items/entry/:id', component: ItementryPage },

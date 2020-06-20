@@ -174,6 +174,11 @@ export class AppComponent implements OnInit {
     this.router.navigateByUrl('seller/items');
   }
 
+  goSellerPurchaseHistory() {
+    this.menuCtrl.close();
+    this.router.navigateByUrl('seller/purchasehistory');
+  }
+
   logout() {
     this.menuCtrl.close();
     if (this.commonSvc.menuoptionsType === 'user') {
