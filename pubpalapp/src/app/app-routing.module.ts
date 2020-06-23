@@ -5,11 +5,7 @@ const routes: Routes = [
   { path: '', redirectTo: 'home', pathMatch: 'full' },
   { path: 'home', loadChildren: './home/home.module#HomePageModule' },
   { path: 'user', loadChildren: './pages/user/user.module#UserPageModule' },
-  { path: 'seller', loadChildren: './pages/seller/seller.module#SellerPageModule' },  {
-    path: 'purchasehistory',
-    loadChildren: () => import('./pages/seller/purchasehistory/purchasehistory.module').then( m => m.PurchasehistoryPageModule)
-  }
-
+  { path: 'seller', loadChildren: './pages/seller/seller.module#SellerPageModule' }
 ];
 
 @NgModule({

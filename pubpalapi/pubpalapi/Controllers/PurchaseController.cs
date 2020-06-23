@@ -226,6 +226,26 @@ namespace pubpalapi.Controllers
             }
         }
 
+        [HttpGet("GetPurchasesBySellerIdAndDate", Name = "GetPurchasesBySellerIdAndDate")]
+        [Authorize(AuthenticationSchemes = Constants.SchemesNamesSellerConst)]
+        public IActionResult GetPurchasesBySellerIdAndDate(string personid, string activitydate)
+        {
+            try
+            {
+                var repo = new PurchaseRepository(dbName, purchaseStoreName);
+                var purchases = repo.GetPurchasesBySellerIdAndActivityDate(personid, activitydate);
+                if (purchases == null)
+                {
+                    return NotFound();
+                }
+                return Ok(purchases);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex);
+            }
+        }
+
         [HttpGet("GetPurchaseForSellerById", Name = "GetPurchaseForSellerById")]
         [Authorize(AuthenticationSchemes = Constants.SchemesNamesSellerConst)]
         public IActionResult GetPurchaseForSellerById(string id)

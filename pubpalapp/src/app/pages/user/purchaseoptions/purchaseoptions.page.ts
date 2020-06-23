@@ -201,7 +201,7 @@ export class PurchaseoptionsPage implements OnInit {
       currentstatus: 'ordered',
       purchasehistory: [{
         purchasestatus: 'ordered',
-        statusdate: `${new Date().toLocaleDateString()} ${new Date().toLocaleTimeString()}`
+        statusdate: `${this.commonSvc.toISOLocal(new Date())}`
       }]
     };
     this.purchSvc.createPurchase(this.purchase).subscribe((res) => {
@@ -229,7 +229,7 @@ export class PurchaseoptionsPage implements OnInit {
         currentstatus: 'ordered',
         purchasehistory: [{
           purchasestatus: 'ordered',
-          statusdate: `${new Date().toLocaleDateString()} ${new Date().toLocaleTimeString()}`
+          statusdate: `${this.commonSvc.toISOLocal(new Date())}`
         }]
       };
       this.cartSvc.addPurchaseToCart(this.cartId, _purchase).subscribe((res) => {
@@ -252,7 +252,7 @@ export class PurchaseoptionsPage implements OnInit {
         currentstatus: 'ordered',
         purchasehistory: [{
           purchasestatus: 'ordered',
-          statusdate: `${new Date().toLocaleDateString()} ${new Date().toLocaleTimeString()}`
+          statusdate: `${this.commonSvc.toISOLocal(new Date())}`
         }]
       };
       let _cart: Cart = {

@@ -25,22 +25,22 @@ export class PurchaseService {
         if (this.purchases) {
           if (res.result.some(a => this.purchases.filter(b => b._id === a._id && b.currentstatus !== a.currentstatus).length > 0)) {
             let _msgs = [];
-            let _updatedPurchases =  res.result.filter(a => this.purchases.filter(b => b._id === a._id && b.currentstatus !== a.currentstatus).length > 0);
+            let _updatedPurchases = res.result.filter(a => this.purchases.filter(b => b._id === a._id && b.currentstatus !== a.currentstatus).length > 0);
             this.purchases = res.result;
             _updatedPurchases.forEach((p) => {
-                switch (p.currentstatus) {
-                  case 'accepted':
-                  case 'cancelled':
-                  case 'ordered':
-                  case 'pickedup':
-                    _msgs.push(`Your order has been updated: ${p.itemname} has been ${this.commonSvc.getStatusDisplayText(p.currentstatus)}`);
-                    break;
-                  case 'inprogress':
-                  case 'ready':
-                    _msgs.push(`Your order has been updated: ${p.itemname} is ${this.commonSvc.getStatusDisplayText(p.currentstatus)}`);
-                    break;
-                }
-              });
+              switch (p.currentstatus) {
+                case 'accepted':
+                case 'cancelled':
+                case 'ordered':
+                case 'pickedup':
+                  _msgs.push(`Your order has been updated: ${p.itemname} has been ${this.commonSvc.getStatusDisplayText(p.currentstatus)}`);
+                  break;
+                case 'inprogress':
+                case 'ready':
+                  _msgs.push(`Your order has been updated: ${p.itemname} is ${this.commonSvc.getStatusDisplayText(p.currentstatus)}`);
+                  break;
+              }
+            });
             this.purchaseStatusChanged.emit(_msgs.join('\n'));
           }
 
@@ -110,6 +110,14 @@ export class PurchaseService {
       .set('personid', personid);
 
     return this.http.get<APIResponse<Purchase[]>>(`api/purchase/getpurchasesbysellerid`, { params });
+  }
+
+  getPurchasesBySellerIdAndDate(personid: string, activitydate: string): Observable<APIResponse<Purchase[]>> {
+    const params: HttpParams = new HttpParams()
+      .set('personid', personid)
+      .set('activitydate', activitydate);
+
+    return this.http.get<APIResponse<Purchase[]>>(`api/purchase/getpurchasesbyselleridanddate`, { params });
   }
 
   getPurchaseForSellerById(purchaseid: string): Observable<APIResponse<Purchase>> {

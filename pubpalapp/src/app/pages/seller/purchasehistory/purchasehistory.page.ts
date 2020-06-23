@@ -3,7 +3,7 @@ import { SellerService } from 'src/app/providers/seller.service';
 import { CommonService } from 'src/app/providers/common.service';
 import { AlertController, ModalController } from '@ionic/angular';
 import { PurchaseService } from 'src/app/providers/purchase.service';
-import { Purchase } from 'src/app/shared/models';
+import { Purchase, PurchaseHistory } from 'src/app/shared/models';
 
 @Component({
   selector: 'app-purchasehistory',
@@ -14,6 +14,8 @@ export class PurchasehistoryPage implements OnInit {
   purchases: Purchase[];
   inactivepurchases: Purchase[];
 
+  historyDate: string;
+
   constructor(
     private sellerSvc: SellerService,
     private common: CommonService,
@@ -23,6 +25,7 @@ export class PurchasehistoryPage implements OnInit {
   ) { }
 
   ngOnInit() {
+    this.historyDate = new Date().toISOString();
   }
 
   ionViewWillEnter() {
@@ -36,12 +39,8 @@ export class PurchasehistoryPage implements OnInit {
     this.common.headerMessage = 'Purchases';
     this.common.menuoptionsType = 'seller';
     if (this.sellerSvc.seller) {
-      this.purchaseSvc.getPurchasesBySellerId(this.sellerSvc.seller._id).subscribe((res) => {
+      this.purchaseSvc.getPurchasesBySellerIdAndDate(this.sellerSvc.seller._id, this.historyDate).subscribe((res) => {
         this.purchases = res.result;
-        this.purchases.map(a => {
-          a['nextstatustext'] = this.common.getNextStatusText(a.currentstatus);
-          a['nextstatus'] = this.common.getNextStatus(a.currentstatus);
-        });
 
         this.inactivepurchases = this.purchases.filter(a => a.currentstatus === 'cancelled' || a.currentstatus === 'pickedup');
       });

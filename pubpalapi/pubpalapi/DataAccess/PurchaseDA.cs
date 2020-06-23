@@ -73,6 +73,18 @@ namespace pubpalapi.DataAccess
             return null;
         }
 
+        public IEnumerable<PurchaseModel> GetSellerPurchasesByIdAndActivityDate(string sellerid, string activitydate)
+        {
+            if (_mongoDatabase != null)
+            {
+                var queryText = $"{{ $and: [{{'sellerid': {{ '$oid':'{sellerid}' }} }}, {{'purchasehistory.statusdate': /^{activitydate}/ }}] }}";
+                var purchases = GetFromStore(queryText);
+                return purchases;
+            }
+
+            return null;
+        }
+
         public IEnumerable<PurchaseModel> GetSellerPurchasesByStatus(string sellerid, PurchaseStatus status)
         {
             if (_mongoDatabase != null)

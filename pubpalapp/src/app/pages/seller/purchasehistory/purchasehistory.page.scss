@@ -1,0 +1,19 @@
+ion-item {
+    min-height: 100% !important;
+}
+
+ion-row.alternating-row {
+    background-color: var(--ion-color-white);
+
+    ion-item {
+        --background: var(--ion-color-white);
+    }
+}
+
+ion-row.alternating-row-alt {
+    background-color: var(--ion-color-tertiary);
+
+    ion-item {
+        --background: var(--ion-color-tertiary);
+    }
+}

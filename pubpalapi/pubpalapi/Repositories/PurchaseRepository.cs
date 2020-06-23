@@ -39,6 +39,13 @@ namespace pubpalapi.Repositories
             return purchases;
         }
 
+        public IEnumerable<PurchaseModel> GetPurchasesBySellerIdAndActivityDate(string id, string activitydate)
+        {
+            var _activityDate = DateTime.Parse(activitydate).ToString("yyyy-MM-dd");
+            var purchases = purchaseDA.GetSellerPurchasesByIdAndActivityDate(id, _activityDate);
+            return purchases;
+        }
+
         public IEnumerable<PurchaseModel> GetSellersOrderedPurchases(string id)
         {
             var purchases = purchaseDA.GetSellerPurchasesByStatus(id, PurchaseStatus.ordered);
@@ -107,7 +114,12 @@ namespace pubpalapi.Repositories
             {
                 purchaseHistory = purchase.purchasehistory.ToList();
             }
-            purchaseHistory.Add(new PurchaseHistory() { purchasestatus = status, statusdate = DateTime.Now.ToString(), message = message });
+            var localTime = DateTime.Now;
+            var offsetTime = new DateTimeOffset(localTime, TimeZoneInfo.Local.GetUtcOffset(localTime));
+            purchaseHistory.Add(new PurchaseHistory() { 
+                purchasestatus = status, 
+                statusdate = offsetTime.ToString("yyyy-MM-ddTHH:mm:sszzz"),
+                message = message });
             purchase.purchasehistory = purchaseHistory.ToArray();
             var purchaseupdated = purchaseDA.UpdatePurchase(purchase);
             if (status == PurchaseStatus.cancelled && purchase.feewaived)

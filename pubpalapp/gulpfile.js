@@ -4,7 +4,7 @@ var argv = require('yargs').argv;
 var exec = require('child_process').exec;
 const fileList = require('gulp-filelist');
 const { series } = require('gulp');
-var prodBuild = argv.prod;
+var prodBuild = argv.prod === undefined ? false : (argv.prod ? argv.prod === 'true' || argv.prod === true : true);
 var destFolder = argv.destfolder;
 var captype = argv.captype;
 var apiRepo = argv.apirepo;

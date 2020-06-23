@@ -1,28 +1,57 @@
 <ion-content id="userContent" *ngIf="inactivepurchases" color="primary">
   <ion-grid class="p-5">
-    <ng-template ngFor [ngForOf]="inactivepurchases" let-ap let-i="index">
+    <ion-row>
+      <ion-col size-sm="6" size-md="9">
+        <ion-item color="primary" lines="none">
+          <ion-label position="floating" color="tertiary">Sale Date</ion-label>
+          <ion-datetime displayFormat="MM/DD/YYYY" [(ngModel)]="historyDate" ></ion-datetime>
+          <!-- <ion-input inputmode="text" id="inputtags" name="tags" [(ngModel)]="historyDate"></ion-input> -->
+        </ion-item>
+      </ion-col>
+    </ion-row>
+    <ng-template ngFor [ngForOf]="inactivepurchases" let-iap let-i="index">
       <ion-row class="pl-3" [ngClass]="{ 'alternating-row': i % 2 === 0, 'alternating-row-alt': i % 2 !== 0 }">
-        <ion-col size-md="10" size-sm="6" size-xs="6" class="p-0">
+        <ion-col size="12" class="p-0">
           <ion-grid>
             <ion-row>
-              <ion-col size-md="9" size-sm="12" size-xs="12" >
+              <ion-col size-md="7" size-sm="12" size-xs="12" >
                 <ion-label color="dark">
-                  {{ ap.customername }}:&nbsp;{{ ap.category && ap.category.toLowerCase() === 'beer' ? ap.ingredients[0] : ap.itemname }} - ({{ ap.price | currency }})
+                  {{ iap.customername }}:&nbsp;{{ iap.category && iap.category.toLowerCase() === 'beer' ? iap.ingredients[0] : iap.itemname }} - ({{ iap.price | currency }})
                 </ion-label>
               </ion-col>
-              <ion-col size-md="3" size-sm="12" size-xs="12" >
-                <ion-label color="dark">
-                  {{ ap.currentstatus }}
-                </ion-label>
+              <ion-col size-md="5" size-sm="12" size-xs="12" >
+                <ion-grid>
+                  <ng-template ngFor [ngForOf]="iap.purchasehistory" let-ph >
+                    <ion-row>
+                      <ion-col size="6">
+                        <ion-label color="dark" class="lbl-sm">
+                          {{ ph.purchasestatus }}
+                        </ion-label>
+                      </ion-col>
+                      <ion-col size="6">
+                        <ion-label color="dark" class="lbl-sm">
+                          {{ ph.statusdate | date: 'M/dd/yyyy h:mm a' }}
+                        </ion-label>
+                      </ion-col>
+                    </ion-row>
+                    <ion-row *ngIf="ph.message">
+                      <ion-col size="12">
+                        <ion-label color="dark" class="lbl-sm">
+                          {{ ph.message }}
+                        </ion-label>
+                      </ion-col>
+                    </ion-row>
+                  </ng-template>
+                </ion-grid>
               </ion-col>
               <ion-col size="12">
                 <ion-list class="p-0">
-                  <ion-item lines="none" *ngIf="ap.instructions">
+                  <ion-item lines="none" *ngIf="iap.instructions">
                     <ion-label><strong>Special Instructions:</strong></ion-label><br />
-                    <ion-label>{{ ap.instructions }}</ion-label>
+                    <ion-label>{{ iap.instructions }}</ion-label>
                   </ion-item>
-                  <ng-template [ngIf]="!ap.category || ap.category.toLowerCase() !== 'beer'">
-                    <ion-item *ngFor="let ing of ap.ingredients" no-border lines="none">
+                  <ng-template [ngIf]="!iap.category || iap.category.toLowerCase() !== 'beer'">
+                    <ion-item *ngFor="let ing of iap.ingredients" no-border lines="none">
                       <ion-label color="dark" class="lbl-sm">
                         {{ ing }}
                       </ion-label>
@@ -33,16 +62,6 @@
               </ion-col>
             </ion-row>
           </ion-grid>
-        </ion-col>
-        <ion-col size-md="2" size-sm="6" size-xs="6" >
-          <ion-button *ngIf="ap['nextstatustext'] !== 'Complete' && ap.currentstatus !== 'cancelled'" type="button" (click)="updateToNextStatus(ap)">
-            {{ ap['nextstatustext'] }}
-          </ion-button>
-          <br>
-          <ion-button *ngIf="['ordered', 'accepted', 'inprogress'].indexOf(ap['nextstatus']) > -1" type="button"
-            [disabled]="ap['showcancelcomments'] && (!ap['cancelcomments'] || ap['cancelcomments'].length < 3)" (click)="openCancelModal(ap)">
-            Cancel
-          </ion-button>
         </ion-col>
       </ion-row>
     </ng-template>
