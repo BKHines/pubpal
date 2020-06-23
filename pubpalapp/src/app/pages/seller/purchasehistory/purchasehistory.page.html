@@ -4,9 +4,15 @@
       <ion-col size-sm="6" size-md="9">
         <ion-item color="primary" lines="none">
           <ion-label position="floating" color="tertiary">Sale Date</ion-label>
-          <ion-datetime displayFormat="MM/DD/YYYY" [(ngModel)]="historyDate" ></ion-datetime>
-          <!-- <ion-input inputmode="text" id="inputtags" name="tags" [(ngModel)]="historyDate"></ion-input> -->
+          <ion-datetime displayFormat="MM/DD/YYYY" [(ngModel)]="historyDate" (ionChange)="getPurchasesByDate($event)" ></ion-datetime>
         </ion-item>
+      </ion-col>
+    </ion-row>
+    <ion-row *ngIf="!inactivepurchases || inactivepurchases.length === 0">
+      <ion-col>
+        <ion-label color="tertiary" >
+          No purchases found on selected date. 
+        </ion-label>
       </ion-col>
     </ion-row>
     <ng-template ngFor [ngForOf]="inactivepurchases" let-iap let-i="index">
