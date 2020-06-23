@@ -87,7 +87,7 @@ function syncCap() {
     });
 }
 
-function syncIconsFile(done) {
+function syncIconFiles(done) {
     if (apiRepo) {
         console.log(`Running sync icons file`);
         return gulp.src([apiRepo + '/pubpalapi/appcontent/icons/*.*'])
@@ -99,7 +99,7 @@ function syncIconsFile(done) {
     }
 }
 
-function deployIconsFile(done) {
+function deployIconFiles(done) {
     if (deployIcons && apiSite) {
         console.log(`Running deploy icons file`);
         return gulp.src([apiRepo + '/pubpalapi/appcontent/**/*'])
@@ -114,8 +114,8 @@ function finish(done) {
     done();
 }
 
-exports.SiteBuildAndDeploy = series(syncIconsFile, deployIconsFile, updateBundledWebRuntime, addCapacitorJSReference, buildApp, initSite, copySiteFilesToDest, finish);
+exports.SiteBuildAndDeploy = series(syncIconFiles, deployIconFiles, updateBundledWebRuntime, addCapacitorJSReference, buildApp, initSite, copySiteFilesToDest, finish);
 
-exports.AndroidBuildAndSync = series(syncIconsFile, deployIconsFile, buildApp, syncCapAndroid, finish);
+exports.AndroidBuildAndSync = series(syncIconFiles, deployIconFiles, buildApp, syncCapAndroid, finish);
 
-exports.SyncIconsFile = series(syncIconsFile, deployIconsFile, finish);
+exports.SyncIconFiles = series(syncIconFiles, deployIconFiles, finish);
