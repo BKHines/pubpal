@@ -1,4 +1,4 @@
-import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { NgModule, CUSTOM_ELEMENTS_SCHEMA, ErrorHandler } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { RouteReuseStrategy } from '@angular/router';
 
@@ -10,6 +10,7 @@ import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { PubpalinterceptorService } from './providers/pubpalinterceptor.service';
+import { GlobalerrorhandlerService } from './providers/globalerrorhandler.service';
 
 @NgModule({
   declarations: [
@@ -26,7 +27,8 @@ import { PubpalinterceptorService } from './providers/pubpalinterceptor.service'
     StatusBar,
     SplashScreen,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
-    { provide: HTTP_INTERCEPTORS, useClass: PubpalinterceptorService, multi: true }
+    { provide: HTTP_INTERCEPTORS, useClass: PubpalinterceptorService, multi: true },
+    { provide: ErrorHandler, useClass: GlobalerrorhandlerService }
   ],
   bootstrap: [AppComponent],
   schemas: [
