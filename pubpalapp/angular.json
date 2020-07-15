@@ -42,7 +42,7 @@
                 "input": "src/app/app.scss"
               }
             ],
-            "scripts": [],
+            "scripts": []
           },
           "configurations": {
             "production": {
