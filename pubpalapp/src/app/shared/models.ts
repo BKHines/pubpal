@@ -113,11 +113,22 @@ export interface ChangePasswordResetRequest {
 export type StatusType = 'ordered' | 'accepted' | 'inprogress' | 'ready' | 'pickedup' | 'cancelled';
 export type StatusText = 'Accept' | 'In Progress' | 'Ready' | 'Picked Up' | 'Complete' | 'Unknown';
 export type StatusDisplayText = 'ordered' | 'accepted' | 'in progress' | 'ready to be picked up' | 'picked up' | 'completed' | 'cancelled';
+export type ServiceType = 'paypal';
 
 export interface PurchaseHistory {
     purchasestatus: StatusType;
     statusdate: string;
     message?: string;
+}
+
+export interface PurchaseCreateWithResponse {
+    purchaseid: string;
+    responseurl: string;
+}
+
+export interface PurchaseWithServiceType {
+    purchase: Purchase;
+    servicetype: ServiceType;
 }
 
 export interface Purchase {
@@ -135,6 +146,7 @@ export interface Purchase {
     instructions?: string;
     currentstatus: StatusType;
     purchasehistory: PurchaseHistory[];
+    paid: boolean;
 }
 
 export interface CartPurchase extends Purchase {

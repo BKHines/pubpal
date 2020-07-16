@@ -86,29 +86,29 @@ namespace pubpalapi.Repositories
             var cart = cartDA.GetCartById(id);
             bool allPurchasesMade = true;
             var purchaseIds = new List<string>();
-            foreach (var cartPurchase in cart.purchases)
-            {
-                var purchaseid = purchaseRepo.CreatePurchase(cartPurchase);
-                if (!string.IsNullOrWhiteSpace(purchaseid))
-                {
-                    purchaseIds.Add(purchaseid);
-                }
+            //foreach (var cartPurchase in cart.purchases)
+            //{
+            //    var purchaseid = purchaseRepo.CreatePurchase(cartPurchase);
+            //    if (!string.IsNullOrWhiteSpace(purchaseid))
+            //    {
+            //        purchaseIds.Add(purchaseid);
+            //    }
 
-                if (allPurchasesMade == true && string.IsNullOrWhiteSpace(purchaseid))
-                {
-                    allPurchasesMade = false;
-                }
-            }
+            //    if (allPurchasesMade == true && string.IsNullOrWhiteSpace(purchaseid))
+            //    {
+            //        allPurchasesMade = false;
+            //    }
+            //}
 
-            if (allPurchasesMade)
-            {
-                cartDA.DeleteCart(id);
-            }
-            else
-            {
-                cart.purchases = cart.purchases.Where(a => !purchaseIds.Contains(a.cartid)).ToArray();
-                cartDA.UpdateCart(cart);
-            }
+            //if (allPurchasesMade)
+            //{
+            //    cartDA.DeleteCart(id);
+            //}
+            //else
+            //{
+            //    cart.purchases = cart.purchases.Where(a => !purchaseIds.Contains(a.cartid)).ToArray();
+            //    cartDA.UpdateCart(cart);
+            //}
 
             return allPurchasesMade;
         }

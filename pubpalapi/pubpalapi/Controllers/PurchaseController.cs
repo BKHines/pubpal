@@ -122,7 +122,7 @@ namespace pubpalapi.Controllers
 
         [HttpPost("CreatePurchaseByUser", Name = "CreatePurchaseByUser")]
         [Authorize(AuthenticationSchemes = Constants.SchemesNamesUserConst)]
-        public IActionResult CreatePurchase([FromBody] PurchaseModel purchase)
+        public IActionResult CreatePurchase([FromBody] PurchaseRequestWithService prequest)
         {
             if (!ModelState.IsValid)
             {
@@ -132,8 +132,8 @@ namespace pubpalapi.Controllers
             try
             {
                 var repo = new PurchaseRepository(dbName, purchaseStoreName, storeName);
-                var purchaseId = repo.CreatePurchase(purchase);
-                return Ok(purchaseId);
+                var purchaseCreateWithResponse = repo.CreatePurchaseWithResponse(prequest.purchase, prequest.servicetype);
+                return Ok(purchaseCreateWithResponse);
             }
             catch (Exception ex)
             {

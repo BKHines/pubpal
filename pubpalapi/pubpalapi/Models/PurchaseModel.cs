@@ -9,6 +9,13 @@ using System.Threading.Tasks;
 
 namespace pubpalapi.Models
 {
+    public class PurchaseRequestWithService
+    {
+        public PurchaseModel purchase { get; set; }
+        [JsonConverter(typeof(JsonStringEnumConverter))]
+        public PurchaseServiceType servicetype { get; set; }
+    }
+
     public class PurchaseModel
     {
         [BsonId]
@@ -68,5 +75,16 @@ namespace pubpalapi.Models
         ready,
         pickedup,
         cancelled
+    }
+
+    public enum PurchaseServiceType
+    {
+        paypal
+    }
+
+    public class PurchaseCreateWithResponse
+    {
+        public string purchaseid { get; set; }
+        public string responseurl { get; set; }
     }
 }

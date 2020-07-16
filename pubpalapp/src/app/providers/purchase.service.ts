@@ -1,7 +1,7 @@
 import { Injectable, EventEmitter } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { APIResponse, PurchasableItemModel, Purchase, ChangePurchaseStatusRequest, StatusType } from '../shared/models';
+import { APIResponse, PurchasableItemModel, Purchase, ChangePurchaseStatusRequest, StatusType, PurchaseCreateWithResponse, ServiceType } from '../shared/models';
 import { UserService } from './user.service';
 import { CommonService } from './common.service';
 import { BaseService } from './base.service';
@@ -91,8 +91,9 @@ export class PurchaseService extends BaseService {
     return this.http.get<APIResponse<Purchase>>(`api/purchase/GetPurchaseForUserById`, { params });
   }
 
-  createPurchase(purchase: Purchase): Observable<APIResponse<string>> {
-    return this.http.post<APIResponse<string>>(`api/purchase/createpurchasebyuser`, purchase);
+  createPurchase(purchase: Purchase, servicetype: ServiceType): Observable<APIResponse<PurchaseCreateWithResponse>> {
+    let prequest = { purchase: purchase, servicetype: servicetype };
+    return this.http.post<APIResponse<PurchaseCreateWithResponse>>(`api/purchase/createpurchasebyuser`, prequest);
   }
 
   updatePurchaseByUser(purchase: Purchase): Observable<APIResponse<boolean>> {

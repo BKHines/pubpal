@@ -202,13 +202,15 @@ export class PurchaseoptionsPage implements OnInit {
       purchasehistory: [{
         purchasestatus: 'ordered',
         statusdate: `${this.commonSvc.toISOLocal(new Date())}`
-      }]
+      }],
+      paid: false
     };
-    this.purchSvc.createPurchase(this.purchase).subscribe((res) => {
-      this.purchase._id = res.result;
+    this.purchSvc.createPurchase(this.purchase, 'paypal').subscribe((res) => {
+      this.purchase._id = res.result.purchaseid;
+      window.location.href = res.result.responseurl;
       this.clearEntry();
       this.purchSvc.startPolling();
-      this.router.navigate(['user/purchase/seller', this.sellerId]);
+      // this.router.navigate(['user/purchase/seller', this.sellerId]);
     });
   }
 
@@ -230,7 +232,8 @@ export class PurchaseoptionsPage implements OnInit {
         purchasehistory: [{
           purchasestatus: 'ordered',
           statusdate: `${this.commonSvc.toISOLocal(new Date())}`
-        }]
+        }],
+        paid: false
       };
       this.cartSvc.addPurchaseToCart(this.cartId, _purchase).subscribe((res) => {
         this.cartSvc.loadCart(this.userSvc.user._id);
@@ -253,7 +256,8 @@ export class PurchaseoptionsPage implements OnInit {
         purchasehistory: [{
           purchasestatus: 'ordered',
           statusdate: `${this.commonSvc.toISOLocal(new Date())}`
-        }]
+        }],
+        paid: false
       };
       let _cart: Cart = {
         purchases: [_purchase]

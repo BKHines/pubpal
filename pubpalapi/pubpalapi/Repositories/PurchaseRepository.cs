@@ -1,9 +1,13 @@
-﻿using pubpalapi.DataAccess;
+﻿using PayPalHttp;
+using PayPalCheckoutSdk.Core;
+using PayPalCheckoutSdk.Orders;
+using pubpalapi.DataAccess;
 using pubpalapi.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using pubpalapi.PaymentIntegration.PayPal;
 
 namespace pubpalapi.Repositories
 {
@@ -82,7 +86,32 @@ namespace pubpalapi.Repositories
             return purchases;
         }
 
-        public string CreatePurchase(PurchaseModel newPurchase)
+        public PurchaseCreateWithResponse CreatePurchaseWithResponse(PurchaseModel newPurchase, PurchaseServiceType serviceType)
+        {
+            switch (serviceType)
+            {
+                case PurchaseServiceType.paypal:
+                    return CreatePurchaseWithPayPal(newPurchase);
+            }
+
+            return null;
+        }
+
+        private PurchaseCreateWithResponse CreatePurchaseWithPayPal(PurchaseModel newPurchase)
+        {
+            var purchaseid = CreatePurchaseRecord(newPurchase);
+            var createOrderResponse = CreateOrder.ExecuteCreateOrder(newPurchase).Result;
+            var createOrderResult = createOrderResponse.Result<Order>();
+            var responseUrlLink = createOrderResult.Links.FirstOrDefault(a => a.Rel.Equals("approve", StringComparison.InvariantCultureIgnoreCase));
+            var purchaseCreateWithPayPalResponse = new PurchaseCreateWithResponse()
+            {
+                purchaseid = purchaseid,
+                responseurl = responseUrlLink != null ? responseUrlLink.Href : string.Empty
+            };
+            return purchaseCreateWithPayPalResponse;
+        }
+
+        private string CreatePurchaseRecord(PurchaseModel newPurchase)
         {
             var purchaseid = purchaseDA.CreatePurchase(newPurchase);
             var user = userRepo.GetUserById(newPurchase.userid);
