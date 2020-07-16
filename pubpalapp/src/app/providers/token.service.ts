@@ -4,14 +4,17 @@ import * as CryptoJS from 'crypto-js';
 import { Observable } from 'rxjs';
 import { APIResponse } from '../shared/models';
 import { CONSTANTS } from '../shared/constants';
+import { BaseService } from './base.service';
 
 @Injectable({
   providedIn: 'root'
 })
-export class TokenService {
+export class TokenService extends BaseService {
   authToken: string;
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {
+    super();
+  }
 
   getIp(): Observable<APIResponse<string>> {
     return this.http.get<APIResponse<string>>('api/common/getip');

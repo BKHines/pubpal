@@ -4,11 +4,12 @@ import { Observable } from 'rxjs';
 import { APIResponse, PurchasableItemModel, Purchase, ChangePurchaseStatusRequest, StatusType } from '../shared/models';
 import { UserService } from './user.service';
 import { CommonService } from './common.service';
+import { BaseService } from './base.service';
 
 @Injectable({
   providedIn: 'root'
 })
-export class PurchaseService {
+export class PurchaseService extends BaseService {
   sellerName: string;
   purchases: Purchase[];
   purchaseStatusChanged: EventEmitter<string> = new EventEmitter<string>();
@@ -17,9 +18,12 @@ export class PurchaseService {
     private http: HttpClient,
     private userSvc: UserService,
     private commonSvc: CommonService
-  ) { }
+  ) {
+    super();
+  }
 
   startPolling() {
+    this.hideLoading = true;
     this.getPurchasesByUserId(this.userSvc.user._id).subscribe((res) => {
       if (res && res.result) {
         if (this.purchases) {
@@ -73,10 +77,11 @@ export class PurchaseService {
   }
 
   getPurchasesByUserId(personid: string): Observable<APIResponse<Purchase[]>> {
+    const headers = this.getPubPalHeaders();
     const params: HttpParams = new HttpParams()
       .set('personid', personid);
 
-    return this.http.get<APIResponse<Purchase[]>>(`api/purchase/getpurchasesbyuserid`, { params });
+    return this.http.get<APIResponse<Purchase[]>>(`api/purchase/getpurchasesbyuserid`, { params, headers });
   }
 
   getPurchaseForUserById(purchaseid: string): Observable<APIResponse<Purchase>> {

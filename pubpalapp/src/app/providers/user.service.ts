@@ -5,12 +5,13 @@ import { APIResponse, UserModel, ChangePasswordRequest, SellerTagModel, SellerMo
 import { LocalstoreService } from './localstore.service';
 import { CONSTANTS } from '../shared/constants';
 import { TokenService } from './token.service';
+import { BaseService } from './base.service';
 // import { CartService } from './cart.service';
 
 @Injectable({
   providedIn: 'root'
 })
-export class UserService {
+export class UserService extends BaseService {
   private _user: UserModel;
   get user(): UserModel {
     return this._user;
@@ -30,7 +31,9 @@ export class UserService {
     private http: HttpClient,
     private tokenSvc: TokenService,
     // private cartSvc: CartService,
-    private localStoreSvc: LocalstoreService) { }
+    private localStoreSvc: LocalstoreService) {
+    super();
+  }
 
   login(email: string, password: string) {
     this.tokenSvc.getIp().subscribe((ipres) => {

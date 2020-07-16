@@ -6,11 +6,12 @@ import { LocalstoreService } from './localstore.service';
 import { CONSTANTS } from '../shared/constants';
 import { Observable } from 'rxjs';
 import { CommonService } from './common.service';
+import { BaseService } from './base.service';
 
 @Injectable({
   providedIn: 'root'
 })
-export class SellerService {
+export class SellerService extends BaseService {
   private _seller: SellerModel;
   get seller(): SellerModel {
     return this._seller;
@@ -38,7 +39,9 @@ export class SellerService {
     private tokenSvc: TokenService,
     private localStoreSvc: LocalstoreService,
     private commonSvc: CommonService
-  ) { }
+  ) {
+    super();
+  }
 
   login(email: string, password: string) {
     this.tokenSvc.getIp().subscribe((ipres) => {

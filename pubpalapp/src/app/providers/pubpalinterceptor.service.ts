@@ -19,34 +19,49 @@ export class PubpalinterceptorService implements HttpInterceptor {
             body: req.body
         });
 
-        return from(this.loadingCtrl.create())
-            .pipe(
-                tap((loading) => {
-                    return loading.present();
+        if (/true/i.test(req.headers.get('hide-loading'))) {
+            return next.handle(req).pipe(
+                map((evt: HttpEvent<any>) => {
+                    if (evt instanceof HttpResponse) {
+                        // console.log(evt);
+                    }
+                    return evt;
                 }),
-                switchMap((loading) => {
-                    return next.handle(req).pipe(
-                        map((evt: HttpEvent<any>) => {
-                            if (evt instanceof HttpResponse) {
-                                // console.log(evt);
-                                loading.dismiss();
-                            }
-                            return evt;
-                        }),
-                        catchError((error: HttpErrorResponse) => {
-                            return this.handleError(error, loading);
-                        })
-                    );
+                catchError((error: HttpErrorResponse) => {
+                    return this.handleError(error, null);
                 })
             );
+        } else {
+            return from(this.loadingCtrl.create())
+                .pipe(
+                    tap((loading) => {
+                        return loading.present();
+                    }),
+                    switchMap((loading) => {
+                        return next.handle(req).pipe(
+                            map((evt: HttpEvent<any>) => {
+                                if (evt instanceof HttpResponse) {
+                                    // console.log(evt);
+                                    loading.dismiss();
+                                }
+                                return evt;
+                            }),
+                            catchError((error: HttpErrorResponse) => {
+                                return this.handleError(error, loading);
+                            })
+                        );
+                    })
+                );
+        }
+
     }
 
     private getFullUrl(reqUrl: string): string {
         return `${environment.baseApiUrl}/${reqUrl}`;
     }
 
-    private handleError(error: HttpErrorResponse, loading: HTMLIonLoadingElement): Observable<any> {
-        loading.dismiss();
+    private handleError(error: HttpErrorResponse, loading?: HTMLIonLoadingElement): Observable<any> {
+        loading?.dismiss();
 
         if (error.error instanceof ErrorEvent) {
             // A client-side or network error occurred. Handle it accordingly.

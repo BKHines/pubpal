@@ -2,15 +2,18 @@ import { Injectable, EventEmitter } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { APIResponse, Cart, CartPurchase } from '../shared/models';
+import { BaseService } from './base.service';
 
 @Injectable({
   providedIn: 'root'
 })
-export class CartService {
+export class CartService extends BaseService {
   cart: Cart;
   cartLoaded: EventEmitter<void> = new EventEmitter<void>();
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {
+    super();
+  }
 
   loadCart(userid: string) {
     this.getCartByUserId(userid).subscribe((res) => {
