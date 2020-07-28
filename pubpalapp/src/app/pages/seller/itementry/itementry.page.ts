@@ -285,6 +285,45 @@ export class ItementryPage implements OnInit {
     this.router.navigate(['seller/items']);
   }
 
+  captureLabel() {
+    let _opts: CameraOptions = {
+      quality: 40,
+      allowEditing: false,
+      resultType: CameraResultType.DataUrl,
+      source: CameraSource.Camera,
+      saveToGallery: false
+    };
+
+    Plugins.Camera.getPhoto(_opts).then((imgRes) => {
+
+      let arr = imgRes.dataUrl.split(','),
+        mime = arr[0].match(/:(.*?);/)[1],
+        bstr = atob(arr[1]),
+        n = bstr.length,
+        u8arr = new Uint8Array(n);
+      while (n--) {
+        u8arr[n] = bstr.charCodeAt(n);
+      }
+      let file = new File([u8arr], 'test', { type: mime });
+      const imgData = new FormData();
+      imgData.append('file', file);
+
+      this.sellerSvc.scrapeLabel(imgData).subscribe((res) => {
+        this.alertCtrl.create({
+          message: res.result,
+          buttons: [
+            {
+              text: 'Okay',
+              role: 'cancel'
+            }
+          ]
+        }).then((ac) => {
+          ac.present();
+        });
+      })
+    });
+  }
+
   async addFromCamera() {
     let _opts: CameraOptions = {
       quality: 40,

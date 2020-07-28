@@ -293,6 +293,22 @@ namespace pubpalapi.Controllers
                 return StatusCode(500, ex);
             }
         }
+
+        [HttpPost("ScrapeLabel", Name = "ScrapeLabel")]
+        [Authorize(AuthenticationSchemes = Constants.SchemesNamesSellerConst)]
+        public IActionResult ScrapeLabel()
+        {
+            try
+            {
+                var _files = HttpContext.Request.Form.Files;
+
+                return Ok("file worked");
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex);
+            }
+        }
         #endregion
     }
 }

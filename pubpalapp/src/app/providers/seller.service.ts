@@ -146,4 +146,8 @@ export class SellerService extends BaseService {
 
     return this.http.get<APIResponse<string[]>>(`api/seller/getsellercategories`, { params });
   }
+
+  scrapeLabel(imgData: FormData): Observable<APIResponse<string>> {
+    return this.http.post<APIResponse<string>>(`api/seller/scrapelabel`, imgData);
+  }
 }
