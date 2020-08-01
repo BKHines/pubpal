@@ -1,8 +1,15 @@
-﻿using pubpalapi.DataAccess;
+﻿using Google.Apis.Auth.OAuth2;
+using Google.Cloud.Vision.V1;
+using Google.Protobuf;
+using Microsoft.AspNetCore.Http;
+using PayPalHttp;
+using pubpalapi.DataAccess;
 using pubpalapi.Models;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Net;
 using System.Threading.Tasks;
 
 namespace pubpalapi.Repositories
@@ -10,6 +17,7 @@ namespace pubpalapi.Repositories
     public class SellerRepository
     {
         private SellerDA sellerDA;
+        private const string VISION_URL = @"https://vision.googleapis.com/v1/images:annotate";
 
         public SellerRepository(string dbName, string storeName)
         {
@@ -238,6 +246,56 @@ namespace pubpalapi.Repositories
             var a = 0.5 - Math.Cos((userlat - sellerlat) * p) / 2 + Math.Cos(sellerlat * p) * Math.Cos((userlat) * p) * (1 - Math.Cos(((userlng - sellerlng) * p))) / 2;
             var dis = (12742 * Math.Asin(Math.Sqrt(a))) * 0.621371; // 2 * R; R = 6371 km
             return dis;
+        }
+
+        public IEnumerable<string> ScrapeImageText(IFormFile img)
+        {
+            var rv = new List<string>();
+            using (var ms = new MemoryStream())
+            {
+                img.CopyTo(ms);
+                var fileBytes = ms.ToArray();
+                var _img = Image.FromBytes(fileBytes);
+                System.Environment.SetEnvironmentVariable("GOOGLE_APPLICATION_CREDENTIALS", "pubpal-8e4e5a6505d6.json");
+
+                var client = ImageAnnotatorClient.Create();
+                
+                var response = client.DetectText(_img);
+                foreach (var annotation in response)
+                {
+                    if (annotation.Description != null)
+                    {
+                        rv.Add(annotation.Description);
+                    }
+                }
+            }
+
+            return rv;
+        }
+
+        public IEnumerable<string> ScrapeImageLogo(IFormFile img)
+        {
+            var rv = new List<string>();
+            using (var ms = new MemoryStream())
+            {
+                img.CopyTo(ms);
+                var fileBytes = ms.ToArray();
+                var _img = Image.FromBytes(fileBytes);
+                System.Environment.SetEnvironmentVariable("GOOGLE_APPLICATION_CREDENTIALS", "pubpal-8e4e5a6505d6.json");
+
+                var client = ImageAnnotatorClient.Create();
+
+                var response = client.DetectLogos(_img);
+                foreach (var annotation in response)
+                {
+                    if (annotation.Description != null)
+                    {
+                        rv.Add(annotation.Description);
+                    }
+                }
+            }
+
+            return rv;
         }
     }
 }

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -27,6 +28,7 @@ namespace pubpalapi.Controllers
         private readonly string storeName;
         private readonly string purchaseStoreName;
         private readonly PubPalLogger _logger;
+        private readonly IWebHostEnvironment _env;
 
         public SellerController(IOptions<SettingsModel> options, ILogger<SellerController> logger)
         {
@@ -300,9 +302,16 @@ namespace pubpalapi.Controllers
         {
             try
             {
+                IEnumerable<string> texts = null, logos = null;
                 var _files = HttpContext.Request.Form.Files;
+                if (_files.Any())
+                {
+                    var repo = new SellerRepository(dbName, storeName);
+                    texts = repo.ScrapeImageText(_files.First());
+                    logos = repo.ScrapeImageLogo(_files.First());
+                }
 
-                return Ok("file worked");
+                return Ok(new { texts, logos });
             }
             catch (Exception ex)
             {

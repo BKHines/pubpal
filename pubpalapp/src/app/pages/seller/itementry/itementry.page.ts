@@ -310,7 +310,7 @@ export class ItementryPage implements OnInit {
 
       this.sellerSvc.scrapeLabel(imgData).subscribe((res) => {
         this.alertCtrl.create({
-          message: res.result,
+          message: `Logo: ${res.result.logos.join('\n')} - Text: ${res.result.texts.join('\n')}`,
           buttons: [
             {
               text: 'Okay',
