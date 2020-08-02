@@ -129,6 +129,8 @@ export class CommonService {
   getDrinkIconUrl(name: string, baseingredient: string) {
     if (/beer/i.test(name) || /beer/i.test(baseingredient)) {
       return '../../../../assets/imgs/beer/beer_icon.jpg'
+    } else if (/shot|shots/i.test(name) || /shot|shots/i.test(baseingredient)) {
+      return '../../../../assets/imgs/shots/shots_icon.jpg';
     } else if (this.matchBrandy(name) || this.matchBrandy(baseingredient)) {
       return '../../../../assets/imgs/brandycognac/brandy_icon.jpg';
     } else if (/gin/i.test(name) || /gin/i.test(baseingredient)) {

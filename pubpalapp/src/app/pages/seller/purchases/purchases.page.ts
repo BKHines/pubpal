@@ -55,7 +55,7 @@ export class PurchasesPage implements OnInit {
   }
 
   updateToNextStatus(_purchase: Purchase) {
-    let _itemname = /beer/i.test(_purchase.category) ? _purchase.ingredients[0] : _purchase.itemname;
+    let _itemname = /beer|shot|shots/i.test(_purchase.category) ? _purchase.ingredients[0] : _purchase.itemname;
     let _nextStatus = this.common.getNextStatusText(_purchase.currentstatus);
     this.alertCtrl.create({
       header: 'Update Order Status?',
@@ -83,13 +83,17 @@ export class PurchasesPage implements OnInit {
     });
   }
 
+  isOption(category: string) {
+    return /beer|shot|shots/i.test(category);
+  }
+
   async openCancelModal(purchase: Purchase) {
     const modal = await this.modalCtrl.create({
       component: CancelorderPage,
       componentProps: {
         purchaseId: purchase._id,
         customername: purchase.customername,
-        itemname: purchase.category && purchase.category.toLowerCase() === 'beer' ? purchase.ingredients[0] : purchase.itemname,
+        itemname: /beer|shot|shots/i.test(purchase.category) ? purchase.ingredients[0] : purchase.itemname,
         price: purchase.price,
         currentstatus: purchase.currentstatus
       }

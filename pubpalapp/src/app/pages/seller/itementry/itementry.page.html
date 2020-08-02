@@ -6,7 +6,7 @@
           <ion-col size-md="6" size-sm="12">
             <ion-button (click)="captureLabel()" color="primary" fill="outline">
               Scan From Label
-            </ion-button>    
+            </ion-button>
           </ion-col>
         </ion-row>
         <form #itemForm="ngForm" novalidate>
@@ -27,9 +27,8 @@
             </ion-col>
             <ion-col size-md="6" size-sm="12">
               <ion-item lines="none" [class.pp-invalid]="valcat.touched && valcat.invalid">
-                <ion-label position="floating" color="primary">Cocktail/Mixed Drink/Beer/Wine?</ion-label>
-                <ion-input inputmode="text" id="inputCategory" name="cat" [(ngModel)]="newPI.category" (ngModelChange)=" isOptionEntry = newPI.category.toLowerCase() === 'beer';" required
-                  #valcat="ngModel">
+                <ion-label position="floating" color="primary">Mixed Drink/Beer/Wine/Shots?</ion-label>
+                <ion-input inputmode="text" id="inputCategory" name="cat" [(ngModel)]="newPI.category" (ngModelChange)="isOptionEntry = isOptionEntryCheck(newPI.category)" required #valcat="ngModel">
                 </ion-input>
               </ion-item>
             </ion-col>
@@ -97,7 +96,7 @@
             </ng-template>
             <ion-col size="10" offset="1" class="header-container">
               <ion-label color="primary">
-                Add New {{ isOptionEntry ? 'Beer' : 'Ingredient' }}
+                Add New {{ isOptionEntry ? (newPI.category.toLowerCase() === 'beer' ? 'Beer' : 'Shots') : 'Ingredient' }}
               </ion-label>
             </ion-col>
             <ion-col size="10" offset="1">
@@ -129,7 +128,7 @@
       </ion-col>
       <ion-col size-md="3" size-sm="12">
         <ion-item lines="none" [class.pp-invalid]="valingupcharge.touched && valingupcharge.invalid">
-          <ion-label position="floating" color="primary">Price</ion-label>
+          <ion-label position="floating" color="primary">Upcharge</ion-label>
           <ion-input type="tel" id="inputIngUpcharge" name="ingupcharge" [ngModel]="newIngredient.upcharge | currencyformat: applyIngUpchargeFormat" (ngModelChange)="updateIngUpcharge($event)"
             (ionBlur)="applyIngUpchargeFormat = true;" (ionFocus)="applyIngUpchargeFormat = false;" required #valingupcharge="ngModel">
           </ion-input>

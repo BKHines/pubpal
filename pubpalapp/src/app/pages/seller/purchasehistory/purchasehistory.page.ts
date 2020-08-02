@@ -53,6 +53,10 @@ export class PurchasehistoryPage implements OnInit {
     }
   }
 
+  isOptionEntry(category: string) {
+    return /beer|shot|shots/i.test(category);
+  }
+
   getPurchasesByDate(ionDate) {
     this.historyDate = ionDate.detail.value;
     this.loadData();

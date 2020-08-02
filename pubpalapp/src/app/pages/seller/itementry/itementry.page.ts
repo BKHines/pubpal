@@ -96,7 +96,7 @@ export class ItementryPage implements OnInit {
         }
       });
 
-      this.isOptionEntry = this.newPI.category.toLowerCase() === 'beer';
+      this.isOptionEntry = /beer|shot|shots/i.test(this.newPI.category);
     } else {
       this.resetNewPI();
     }
@@ -283,6 +283,10 @@ export class ItementryPage implements OnInit {
 
   goToItems() {
     this.router.navigate(['seller/items']);
+  }
+
+  isOptionEntryCheck(category: string) {
+    return /beer|shot|shots/i.test(category);
   }
 
   captureLabel() {
