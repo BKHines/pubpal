@@ -3,6 +3,5 @@
     <string name="app_name">pubpal</string>
     <string name="title_activity_main">pubpal</string>
     <string name="package_name">com.pubpal.app</string>
-    <string name="fileprovider_authority">com.pubpal.app.fileprovider</string>
     <string name="custom_url_scheme">com.pubpal.app</string>
 </resources>
