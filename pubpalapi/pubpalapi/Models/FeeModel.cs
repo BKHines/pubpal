@@ -16,6 +16,8 @@ namespace pubpalapi.Models
         [Required]
         public decimal fee { get; set; }
         [Required]
+        public decimal threshold { get; set; }
+        [Required]
         public int feediscount { get; set; }
     }
 }

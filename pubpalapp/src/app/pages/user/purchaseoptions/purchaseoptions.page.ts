@@ -99,7 +99,7 @@ export class PurchaseoptionsPage implements OnInit {
         }
       });
 
-      this.commonSvc.getFee().subscribe((res) => {
+      this.commonSvc.getFeeByPrice(this.option.price).subscribe((res) => {
         this.fee = res.result;
       });
     }
@@ -123,6 +123,10 @@ export class PurchaseoptionsPage implements OnInit {
   setTotalPrice() {
     this.ingredientUpcharge = this.selectedIngredients ? this.selectedIngredients.map(a => +a.upcharge).reduce((a, b) => a + b, 0) : 0;
     this.totalPrice = this.option.price + this.ingredientUpcharge;
+    let _feeLookup$ = this.commonSvc.getFeeByPrice(this.totalPrice).subscribe((res) => {
+      this.fee = res.result;
+      _feeLookup$.unsubscribe();
+    })
   }
 
   isCategorySelected(category: string) {

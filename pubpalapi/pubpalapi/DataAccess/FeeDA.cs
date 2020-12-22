@@ -33,6 +33,17 @@ namespace pubpalapi.DataAccess
             return null;
         }
 
+        public FeeModel GetFeeByPrice(decimal cost)
+        {
+            if (_mongoDatabase != null)
+            {
+                var fees = _mongoDatabase.GetCollection<FeeModel>(storeName);
+                var _fees = fees.Find(a => true).ToEnumerable().ToList();
+                var result = _fees.OrderByDescending(a => a.threshold).FirstOrDefault(a => cost >= a.threshold);
+                return result;
+            }
 
+            return null;
+        }
     }
 }

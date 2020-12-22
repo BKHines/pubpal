@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { APIResponse, StatusType, StatusText, StatusDisplayText } from '../shared/models';
 import { AlertController } from '@ionic/angular';
@@ -49,6 +49,11 @@ export class CommonService {
 
   getFee(): Observable<APIResponse<number>> {
     return this.http.get<APIResponse<number>>(`api/common/getfee`);
+  }
+
+  getFeeByPrice(cost: number): Observable<APIResponse<number>> {
+    let params = new HttpParams().set('cost', cost.toString());
+    return this.http.get<APIResponse<number>>(`api/common/getfeebyprice`, { params })
   }
 
   getStatusDisplayText(_currStatus: StatusType): StatusDisplayText {

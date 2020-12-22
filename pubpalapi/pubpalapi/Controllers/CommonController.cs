@@ -60,6 +60,22 @@ namespace pubpalapi.Controllers
             }
         }
 
+        [HttpGet("GetFeeByPrice", Name = "GetFeeByPrice")]
+        [Authorize(AuthenticationSchemes = Constants.SchemesNamesUserConst)]
+        public IActionResult GetFeeByPrice(decimal cost)
+        {
+            try
+            {
+                var repo = new FeeRepository(dbName, feeStoreName);
+                var fee = repo.GetFeeByPrice(cost);
+                return Ok(fee);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex);
+            }
+        }
+
         [HttpGet("GetOptionIcons", Name = "GetOptionIcons")]
         public IActionResult GetOptionIcons()
         {
